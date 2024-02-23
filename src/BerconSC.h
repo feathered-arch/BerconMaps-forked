@@ -19,7 +19,7 @@ under the License.
 
 #define BERCON_SHADE_CONTEXT_CLASS_ID Class_ID(0x7c0a38f1, 0x2f1a67f2)
 
-class BerconSC: public ShadeContext {
+class BerconSC final : public ShadeContext {
 private:
 	ShadeContext* const sc;
 
@@ -72,78 +72,78 @@ public:
 	}
 
 	void ResetOutput (int n) { sc->ResetOutput(n); }
-	Class_ID ClassID () { return BERCON_SHADE_CONTEXT_CLASS_ID; }
-	BOOL InMtlEditor () { return sc->InMtlEditor(); }
-	int Antialias () { return sc->Antialias(); }
-	int ProjType () { return sc->ProjType(); }
-	LightDesc* Light (int n) { return sc->Light(n); }
-	TimeValue CurTime () { return sc->CurTime(); }
-	int NodeID () { return sc->NodeID(); }
-	INode* Node () { return sc->Node(); }
-	Object* GetEvalObject () { return sc->GetEvalObject(); }
-	Point3 BarycentricCoords () { return sc->BarycentricCoords(); }
-	int FaceNumber () { return sc->FaceNumber(); }
-	Point3 Normal () { return sc->Normal(); }
-	void SetNormal (Point3 p) { sc->SetNormal(p); }
-	Point3 OrigNormal () { return sc->OrigNormal(); }
-	Point3 GNormal () { return sc->GNormal(); }
-	float Curve () { return sc->Curve(); }
-	Point3 V () { return sc->V(); }
-	void SetView (Point3 p) { sc->SetView(p); }
-	Point3 OrigView () { return sc->OrigView(); }
-	Point3 ReflectVector () { return sc->ReflectVector(); }
-	Point3 RefractVector (float ior) { return sc->RefractVector(ior); }
-	void SetIOR (float ior) { sc->SetIOR(ior); }
-	float GetIOR () { return sc->GetIOR(); }
-	Point3 CamPos () { return sc->CamPos(); }
-	inline Point3 P (); // Overridden
-	Point3 DP () { return sc->DP(); }
-	void DP (Point3& dpdx, Point3& dpdy) { sc->DP(dpdx, dpdx); }
-	inline Point3 PObj (); // Overridden
-	Point3 DPObj () { return sc->DPObj(); }
-	Box3 ObjectBox () { return sc->ObjectBox(); }
-	inline Point3 PObjRelBox (); // Overridden
-	Point3 DPObjRelBox () { return sc->DPObjRelBox(); }
-	inline void ScreenUV (Point2& uv, Point2 &duv); // Overridden
-	IPoint2 ScreenCoord () { return sc->ScreenCoord(); }
-	Point2 SurfacePtScreen (){ return sc->SurfacePtScreen(); }
-	inline Point3 UVW (int channel); // Overridden
-	Point3 DUVW (int channel) { return sc->DUVW(channel); }
-	void DPdUVW (Point3 dP[3], int channel){ sc->DPdUVW(dP, channel); }
-	int BumpBasisVectors (Point3 dP[2], int axis, int channel){ return sc->BumpBasisVectors(dP, axis, channel); }
-	BOOL IsSuperSampleOn () { return sc->IsSuperSampleOn(); }
-	BOOL IsTextureSuperSampleOn () { return sc->IsTextureSuperSampleOn(); }
-	int GetNSuperSample () { return sc->GetNSuperSample(); }
-	float GetSampleSizeScale (){ return sc->GetSampleSizeScale(); }
-	Point3 UVWNormal (int channel){ return sc->UVWNormal(channel); }
-	float RayDiam (){ return sc->RayDiam(); }
-	float RayConeAngle (){ return sc->RayConeAngle(); }
-	AColor EvalEnvironMap (Texmap* map, Point3 view) { return sc->EvalEnvironMap(map, view); }
-	void GetBGColor (Color& bgcol, Color& transp, BOOL fogBG){ sc->GetBGColor(bgcol, transp, fogBG); }
-	float CamNearRange () { return sc->CamNearRange(); }
-	float CamFarRange (){ return sc->CamFarRange(); }
-	Point3 PointTo (const Point3& p, RefFrame ito) { return sc->PointTo(p, ito); }
-	Point3 PointFrom (const Point3& p, RefFrame ifrom) { return sc->PointFrom(p, ifrom); }
-	Point3 VectorTo (const Point3& p, RefFrame ito) { return sc->VectorTo(p, ito); }
-	Point3 VectorFrom (const Point3& p, RefFrame ifrom) { return sc->VectorFrom(p, ifrom); }
-	Point3 VectorToNoScale (const Point3& p, RefFrame ito) { return sc->VectorToNoScale(p, ito); }
-	Point3 VectorFromNoScale (const Point3& p, RefFrame ifrom){ return sc->VectorFromNoScale(p, ifrom); }
-	void SetGBufferID (int gbid){ sc->SetGBufferID(gbid); }
-	FILE* DebugFile (){ return sc->DebugFile(); }
-	AColor EvalGlobalEnvironMap (Point3 dir){ return sc->EvalGlobalEnvironMap(dir); }
-	BOOL GetCache (Texmap* map, AColor &c) { return sc->GetCache(map, c); }
-	BOOL GetCache (Texmap* map, float &f) { return sc->GetCache(map, f); }
-	BOOL GetCache (Texmap* map, Point3 &p) { return sc->GetCache(map, p); }
-	void PutCache (Texmap* map, const AColor &c) { sc->PutCache(map, c); }
-	void PutCache (Texmap* map, const float f) { sc->PutCache(map, f); }
-	void PutCache (Texmap* map, const Point3 &p) { sc->PutCache(map, p); }
-	void TossCache (Texmap* map){ sc->TossCache(map); }
-	INT_PTR Execute (int cmd, ULONG_PTR arg1, ULONG_PTR arg2, ULONG_PTR arg3){ return sc->Execute(cmd, arg1, arg2, arg3); }
+	Class_ID ClassID () override { return BERCON_SHADE_CONTEXT_CLASS_ID; }
+	BOOL InMtlEditor () override { return sc->InMtlEditor(); }
+	int Antialias () override { return sc->Antialias(); }
+	int ProjType () override { return sc->ProjType(); }
+	LightDesc* Light (int n) override { return sc->Light(n); }
+	TimeValue CurTime () override { return sc->CurTime(); }
+	int NodeID () override { return sc->NodeID(); }
+	INode* Node () override { return sc->Node(); }
+	Object* GetEvalObject () override { return sc->GetEvalObject(); }
+	Point3 BarycentricCoords () override { return sc->BarycentricCoords(); }
+	int FaceNumber () override { return sc->FaceNumber(); }
+	Point3 Normal () override { return sc->Normal(); }
+	void SetNormal (Point3 p) override { sc->SetNormal(p); }
+	Point3 OrigNormal () override { return sc->OrigNormal(); }
+	Point3 GNormal () override { return sc->GNormal(); }
+	float Curve () override { return sc->Curve(); }
+	Point3 V () override { return sc->V(); }
+	void SetView (Point3 p) override { sc->SetView(p); }
+	Point3 OrigView () override { return sc->OrigView(); }
+	Point3 ReflectVector () override { return sc->ReflectVector(); }
+	Point3 RefractVector (float ior) override { return sc->RefractVector(ior); }
+	void SetIOR (float ior) override { sc->SetIOR(ior); }
+	float GetIOR () override { return sc->GetIOR(); }
+	Point3 CamPos () override { return sc->CamPos(); }
+	inline Point3 P () override; // Overridden
+	Point3 DP () override { return sc->DP(); }
+	void DP (Point3& dpdx, Point3& dpdy) override { sc->DP(dpdx, dpdx); }
+	inline Point3 PObj () override; // Overridden
+	Point3 DPObj () override { return sc->DPObj(); }
+	Box3 ObjectBox () override { return sc->ObjectBox(); }
+	inline Point3 PObjRelBox () override; // Overridden
+	Point3 DPObjRelBox () override { return sc->DPObjRelBox(); }
+	inline void ScreenUV (Point2& uv, Point2 &duv) override; // Overridden
+	IPoint2 ScreenCoord () override { return sc->ScreenCoord(); }
+	Point2 SurfacePtScreen () override { return sc->SurfacePtScreen(); }
+	inline Point3 UVW (int channel) override; // Overridden
+	Point3 DUVW (int channel) override { return sc->DUVW(channel); }
+	void DPdUVW (Point3 dP[3], int channel) override { sc->DPdUVW(dP, channel); }
+	int BumpBasisVectors (Point3 dP[2], int axis, int channel) override { return sc->BumpBasisVectors(dP, axis, channel); }
+	BOOL IsSuperSampleOn () override { return sc->IsSuperSampleOn(); }
+	BOOL IsTextureSuperSampleOn () override { return sc->IsTextureSuperSampleOn(); }
+	int GetNSuperSample () override { return sc->GetNSuperSample(); }
+	float GetSampleSizeScale () override { return sc->GetSampleSizeScale(); }
+	Point3 UVWNormal (int channel) override { return sc->UVWNormal(channel); }
+	float RayDiam () override { return sc->RayDiam(); }
+	float RayConeAngle () override { return sc->RayConeAngle(); }
+	AColor EvalEnvironMap (Texmap* map, Point3 view) override { return sc->EvalEnvironMap(map, view); }
+	void GetBGColor (Color& bgcol, Color& transp, BOOL fogBG) override { sc->GetBGColor(bgcol, transp, fogBG); }
+	float CamNearRange () override { return sc->CamNearRange(); }
+	float CamFarRange () override { return sc->CamFarRange(); }
+	Point3 PointTo (const Point3& p, RefFrame ito) override { return sc->PointTo(p, ito); }
+	Point3 PointFrom (const Point3& p, RefFrame ifrom) override { return sc->PointFrom(p, ifrom); }
+	Point3 VectorTo (const Point3& p, RefFrame ito) override { return sc->VectorTo(p, ito); }
+	Point3 VectorFrom (const Point3& p, RefFrame ifrom) override { return sc->VectorFrom(p, ifrom); }
+	Point3 VectorToNoScale (const Point3& p, RefFrame ito) override { return sc->VectorToNoScale(p, ito); }
+	Point3 VectorFromNoScale (const Point3& p, RefFrame ifrom) override { return sc->VectorFromNoScale(p, ifrom); }
+	void SetGBufferID (int gbid) override { sc->SetGBufferID(gbid); }
+	FILE* DebugFile () override { return sc->DebugFile(); }
+	AColor EvalGlobalEnvironMap (Point3 dir) override { return sc->EvalGlobalEnvironMap(dir); }
+	BOOL GetCache (Texmap* map, AColor &c) override { return sc->GetCache(map, c); }
+	BOOL GetCache (Texmap* map, float &f) override { return sc->GetCache(map, f); }
+	BOOL GetCache (Texmap* map, Point3 &p) override { return sc->GetCache(map, p); }
+	void PutCache (Texmap* map, const AColor &c) override { sc->PutCache(map, c); }
+	void PutCache (Texmap* map, const float f) override { sc->PutCache(map, f); }
+	void PutCache (Texmap* map, const Point3 &p) override { sc->PutCache(map, p); }
+	void TossCache (Texmap* map) override { sc->TossCache(map); }
+	INT_PTR Execute (int cmd, ULONG_PTR arg1, ULONG_PTR arg2, ULONG_PTR arg3) override { return sc->Execute(cmd, arg1, arg2, arg3); }
 	LightDesc* GetAtmosSkipLight () { return sc->GetAtmosSkipLight(); }
 	void SetAtmosSkipLight (LightDesc* lt){ sc->SetAtmosSkipLight(lt); }
-	int NRenderElements () { return sc->NRenderElements(); }
-	IRenderElement* GetRenderElement (int n){ return sc->GetRenderElement(n); }
-	Color DiffuseIllum (){ return sc->DiffuseIllum(); }
+	int NRenderElements () override { return sc->NRenderElements(); }
+	IRenderElement* GetRenderElement (int n) override { return sc->GetRenderElement(n); }
+	Color DiffuseIllum () override { return sc->DiffuseIllum(); }
 
 #if MAX_RELEASE < 23900
 //#if MAX_RELEASE < MAX_RELEASE_R24_PREVIEW (2021 and earlier)

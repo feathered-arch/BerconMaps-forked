@@ -62,8 +62,9 @@ public:
 
 	void update() {
 		totalWidth = 0.f;
-		for (int i=0; i<tiles.size(); i++)
-			totalWidth += tiles[i];
+		for (float tile : tiles) {
+			totalWidth += tile;
+		}
 	}
 };
 
@@ -129,7 +130,32 @@ public:
 	bool randScale;
 	bool randOffset;
 
-	TileParam() { pattern = NULL; }
+	TileParam(): tilingType(0), tileHeight(0), tileWidth(0), edgeHeight(0), edgeWidth(0), tileHeightVar(0),
+	             tileWidthVar(0),
+	             edgeHeightVar(0),
+	             edgeWidthVar(0),
+	             eW_var(false),
+	             eH_var(false),
+	             tileRound(0),
+	             tileBlur(0),
+	             tileBlurRad(0),
+	             tileCrnrRad(0), autoScale(0),
+	             mapUV(0),
+	             randX(0), randY(0),
+	             randSX(0),
+	             randSY(0),
+	             lock(0), rotUV(0),
+	             randRot(0),
+	             flipX(0), flipY(0),
+	             tileID(0),
+	             center(0),
+	             tileMaxHeight(0),
+	             tileMaxWidth(0),
+	             randScale(false),
+	             randOffset(false)
+	{
+		pattern = NULL;
+	}
 
 	void checkValues() {
 		if (tileHeightVar > .5f) tileHeightVar = .5f;

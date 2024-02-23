@@ -24,7 +24,7 @@ under the License.
 
 #include "GradientRamp.h"
 
-class IGradient : public ICustomControl {
+class IGradient final : public ICustomControl {
 private:
 	HWND hWndMain;
 public:
@@ -37,7 +37,8 @@ public:
 		Execute(I_EXEC_CB_NO_BORDER);
 	}
 
-	~IGradient() {
+	~IGradient() override
+	{
 		DLSetWindowLongPtr(hWndMain, NULL);
 		DestroyWindow(hWndMain);
 		hWndMain = NULL;
@@ -50,20 +51,20 @@ public:
 
 	//AColor getRampColor(float x) { return gradient->GetColor(x); }
 
-	void Disable() {}
+	void Disable() override {}
 
 	void DeleteMe() {delete this;}
 
-	int IsEnabled(){ return TRUE; }
+	int IsEnabled() override { return TRUE; }
 
-	void Enable(int cmd) {}
+	void Enable(int cmd) override {}
 
-	void Enable2(int cmd) {}
+	void Enable2(int cmd) override {}
 
-	HWND GetHwnd() { return hWndMain; }
+	HWND GetHwnd() override { return hWndMain; }
 
 	//void SetTooltip(bool bEnable, MCHAR* text) {}
-	void SetTooltip(bool bEnable, const MCHAR* text) {}
+	void SetTooltip(bool bEnable, const MCHAR* text) override {}
 
-	INT_PTR Execute(int cmd, ULONG_PTR arg1=0, ULONG_PTR arg2=0, ULONG_PTR arg3=0) { return 0; }
+	INT_PTR Execute(int cmd, ULONG_PTR arg1=0, ULONG_PTR arg2=0, ULONG_PTR arg3=0) override { return 0; }
 };

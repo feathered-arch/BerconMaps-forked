@@ -211,7 +211,8 @@ src/DLL/BerconMaps_2018_64.dlt
 src/DLL/BerconMaps_2019_64.dlt
 src/DLL/BerconMaps_2020_64.dlt
 src/DLL/BerconMaps_2024_64_debug.map
-src/Release_2021/BerconNoise.res
-src/Release_2022/BerconNoise.res
-src/Release_2023/BerconNoise.res
+src/Release_2021/
+src/Release_2022/
+src/Release_2023/
 src/DLL/BerconMaps_2024_64_debug.dlt
+src/Release_2024/

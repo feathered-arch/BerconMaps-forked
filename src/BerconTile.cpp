@@ -336,13 +336,14 @@ static ParamBlockDesc2 BerconMap_param_blk ( BerconMap_params, _T("params"),  0,
 );
 
 //dialog stuff to get the Set Ref button
-class BerconTileDlgProc : public ParamMap2UserDlgProc {
+class BerconTileDlgProc final : public ParamMap2UserDlgProc {
 	public:
 		BerconTile *tile;		
 		BerconTileDlgProc(BerconTile *m) {tile = m;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);		
-		void DeleteThis() {delete this;}
-		void SetThing(ReferenceTarget *m) {
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override;		
+		void DeleteThis() override {delete this;}
+		void SetThing(ReferenceTarget *m) override
+		{
 			tile = (BerconTile*)m;
 			tile->EnableStuff(GetCOREInterface()->GetTime());
 		}

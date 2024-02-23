@@ -289,11 +289,12 @@ static ParamBlockDesc2 BerconMap_param_blk ( BerconMap_params, _T("params"),  0,
 	p_end
 );
 
-class BerconCurveDlgProcNOISE : public ParamMap2UserDlgProc {
+class BerconCurveDlgProcNOISE final : public ParamMap2UserDlgProc {
 	public:
 		BerconNoise *berconNoise;		
 		BerconCurveDlgProcNOISE(BerconNoise *m) {berconNoise = m;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) {
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override
+		{
 			if (berconNoise->curve->GetHWND() != GetDlgItem(hWnd, IDC_CURVE))
 				CurveCtrl::update(berconNoise->curve, GetDlgItem(hWnd, IDC_CURVE), static_cast<ReferenceMaker*>(berconNoise)); // Force update curve
 			switch (msg) {
@@ -308,21 +309,23 @@ class BerconCurveDlgProcNOISE : public ParamMap2UserDlgProc {
 			}
 			return TRUE;
 		}
-		void DeleteThis() {delete this;}
-		void SetThing(ReferenceTarget *m) { 
+		void DeleteThis() override {delete this;}
+		void SetThing(ReferenceTarget *m) override
+		{ 
 			CurveCtrl::disable(berconNoise->curve); // Disable previously used curve
 			berconNoise = (BerconNoise*)m;
 		}
 };
 
 //dialog stuff to get the Set Ref button
-class BerconNoiseDlgProc : public ParamMap2UserDlgProc {
+class BerconNoiseDlgProc final : public ParamMap2UserDlgProc {
 public:
 	BerconNoise *berconNoise;		
 	BerconNoiseDlgProc(BerconNoise *m) {berconNoise = m;}		
-	INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);		
-	void DeleteThis() {delete this;}
-	void SetThing(ReferenceTarget *m) {
+	INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override;		
+	void DeleteThis() override {delete this;}
+	void SetThing(ReferenceTarget *m) override
+	{
 		berconNoise = (BerconNoise*)m;
 		berconNoise->EnableStuff();
 	}
@@ -770,8 +773,10 @@ void BerconNoise::applyDistortion(ShadeContext& sc, Point3& p) {
 	if (subtex[2])
 		if (subtex[3])
 			p += subtex[2]->EvalNormalPerturb(sc)*distortionStr*subtex[3]->EvalMono(sc);
-		else					
+		else
+		{
 			p += subtex[2]->EvalNormalPerturb(sc)*distortionStr;
+		}
 }
 
 NoiseParams BerconNoise::EvalParameters(ShadeContext* sc) {

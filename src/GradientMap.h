@@ -22,6 +22,9 @@ under the License.
 #pragma once
 
 class GradientMap {
+protected:
+	~GradientMap() = default;
+
 public:
 	virtual void gradAddKey(float pos) = 0;
 	virtual void gradMoveKey(int n, float pos) = 0;

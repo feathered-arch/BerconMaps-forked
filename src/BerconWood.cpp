@@ -287,54 +287,57 @@ static ParamBlockDesc2 BerconWood_param_blk ( BerconWood_params, _T("params"),  
 );
 
 enum { enable_curve, curve_cont };
-
-static ParamBlockDesc2 BerconCurve_param_blk ( BerconCurve_params, _T("params"),  0, &BerconWoodDesc, 
-	P_AUTO_CONSTRUCT + P_AUTO_UI, CURVEPB_REF, 	
-	IDD_PANEL_CURVE, IDS_CURVEPARM, 0, 1, NULL,
-	enable_curve,	_T("enableCurve"), TYPE_BOOL,			0,				IDS_OUTPUT_NOISE,
-		p_default,		FALSE,
-		p_ui,			TYPE_SINGLECHEKBOX, IDC_ENABLE,
-		p_end,	
-	curve_cont,			_T("curveControl"),	TYPE_REFTARG,	P_OWNERS_REF,	IDS_CURVE,
-		p_refno,		CURVE_REF, 
+namespace {
+	ParamBlockDesc2 BerconCurve_param_blk(BerconCurve_params, _T("params"), 0, &BerconWoodDesc,
+		P_AUTO_CONSTRUCT + P_AUTO_UI, CURVEPB_REF,
+		IDD_PANEL_CURVE, IDS_CURVEPARM, 0, 1, NULL,
+		enable_curve, _T("enableCurve"), TYPE_BOOL, 0, IDS_OUTPUT_NOISE,
+		p_default, FALSE,
+		p_ui, TYPE_SINGLECHEKBOX, IDC_ENABLE,
 		p_end,
-	p_end
-);
+		curve_cont, _T("curveControl"), TYPE_REFTARG, P_OWNERS_REF, IDS_CURVE,
+		p_refno, CURVE_REF,
+		p_end,
+		p_end
+	);
 
-enum {
-	map1, map2, map3, map4, map5, map6, map7, map8, map9, map10, map11, map12, map13, map14, map15, map16,
-	mapOn1, mapOn2, mapOn3, mapOn4, mapOn5, mapOn6, mapOn7, mapOn8, mapOn9, mapOn10, mapOn11, mapOn12, mapOn13, mapOn14, mapOn15, mapOn16,
-};
 
-static ParamBlockDesc2 BerconMap_param_blk ( BerconMap_params, _T("params"),  0, &BerconWoodDesc, 
-	P_AUTO_CONSTRUCT + P_AUTO_UI, PBMAP_REF, 	
-	IDD_PANEL_WOOD_MAP, IDS_PBMAP, 0, 1, NULL,
-	
-	map1, _T("bmap1"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP1, p_refno, BMAP1_REF, p_subtexno, BMAP1_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP1, p_end, mapOn1, _T("bmap1Enabled"), TYPE_BOOL, 0, IDS_MAPON1, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON1, p_end,
-	map2, _T("bmap2"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP2, p_refno, BMAP2_REF, p_subtexno, BMAP2_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP2, p_end, mapOn2, _T("bmap2Enabled"), TYPE_BOOL, 0, IDS_MAPON2, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON2, p_end,
-	map3, _T("bmap3"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP3, p_refno, BMAP3_REF, p_subtexno, BMAP3_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP3, p_end, mapOn3, _T("bmap3Enabled"), TYPE_BOOL, 0, IDS_MAPON3, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON3, p_end,
-	map4, _T("bmap4"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP4, p_refno, BMAP4_REF, p_subtexno, BMAP4_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP4, p_end, mapOn4, _T("bmap4Enabled"), TYPE_BOOL, 0, IDS_MAPON4, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON4, p_end,
-	map5, _T("bmap5"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP5, p_refno, BMAP5_REF, p_subtexno, BMAP5_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP5, p_end, mapOn5, _T("bmap5Enabled"), TYPE_BOOL, 0, IDS_MAPON5, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON5, p_end,
-	map6, _T("bmap6"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP6, p_refno, BMAP6_REF, p_subtexno, BMAP6_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP6, p_end, mapOn6, _T("bmap6Enabled"), TYPE_BOOL, 0, IDS_MAPON6, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON6, p_end,
-	map7, _T("bmap7"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP7, p_refno, BMAP7_REF, p_subtexno, BMAP7_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP7, p_end, mapOn7, _T("bmap7Enabled"), TYPE_BOOL, 0, IDS_MAPON7, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON7, p_end,
-	map8, _T("bmap8"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP8, p_refno, BMAP8_REF, p_subtexno, BMAP8_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP8, p_end, mapOn8, _T("bmap8Enabled"), TYPE_BOOL, 0, IDS_MAPON8, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON8, p_end,
-	map9, _T("bmap9"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP9, p_refno, BMAP9_REF, p_subtexno, BMAP9_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP9, p_end, mapOn9, _T("bmap9Enabled"), TYPE_BOOL, 0, IDS_MAPON9, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON9, p_end,
-	map10, _T("bmap10"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP10, p_refno, BMAP10_REF, p_subtexno, BMAP10_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP10, p_end, mapOn10, _T("bmap10Enabled"), TYPE_BOOL, 0, IDS_MAPON10, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON10, p_end,
-	map11, _T("bmap11"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP11, p_refno, BMAP11_REF, p_subtexno, BMAP11_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP11, p_end, mapOn11, _T("bmap11Enabled"), TYPE_BOOL, 0, IDS_MAPON11, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON11, p_end,
-	map12, _T("bmap12"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP12, p_refno, BMAP12_REF, p_subtexno, BMAP12_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP12, p_end, mapOn12, _T("bmap12Enabled"), TYPE_BOOL, 0, IDS_MAPON12, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON12, p_end,
-	map13, _T("bmap13"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP13, p_refno, BMAP13_REF, p_subtexno, BMAP13_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP13, p_end, mapOn13, _T("bmap13Enabled"), TYPE_BOOL, 0, IDS_MAPON13, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON13, p_end,
-	map14, _T("bmap14"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP14, p_refno, BMAP14_REF, p_subtexno, BMAP14_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP14, p_end, mapOn14, _T("bmap14Enabled"), TYPE_BOOL, 0, IDS_MAPON14, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON14, p_end,
-	map15, _T("bmap15"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP15, p_refno, BMAP15_REF, p_subtexno, BMAP15_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP15, p_end, mapOn15, _T("bmap15Enabled"), TYPE_BOOL, 0, IDS_MAPON15, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON15, p_end,
-	map16, _T("bmap16"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP16, p_refno, BMAP16_REF, p_subtexno, BMAP16_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP16, p_end, mapOn16, _T("bmap16Enabled"), TYPE_BOOL, 0, IDS_MAPON16, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON16, p_end,
+	enum {
+		map1, map2, map3, map4, map5, map6, map7, map8, map9, map10, map11, map12, map13, map14, map15, map16,
+		mapOn1, mapOn2, mapOn3, mapOn4, mapOn5, mapOn6, mapOn7, mapOn8, mapOn9, mapOn10, mapOn11, mapOn12, mapOn13, mapOn14, mapOn15, mapOn16,
+	};
 
-	p_end
-);
+	ParamBlockDesc2 BerconMap_param_blk(BerconMap_params, _T("params"), 0, &BerconWoodDesc,
+		P_AUTO_CONSTRUCT + P_AUTO_UI, PBMAP_REF,
+		IDD_PANEL_WOOD_MAP, IDS_PBMAP, 0, 1, NULL,
 
-class BerconCurveDlgProc : public ParamMap2UserDlgProc {
+		map1, _T("bmap1"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP1, p_refno, BMAP1_REF, p_subtexno, BMAP1_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP1, p_end, mapOn1, _T("bmap1Enabled"), TYPE_BOOL, 0, IDS_MAPON1, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON1, p_end,
+		map2, _T("bmap2"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP2, p_refno, BMAP2_REF, p_subtexno, BMAP2_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP2, p_end, mapOn2, _T("bmap2Enabled"), TYPE_BOOL, 0, IDS_MAPON2, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON2, p_end,
+		map3, _T("bmap3"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP3, p_refno, BMAP3_REF, p_subtexno, BMAP3_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP3, p_end, mapOn3, _T("bmap3Enabled"), TYPE_BOOL, 0, IDS_MAPON3, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON3, p_end,
+		map4, _T("bmap4"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP4, p_refno, BMAP4_REF, p_subtexno, BMAP4_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP4, p_end, mapOn4, _T("bmap4Enabled"), TYPE_BOOL, 0, IDS_MAPON4, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON4, p_end,
+		map5, _T("bmap5"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP5, p_refno, BMAP5_REF, p_subtexno, BMAP5_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP5, p_end, mapOn5, _T("bmap5Enabled"), TYPE_BOOL, 0, IDS_MAPON5, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON5, p_end,
+		map6, _T("bmap6"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP6, p_refno, BMAP6_REF, p_subtexno, BMAP6_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP6, p_end, mapOn6, _T("bmap6Enabled"), TYPE_BOOL, 0, IDS_MAPON6, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON6, p_end,
+		map7, _T("bmap7"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP7, p_refno, BMAP7_REF, p_subtexno, BMAP7_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP7, p_end, mapOn7, _T("bmap7Enabled"), TYPE_BOOL, 0, IDS_MAPON7, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON7, p_end,
+		map8, _T("bmap8"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP8, p_refno, BMAP8_REF, p_subtexno, BMAP8_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP8, p_end, mapOn8, _T("bmap8Enabled"), TYPE_BOOL, 0, IDS_MAPON8, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON8, p_end,
+		map9, _T("bmap9"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP9, p_refno, BMAP9_REF, p_subtexno, BMAP9_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP9, p_end, mapOn9, _T("bmap9Enabled"), TYPE_BOOL, 0, IDS_MAPON9, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON9, p_end,
+		map10, _T("bmap10"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP10, p_refno, BMAP10_REF, p_subtexno, BMAP10_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP10, p_end, mapOn10, _T("bmap10Enabled"), TYPE_BOOL, 0, IDS_MAPON10, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON10, p_end,
+		map11, _T("bmap11"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP11, p_refno, BMAP11_REF, p_subtexno, BMAP11_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP11, p_end, mapOn11, _T("bmap11Enabled"), TYPE_BOOL, 0, IDS_MAPON11, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON11, p_end,
+		map12, _T("bmap12"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP12, p_refno, BMAP12_REF, p_subtexno, BMAP12_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP12, p_end, mapOn12, _T("bmap12Enabled"), TYPE_BOOL, 0, IDS_MAPON12, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON12, p_end,
+		map13, _T("bmap13"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP13, p_refno, BMAP13_REF, p_subtexno, BMAP13_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP13, p_end, mapOn13, _T("bmap13Enabled"), TYPE_BOOL, 0, IDS_MAPON13, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON13, p_end,
+		map14, _T("bmap14"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP14, p_refno, BMAP14_REF, p_subtexno, BMAP14_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP14, p_end, mapOn14, _T("bmap14Enabled"), TYPE_BOOL, 0, IDS_MAPON14, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON14, p_end,
+		map15, _T("bmap15"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP15, p_refno, BMAP15_REF, p_subtexno, BMAP15_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP15, p_end, mapOn15, _T("bmap15Enabled"), TYPE_BOOL, 0, IDS_MAPON15, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON15, p_end,
+		map16, _T("bmap16"), TYPE_TEXMAP, P_OWNERS_REF, IDS_MAP16, p_refno, BMAP16_REF, p_subtexno, BMAP16_NUM, p_ui, TYPE_TEXMAPBUTTON, IDC_MAP16, p_end, mapOn16, _T("bmap16Enabled"), TYPE_BOOL, 0, IDS_MAPON16, p_default, TRUE, p_ui, TYPE_SINGLECHEKBOX, IDC_MAPON16, p_end,
+
+		p_end
+	);
+}
+
+class BerconCurveDlgProc final : public ParamMap2UserDlgProc {
 	public:
 		BerconWood *berconWood;		
 		BerconCurveDlgProc(BerconWood *m) {berconWood = m;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) {
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override
+		{
 			if (berconWood->curve->GetHWND() != GetDlgItem(hWnd, IDC_CURVE))
 				CurveCtrl::update(berconWood->curve, GetDlgItem(hWnd, IDC_CURVE), static_cast<ReferenceMaker*>(berconWood)); // Force update curve
 			switch (msg) {
@@ -349,21 +352,23 @@ class BerconCurveDlgProc : public ParamMap2UserDlgProc {
 			}
 			return TRUE;
 		}
-		void DeleteThis() {delete this;}
-		void SetThing(ReferenceTarget *m) { 
+		void DeleteThis() override {delete this;}
+		void SetThing(ReferenceTarget *m) override
+		{ 
 			CurveCtrl::disable(berconWood->curve); // Disable previously used curve
 			berconWood = (BerconWood*)m;
 		}
 };
 
 //dialog stuff to get the Set Ref button
-class BerconWoodDlgProc : public ParamMap2UserDlgProc {
+class BerconWoodDlgProc final : public ParamMap2UserDlgProc {
 	public:
 		BerconWood *berconWood;		
 		BerconWoodDlgProc(BerconWood *m) {berconWood = m;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);		
-		void DeleteThis() {delete this;}
-		void SetThing(ReferenceTarget *m) {
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override;		
+		void DeleteThis() override {delete this;}
+		void SetThing(ReferenceTarget *m) override
+		{
 			berconWood = (BerconWood*)m;
 			berconWood->EnableStuff();
 		}
@@ -754,8 +759,10 @@ void BerconWood::applyDistortion(ShadeContext& sc, Point3& p) {
 	if (subtex[3])
 		if (subtex[4])
 			p += subtex[3]->EvalNormalPerturb(sc)*distortionStr*subtex[4]->EvalMono(sc);
-		else					
+		else
+		{
 			p += subtex[3]->EvalNormalPerturb(sc)*distortionStr;
+		}
 }
 
 WoodParam BerconWood::EvalParameters(ShadeContext& sc) {

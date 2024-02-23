@@ -25,7 +25,7 @@ extern HINSTANCE hInstance;
 
 #define WOOD_NSUBTEX = 21
 
-class BerconWood : public Texmap, public ResourceMakerCallback {
+class BerconWood final : public Texmap, public ResourceMakerCallback {
 	private:
 		static const int NSUBTEX = 21;
 		static const int NCOLS = 3;
@@ -86,10 +86,12 @@ class BerconWood : public Texmap, public ResourceMakerCallback {
 		// Curve
 		ICurveCtl* curve;				
 		// From ResourceMakerCallback		
-		BOOL SetCustomImageList(HIMAGELIST &hCTools,ICurveCtl *pCCtl) { return TRUE; };
-		BOOL GetToolTip(int iButton, TSTR &ToolTip,ICurveCtl *pCCtl) { return TRUE; };
-		void ResetCallback(int curvenum, ICurveCtl *pCCtl) { ICurve *pCurve = NULL; pCurve = pCCtl->GetControlCurve(curvenum); if(pCurve) { pCurve->SetNumPts(2); NewCurveCreatedCallback(curvenum, pCCtl); }}
-		void NewCurveCreatedCallback(int curvenum, ICurveCtl *pCCtl) {
+		BOOL SetCustomImageList(HIMAGELIST &hCTools,ICurveCtl *pCCtl) override { return TRUE; };
+		BOOL GetToolTip(int iButton, TSTR &ToolTip,ICurveCtl *pCCtl) override { return TRUE; };
+		void ResetCallback(int curvenum, ICurveCtl *pCCtl) override
+		{ ICurve *pCurve = NULL; pCurve = pCCtl->GetControlCurve(curvenum); if(pCurve) { pCurve->SetNumPts(2); NewCurveCreatedCallback(curvenum, pCCtl); }}
+		void NewCurveCreatedCallback(int curvenum, ICurveCtl *pCCtl) override
+		{
 			ICurve *pCurve = NULL; pCurve = pCCtl->GetControlCurve(curvenum); TimeValue t = GetCOREInterface()->GetTime();
 			CurvePoint pt = pCurve->GetPoint(t,0); pt.p.y = 0.f; pCurve->SetPoint(t,0,&pt);
 			pCurve->SetPenProperty( RGB(0,0,0)); pCurve->SetDisabledPenProperty( RGB(128,128,128));		
@@ -100,56 +102,58 @@ class BerconWood : public Texmap, public ResourceMakerCallback {
 		TexHandle *texHandle;
 		Interval texHandleValid;
 		void DiscardTexHandle() { if (texHandle) { texHandle->DeleteThis(); texHandle = NULL; } }
-		BOOL SupportTexDisplay() { return TRUE; }
-		void ActivateTexDisplay(BOOL onoff) { if (!onoff) DiscardTexHandle(); }
-		DWORD_PTR GetActiveTexHandle(TimeValue t, TexHandleMaker& thmaker);
+		BOOL SupportTexDisplay() override { return TRUE; }
+		void ActivateTexDisplay(BOOL onoff) override { if (!onoff) DiscardTexHandle(); }
+		DWORD_PTR GetActiveTexHandle(TimeValue t, TexHandleMaker& thmaker) override;
 
 		//From MtlBase
-		ParamDlg* CreateParamDlg(HWND hwMtlEdit, IMtlParams *imp);
-		BOOL SetDlgThing(ParamDlg* dlg);
-		void Update(TimeValue t, Interval& valid);
-		void Reset();
-		Interval Validity(TimeValue t);
-		ULONG LocalRequirements(int subMtlNum) { return berconXYZ.req(); }
-		void MappingsRequired(int subMtlNum, BitArray& mapreq, BitArray& bumpreq) { berconXYZ.map(subMtlNum, mapreq, bumpreq); }
+		ParamDlg* CreateParamDlg(HWND hwMtlEdit, IMtlParams *imp) override;
+		BOOL SetDlgThing(ParamDlg* dlg) override;
+		void Update(TimeValue t, Interval& valid) override;
+		void Reset() override;
+		Interval Validity(TimeValue t) override;
+		ULONG LocalRequirements(int subMtlNum) override { return berconXYZ.req(); }
+		void MappingsRequired(int subMtlNum, BitArray& mapreq, BitArray& bumpreq) override { berconXYZ.map(subMtlNum, mapreq, bumpreq); }
 
-		int NumSubTexmaps() { return NSUBTEX; }
-		Texmap* GetSubTexmap(int i) { return subtex[i]; }
-		void SetSubTexmap(int i, Texmap *m);
-		TSTR GetSubTexmapSlotName(ARG_LOCALIZED(int i));
+		int NumSubTexmaps() override { return NSUBTEX; }
+		Texmap* GetSubTexmap(int i) override { return subtex[i]; }
+		void SetSubTexmap(int i, Texmap *m) override;
+		TSTR GetSubTexmapSlotName(ARG_LOCALIZED(int i)) override;
 		
 		//From Texmap
-		RGBA EvalColor(ShadeContext& sc);
-		float EvalMono(ShadeContext& sc);
-		Point3 EvalNormalPerturb(ShadeContext& sc);	
+		RGBA EvalColor(ShadeContext& sc) override;
+		float EvalMono(ShadeContext& sc) override;
+		Point3 EvalNormalPerturb(ShadeContext& sc) override;	
 
-		int SubNumToRefNum(int subNum) { return subNum; }
+		int SubNumToRefNum(int subNum) override { return subNum; }
 
 		void ReadSXPData(TCHAR *name, void *sxpdata) { }
 		
 		//From Animatable
-		Class_ID ClassID() {return BerconWood_CLASS_ID;}		
-		SClass_ID SuperClassID() { return TEXMAP_CLASS_ID; }
+		Class_ID ClassID() override {return BerconWood_CLASS_ID;}		
+		SClass_ID SuperClassID() override { return TEXMAP_CLASS_ID; }
 #if MAX_RELEASE < 23900
 		void GetClassName(ARG_LOCALIZED(TSTR& s)) { s = GetString(IDS_BERCON_WOOD); }
 #else
 		void GetClassName(ARG_LOCALIZED(TSTR& s)) const override { s = GetString(IDS_BERCON_WOOD); } //override for Slate editor
 #endif
 
-		RefTargetHandle Clone( RemapDir &remap );
-		RefResult NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS);
+		RefTargetHandle Clone( RemapDir &remap ) override;
+		RefResult NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS) override;
 
-		int NumSubs() { return NUMREF; }
-		Animatable* SubAnim(int i); 
-		TSTR SubAnimName(ARG_LOCALIZED(int i));
+		int NumSubs() override { return NUMREF; }
+		Animatable* SubAnim(int i) override; 
+		TSTR SubAnimName(ARG_LOCALIZED(int i)) override;
 
-		int NumRefs() { return NUMREF; }
-		RefTargetHandle GetReference(int i);
-		void SetReference(int i, RefTargetHandle rtarg);
+		int NumRefs() override { return NUMREF; }
+		RefTargetHandle GetReference(int i) override;
+		void SetReference(int i, RefTargetHandle rtarg) override;
 
-		int	NumParamBlocks() { return 4; }
-		IParamBlock2* GetParamBlock(int i) { switch (i) { case 0: return pblock; case 1: return pbCurve; case 2: return pbMap; case 3: return pbXYZ; } return NULL; }
-		IParamBlock2* GetParamBlockByID(BlockID id) { 
+		int	NumParamBlocks() override { return 4; }
+		IParamBlock2* GetParamBlock(int i) override
+		{ switch (i) { case 0: return pblock; case 1: return pbCurve; case 2: return pbMap; case 3: return pbXYZ; } return NULL; }
+		IParamBlock2* GetParamBlockByID(BlockID id) override
+		{ 
 			if (pblock->ID() == id) return pblock;
 			if (pbCurve->ID() == id) return pbCurve;
 			if (pbMap->ID() == id) return pbMap;
@@ -157,13 +161,14 @@ class BerconWood : public Texmap, public ResourceMakerCallback {
 			return NULL;			
 		}
 
-		void DeleteThis() { delete this; }		
+		void DeleteThis() override { delete this; }		
 		
 		//Constructor/Destructor
 		BerconWood();
-		~BerconWood();		
+		~BerconWood() override;		
 
-		void* GetInterface(ULONG id) {
+		void* GetInterface(ULONG id) override
+		{
 			if(id == I_RESMAKER_INTERFACE)
 				return (void *) (ResourceMakerCallback*) this;
 			else
@@ -171,14 +176,14 @@ class BerconWood : public Texmap, public ResourceMakerCallback {
 		}
 };
 
-class BerconWoodClassDesc : public ClassDesc2  {
+class BerconWoodClassDesc final : public ClassDesc2  {
 public:
-	virtual int IsPublic() 							{ return TRUE; }
-	virtual void* Create(BOOL /*loading = FALSE*/) 	{ return new BerconWood(); }
-	virtual SClass_ID SuperClassID() 				{ return TEXMAP_CLASS_ID; }
-	virtual Class_ID ClassID() 						{ return BerconWood_CLASS_ID; }
-	virtual const TCHAR* Category() 				{ return TEXMAP_CAT_3D; }
-	virtual const TCHAR* InternalName() 			{ return _T("BerconWood"); } // returns fixed parsable name (scripter-visible name)
-	virtual HINSTANCE HInstance() 					{ return hInstance; }
+	int IsPublic() override { return TRUE; }
+	void* Create(BOOL /*loading = FALSE*/) override { return new BerconWood(); }
+	SClass_ID SuperClassID() override { return TEXMAP_CLASS_ID; }
+	Class_ID ClassID() override { return BerconWood_CLASS_ID; }
+	const TCHAR* Category() override { return TEXMAP_CAT_3D; }
+	const TCHAR* InternalName() override { return _T("BerconWood"); } // returns fixed parsable name (scripter-visible name)
+	HINSTANCE HInstance() override { return hInstance; }
 	LOCALIZED_CLASS_NAME(IDS_BERCON_WOOD)
 };

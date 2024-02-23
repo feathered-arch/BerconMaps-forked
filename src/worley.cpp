@@ -17,7 +17,7 @@ under the License.
 
 // Implementation of Steven Worley's cellular noise
 
-#include <math.h>
+#include <cmath>
 #include "worley.h"
 
 static char Poisson_count[256]= {

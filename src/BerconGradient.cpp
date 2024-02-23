@@ -297,12 +297,13 @@ static ParamBlockDesc2 BerconCurve_param_blk ( BerconCurve_params, _T("params"),
 	p_end
 );	    
 
-class BerconCurveDlgProcGRADIENT : public ParamMap2UserDlgProc {
+class BerconCurveDlgProcGRADIENT final : public ParamMap2UserDlgProc {
 
 	public:
 		BerconGradient *parentMap;		
 		BerconCurveDlgProcGRADIENT(BerconGradient *m) {parentMap = m;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) {
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override
+		{
 			if (parentMap->curve->GetHWND() != GetDlgItem(hWnd, IDC_CURVE))  
 				CurveCtrl::update(parentMap->curve, GetDlgItem(hWnd, IDC_CURVE), static_cast<ReferenceMaker*>(parentMap)); // Force update curve
 			switch (msg) {
@@ -317,21 +318,23 @@ class BerconCurveDlgProcGRADIENT : public ParamMap2UserDlgProc {
 			}
 			return TRUE;
 		}
-		void DeleteThis() {delete this;}
-		void SetThing(ReferenceTarget *m) { 
+		void DeleteThis() override {delete this;}
+		void SetThing(ReferenceTarget *m) override
+		{ 
 			CurveCtrl::disable(parentMap->curve); // Disable previously used curve
 			parentMap = (BerconGradient*)m;
 		}
 };
 
-class BerconGradientDlgProc : public ParamMap2UserDlgProc {
+class BerconGradientDlgProc final : public ParamMap2UserDlgProc {
 	public:
 		BerconGradient *parentMap;		
 		IGradient* igrad;
 		BerconGradientDlgProc(BerconGradient *m) {parentMap = m; igrad = NULL;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);		
-		void DeleteThis() {delete this;}
-		void SetThing(ReferenceTarget *m) {
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override;		
+		void DeleteThis() override {delete this;}
+		void SetThing(ReferenceTarget *m) override
+		{
 			IGradient* gradUI = parentMap->gradientUI; // Take old control
 			parentMap->gradientUI = NULL; // Remove control from old map
 			parentMap->gradient->setHWND(NULL); // Remove control from old maps gradient
@@ -1281,8 +1284,7 @@ float BerconGradient::getGradientValue(ShadeContext& sc) {
 		case 5: { // Random
 			seedRandomGen(sc);
 			return (float)sfrand();
-			break;
-		}
+			}
 		case 6: { // Particle age
 			Object *ob = sc.GetEvalObject();		
 			if (ob && ob->IsParticleSystem()) {				
