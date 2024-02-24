@@ -343,22 +343,45 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 
 void GradientRamp::reset() {		
 	keys = 0;
-	
-	if (subtex) delete[] subtex;
-	if (position) delete[] position;
-	if (color) delete[] color;
-	if (number) delete[] number;
+
+	delete[] subtex;
+	delete[] position;
+	delete[] color;
+	delete[] number;
 	
 	subtex = NULL;
 	position = NULL;
 	color = NULL;
 	number = NULL;
 
-	addKey(0, 0.f, AColor(0.f,0.f,0.f,1.f), NULL);
-	addKey(1, 1.f, AColor(1.f,1.f,1.f,1.f), NULL);	
+	// Because this is also called at initialization it is possible there are zero keys, or at least 2 keys
+	keys = numKeys();
+
+	if (keys == 0) // We catch the situation at initialization and add the first two keys, otherwise we don't
+	{
+		addKey(0, 0.f, AColor(0.f, 0.f, 0.f, 1.f), NULL);
+		addKey(1, 1.f, AColor(1.f, 1.f, 1.f, 1.f), NULL);
+	}
 }
 
-void GradientRamp::swap(int a, int b) {
+// TODO for v3.1: KNOWN ISSUE: Keys don't sort
+//bubble sort?
+void GradientRamp::sort() {
+	if (keys > 2) {		// nothing to sort if there's only two keys
+		bool swapped;
+		do {
+			swapped = false;
+			for (int i = 1; i < keys; ++i) {
+				if (i - 1 < keys - 1 && position[i - 1] > position[i]) {
+					swapkeys(i - 1, i);
+					swapped = true;
+				}
+			}
+		} while (swapped);
+	}
+}
+
+void GradientRamp::swapkeys(int a, int b) {
 	Texmap* sub	= subtex[a];
 	float pos	= position[a];
 	AColor col	= color[a];
@@ -374,34 +397,21 @@ void GradientRamp::swap(int a, int b) {
 	color[b]	= col;
 	number[b]	= num;
 }
-
+/*
 void GradientRamp::sort() {
 	int i = 1;	
 	while (i < keys) {
 		if (position[i-1] <= position[i]) {
 	        i++;			
 		} else {
-			swap(i-1, i);
+			swapkeys(i-1, i);
 			i--;
 			if (i <= 0)
 				i = 1;
 		}
 	} 
-}
-/* TODO for v3.1: KNOWN ISSUE: Keys don't sort
-//bubble sort?
-void GradientRamp::sort() {
-	bool swapped;
-	do {
-		swapped = false;
-		for (int i = 1; i < keys; ++i) {
-			if (i - 1 < keys - 1 && position[i - 1] > position[i]) {
-				swap(i - 1, i);
-				swapped = true;
-			}
-		}
-	} while (swapped);
 } */
+
 
 // #############################################################################################
 // #################################/ Subtex                   \################################

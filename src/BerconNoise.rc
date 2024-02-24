@@ -1033,7 +1033,7 @@ BEGIN
     CONTROL         "",IDC_FILTER,"CustEdit",WS_TABSTOP,169,153,29,10
     CONTROL         "0,255,0",IDC_FILTER_SPIN,"SpinnerControl",0x0,202,153,7,10
     RTEXT           "Filtering strength:",IDC_STATIC,101,154,59,8
-    LTEXT           "BerconMaps 3.05",IDC_STATIC,4,154,79,8
+    LTEXT           "BerconMaps 3.1alpha",IDC_STATIC,4,154,79,8
 END
 
 IDD_PANEL_TILE3 DIALOGEX 0, 0, 217, 457

@@ -26,7 +26,7 @@ under the License.
 #pragma once
 
 #include "GradientMap.h"
-#include "BerconNoise.h"
+#include "BerconCommon.h"
 
 class GradientRamp {	
 private:
@@ -101,7 +101,7 @@ public:
 	void reset();
 	//sort before we swap
 	void sort();					//TODO: Figure out why it refuses to sort
-	void swap(int a, int b);
+	void swapkeys(int a, int b);
 	Texmap* getSubtex(int n = -1);
 	void setSubtex(int n, Texmap* sub);
 	void setSubtex(Texmap* sub);
