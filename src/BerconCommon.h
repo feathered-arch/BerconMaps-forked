@@ -49,6 +49,8 @@ under the License.
 #include "banned.h"		//per the SDK
 #include "3dsmax_banned.h"
 
+
+
 // Max 2022
 #if MAX_RELEASE < 23900
 #define ARG_LOCALIZED(arg) arg
@@ -104,7 +106,9 @@ under the License.
 #define D_MIRR(x) if (x<0) x = -x; int ix = (int)x; if (ix%2==0) x = x - ix; else x = 1.f - x + ix;
 #define D_STRE(x) if (x<0) x = 0.f; else if (x>1) x = 1.f;
 
-TCHAR *GetString(int id);
+extern TCHAR* GetString(int id);
+
+extern HINSTANCE hInstance;
 
 static void setSpinnerType(IParamMap2 *map, TimeValue t, int pb_id, int edit_id, int spin_id, int spinnerTypeWorld = 1, bool allowNegative = false) {
 	// Get the window handle of the map
@@ -282,11 +286,11 @@ public:
 		p_default, 0.f, p_range, 0.0f, 1000000.0f,
 		p_ui, TYPE_SPINNER, EDITTYPE_FLOAT, IDC_SIZ_X2, IDC_SIZ_X_SPIN2, SPIN_AUTOSCALE,
 		p_end,
-		xyz_size_y2, _T("xyz_size_y2"), TYPE_FLOAT, P_ANIMATABLE, IDS_XYZ_SIZE_X2,
+		xyz_size_y2, _T("xyz_size_y2"), TYPE_FLOAT, P_ANIMATABLE, IDS_XYZ_SIZE_Y2,
 		p_default, 0.f, p_range, 0.0f, 1000000.0f,
 		p_ui, TYPE_SPINNER, EDITTYPE_FLOAT, IDC_SIZ_Y2, IDC_SIZ_Y_SPIN2, SPIN_AUTOSCALE,
 		p_end,
-		xyz_size_z2, _T("xyz_size_z2"), TYPE_FLOAT, P_ANIMATABLE, IDS_XYZ_SIZE_X2,
+		xyz_size_z2, _T("xyz_size_z2"), TYPE_FLOAT, P_ANIMATABLE, IDS_XYZ_SIZE_Z2,
 		p_default, 0.f, p_range, 0.0f, 1000000.0f,
 		p_ui, TYPE_SPINNER, EDITTYPE_FLOAT, IDC_SIZ_Z2, IDC_SIZ_Z_SPIN2, SPIN_AUTOSCALE,
 		p_end,

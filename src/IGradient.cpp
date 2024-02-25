@@ -36,6 +36,9 @@ sprintf(buffer,"Right Button = %d ",((buttons & MK_RBUTTON) ? 1 : 0));
 
 */
 
+//Functionality for Windows and 3DSMax to draw and pass user input/interaction to gradient controls 
+//but not the paramdlg spinners or inputs - those are handled by BerconGradient
+
 LRESULT CALLBACK IGradient::GradientProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
    IGradient *grad = DLGetWindowLongPtr<IGradient*>(hWnd);
    if(grad == NULL && msg != WM_CREATE)

@@ -16,17 +16,9 @@ under the License.
 */
 
 #include "BerconCommon.h"
-#include "chkmtlapi.h"
+#include <chkmtlapi.h>
 
-//BerconCommon is referenced by all the maps. This lets the DLL handler know which map we're in.
-//We match the map description to the ID specified in the header file and the DLLEntry.cpp file
-TCHAR *GetString(int id) {
-	static TCHAR buf[256];
 
-	if (hInstance)
-		return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : NULL;
-	return NULL;
-}
 
 void BerconXYZ::reset(IParamBlock2* pblock, Interval& ivalid, int type, int x, int y, int z) {
 	if (!pblock) return;

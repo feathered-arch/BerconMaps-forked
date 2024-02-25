@@ -17,8 +17,8 @@ under the License.
 
 // Implementation of Steven Worley's cellular noise
 
-#include <cmath>
 #include "worley.h"
+#include "perlin.h"
 
 static char Poisson_count[256]= {
 	4,3,1,1,1,2,4,2,2,2,5,1,0,2,1,2,2,0,4,3,2,1,2,1,3,2,2,4,2,2,5,1,2,3,2,2,2,2,2,3,
@@ -93,7 +93,7 @@ void Worley::noise(double at[3], int order, double *F, int function) {
 	return;
 }
 
-#define ROLL(seed) (seed=1402024253*seed+586950981)
+
 void Worley::add(long xi, long yi, long zi, double at[3], int order, double *F, int function) {
 	double d;
 	double d3[3];
@@ -102,15 +102,15 @@ void Worley::add(long xi, long yi, long zi, double at[3], int order, double *F, 
 
 	seed = 702395077*xi + 915488749*yi + 2120969693*zi;
 	int count = Poisson_count[seed>>24];
-	ROLL(seed);
+	seed = 1402024253 * seed + 586950981;
 
 	for (int j=0; j<count; j++) {
 		this_id = seed;
-		ROLL(seed);
+		seed = 1402024253 * seed + 586950981;
 
 		for (int i=0; i<3; i++) {
 			f3[i] = (seed+0.5)*(1.0/4294967296.0);			
-			ROLL(seed);
+			seed = 1402024253 * seed + 586950981;
 		}
 
 		d3[0] = xi + f3[0] - at[0]; 
@@ -143,7 +143,7 @@ void Worley::add(long xi, long yi, long zi, double at[3], int order, double *F, 
 				double x = d3[0]*d3[0];
 				double y = d3[1]*d3[1];
 				double z = d3[2]*d3[2];				
-				d = sqrt(sqrt(x*x + y*y + z*z));
+				d = pow(x*x + y*y + z*z, 0.25);
 				break; }
 		}		
 

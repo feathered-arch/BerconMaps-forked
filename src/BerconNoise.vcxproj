@@ -1206,7 +1206,6 @@
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Precise</FloatingPointModel>
       <PrecompiledHeaderOutputFile>.\Release_2024\BerconNoise.x64.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\Release_2024\</AssemblerListingLocation>
@@ -1231,6 +1230,7 @@
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
       <DebugInformationFormat>None</DebugInformationFormat>
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1280,15 +1280,14 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/LD /Zc:lambda /Zc:externC /Zc:strictStrings </AdditionalOptions>
-      <Optimization>Full</Optimization>
+      <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(ADSK_3DSMAX_SDK_2024)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SECURE_SCL=0;DEBUG;_WINDOWS;_USRDLL;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES=1;_SCL_SECURE_NO_DEPRECATE;ISOLATION_AWARE_ENABLED=1;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
+      <PreprocessorDefinitions>_SECURE_SCL=1;DEBUG;_WINDOWS;_USRDLL;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES=0;_SCL_SECURE_NO_DEPRECATE;ISOLATION_AWARE_ENABLED=1;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -1303,13 +1302,12 @@
       </ScanSourceForModuleDependencies>
       <TreatSpecificWarningsAsErrors>4002;4121;4130;4213;4295;4310;4390;4545;4546;4557;4596;4611;4706;4715;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <DisableSpecificWarnings>4018;4244;4456;4457;4458;4459;4589;4702;4819;4840;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <ConformanceMode>false</ConformanceMode>
-      <AssemblerOutput>AssemblyAndMachineCode</AssemblerOutput>
+      <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>Level2</ExternalWarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -1319,6 +1317,7 @@
       <ModuleOutputFile>.\debug_2024\</ModuleOutputFile>
       <ModuleDependenciesFile>.\debug_2024\</ModuleDependenciesFile>
       <FloatingPointModel>Precise</FloatingPointModel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1336,8 +1335,7 @@
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\BerconNoise.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\debug_2024\$(TargetName).dlt.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <ProgramDatabaseFile>src\DLL\$(TargetName).dlt.pdb</ProgramDatabaseFile>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>
@@ -1349,11 +1347,11 @@
       </BaseAddress>
       <ImportLibrary>.\debug_2024\debug\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
-      <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGenerationObjectFile>.\debug_2024\$(TargetName).iobj</LinkTimeCodeGenerationObjectFile>
       <IncrementalLinkDatabaseFile>.\debug_2024\$(TargetName).ilk</IncrementalLinkDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <IgnoreEmbeddedIDL />
+      <SubSystem>Windows</SubSystem>
     </Link>
     <Xdcmake>
       <OutputFile>.\Release_2024\$(TargetName).xml</OutputFile>

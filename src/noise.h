@@ -18,13 +18,11 @@ under the License.
 #pragma once
 
 #include "Max.h"
-
+#include "commonMath.h"
 #include "texutil.h"
 
-#include "worley.h"
-#include "perlin.h"
 
-#include "commonMath.h"
+
 
 class NoiseParams {
 public:

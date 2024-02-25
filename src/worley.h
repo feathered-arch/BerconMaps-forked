@@ -17,6 +17,9 @@ under the License.
 
 // Based on Steven Worley's cellular noise
 
+#pragma once
+#include <cmath>
+
 class Worley {
 public:
     Worley() {}

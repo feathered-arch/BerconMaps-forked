@@ -15,10 +15,12 @@ specific language governing permissions and limitations
 under the License.   
 */
 
-#include "noise.h"
+
 #include <vector>
 #include <string>
 #include <sstream>
+#include "noise.h"
+#include "perlin.h"
 
 #pragma once
 

@@ -20,6 +20,8 @@ under the License.
 
 #include	"perlin.h"
 
+#include "commonMath.h"
+
 // Chart given by Ken Perlin, using the same to get identical results
 static unsigned char perm[] = {		
 	151,160,137,91,90,15,

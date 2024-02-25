@@ -16,6 +16,8 @@ under the License.
 */
 
 #include "fractal.h"
+#include "perlin.h"
+
 
 float Fractal::fractal(Point3 p, NoiseParams& np) {
 	float sum = 0.0f;

@@ -15,8 +15,11 @@ specific language governing permissions and limitations
 under the License.   
 */
 
+
 #include "noise.h"
 #include "fractal.h"
+#include "worley.h"
+#include "perlin.h"
 
 void Noise::alterUVW(Point3& p, int type) {
 	switch (type) {

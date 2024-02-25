@@ -15,10 +15,10 @@ specific language governing permissions and limitations
 under the License.   
 */
 
-#include "Max.h"
+#include <Max.h>
 #include "resource.h"
-#include "istdplug.h"
-#include "icurvctl.h"
+#include <istdplug.h>
+#include <icurvctl.h>
 
 #ifndef NOTIFY_REF_CHANGED_ARGS
 #if MAX_RELEASE < 16900

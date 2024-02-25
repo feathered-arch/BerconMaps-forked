@@ -17,9 +17,9 @@ under the License.
 
 #pragma once
 
-#include "Max.h"
+#include <Max.h>
 #include "resource.h"
-#include "plugapi.h"
+#include <plugapi.h>
 //#include "3dsmaxport.h"
 
 #include "GradientRamp.h"

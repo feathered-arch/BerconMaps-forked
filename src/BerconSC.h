@@ -15,7 +15,7 @@ specific language governing permissions and limitations
 under the License.   
 */
 
-#include "max.h"
+#include <max.h>
 
 #define BERCON_SHADE_CONTEXT_CLASS_ID Class_ID(0x7c0a38f1, 0x2f1a67f2)
 

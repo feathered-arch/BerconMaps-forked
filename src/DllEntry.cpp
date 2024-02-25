@@ -15,11 +15,9 @@ specific language governing permissions and limitations
 under the License.   
 */
 
-//#define COMPILE_MULTIMAP 1
-
-#ifndef COMPILE_MULTIMAP
-
-#include "BerconWood.h"
+#include <tchar.h>
+#include <iparamb2.h>
+#include "resource.h"
 
 extern ClassDesc2* GetBerconNoiseDesc();
 extern ClassDesc2* GetBerconWoodDesc();
@@ -33,17 +31,12 @@ int controlsInit = FALSE;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,ULONG fdwReason,LPVOID /*lpvReserved*/) {
 	if( fdwReason == DLL_PROCESS_ATTACH ) {
+		//MaxSDK::Util::UseLanguagePackLocale();   /*we don't provide a language pack for our plugin
+		// Hang on to this DLL's instance handle.
 		hInstance = hinstDLL;
 		DisableThreadLibraryCalls(hInstance);
+		// DO NOT do any initialization here. Use LibInitialize() instead
 	}      
-	
-	if (!controlsInit) {
-		controlsInit = TRUE;
-		//InitCustomControls(hInstance);     // Initialize MAX's custom controls
-		InitCommonControls();               // Initialize Win95 controls [deprecated]
-		InitGradientControls();            // Initialize my GradientRamp control
-	}
-//	DebugPrint(_T("Berconmaps is loaded!")); }
 	return(TRUE);
 }
 
@@ -62,14 +55,13 @@ __declspec( dllexport ) ClassDesc* LibClassDesc(int i) {
 	}
 }
 
-#else
-
+/*	See https://cg-source.com/MultiTexture
 #include "MultiMap.h"
 
 extern ClassDesc2* GetMultiMapDesc();
 HINSTANCE hInstance;
 int controlsInit = FALSE;
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,ULONG fdwReason,LPVOID /*lpvReserved*/) {
+BOOL WINAPI DllMain(HINSTANCE hinstDLL,ULONG fdwReason,LPVOID \*lpvReserved*\) {
 	if( fdwReason == DLL_PROCESS_ATTACH ) {
 		hInstance = hinstDLL;
 		DisableThreadLibraryCalls(hInstance);
@@ -87,9 +79,21 @@ __declspec( dllexport ) ClassDesc* LibClassDesc(int i) {
 		default: return 0;
 	}
 }
+*/
 
-#endif
 
+
+TCHAR* GetString(int id)
+{
+	static TCHAR buf[256];
+
+	if (hInstance)
+	{
+		return LoadString(hInstance, id, buf, _countof(buf)) ? buf : NULL;
+	}
+
+	return NULL;
+}
 
 
 __declspec( dllexport ) const TCHAR* LibDescription()
@@ -103,10 +107,16 @@ __declspec( dllexport ) ULONG LibVersion()
 }
 
 __declspec( dllexport ) int LibInitialize(void) {
+
+	if (!controlsInit) {
+		controlsInit = TRUE;
+		//InitCustomControls(hInstance);     // Initialize MAX's custom controls
+		InitCommonControls();               // Initialize Windows controls
+		InitGradientControls();            // Initialize my GradientRamp control
+	}
 	return TRUE;
 }
 
 __declspec( dllexport ) int LibShutdown(void) {
 	return TRUE;	
 }
-

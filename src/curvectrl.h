@@ -16,17 +16,17 @@ under the License.
 */
 
 
-#include "Max.h"
+#include <Max.h>
 #include "resource.h"
-#include "istdplug.h"
-#include "icurvctl.h"
+#include <istdplug.h>
+#include <icurvctl.h>
 
 // Handles basic operations on curve control
 
 class CurveCtrl {
 public:	    
 	CurveCtrl() {}	
-    ~CurveCtrl() {}	
+    ~CurveCtrl() = default;
 
 	static void update(ICurveCtl *curve, HWND hParent, ReferenceMaker *resMaker);
 	static void disable(ICurveCtl *curve);

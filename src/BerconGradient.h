@@ -16,11 +16,11 @@ under the License.
 */
 
 #pragma once
-
+#include <windows.h>
+#include <chkmtlapi.h>
 #include "BerconCommon.h"
-#include "windows.h"
 #include "IGradient.h"
-#include "chkmtlapi.h"
+
 
 extern TCHAR *GetString(int id);
 

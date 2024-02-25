@@ -18,9 +18,6 @@ under the License.
 // Based on Ken Perlin's perlin noise/simplex and Stefan Gustavson's
 // implementation of perlin/simplex noise, (Simplex)Noise1234
 
-#pragma once
-
-#include "commonMath.h"
 
 class Perlin {
 public:

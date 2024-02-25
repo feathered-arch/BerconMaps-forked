@@ -16,8 +16,8 @@ under the License.
 */
 
 #pragma once
-//TODO: Use <cmath> for v3.1
-#include "math.h"
+
+#include <cmath>
 
 typedef float real;
 typedef double ireal;
