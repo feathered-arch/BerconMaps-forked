@@ -83,13 +83,32 @@ void GradientRamp::paint(HDC hDC) {
 	float f_Width = (float)g_Width;	
 
 	// Gradient
+	// Pre-calculate colors and store them in a buffer
+
+	AColor* colorsBuffer = (AColor*)malloc((g_Width + 2 * PADDING) * sizeof(AColor));
+	for (int x = PADDING; x < g_Width + PADDING; x++) {
+		AColor col = getColor((float)(x - PADDING) / (f_Width - 1.f));
+		colorsBuffer[x] = col;
+	}
+
+	// Set all pixels using the pre-calculated colors
+	for (int x = PADDING; x < g_Width + PADDING; x++) {
+		COLORREF colR = RGB((int)(colorsBuffer[x].r * 255.f), (int)(colorsBuffer[x].g * 255.f), (int)(colorsBuffer[x].b * 255.f));
+		for (int y = PADDING; y < g_Height + PADDING; y++)
+			SetPixel(tempHDC, x, y, colR);
+	}
+
+	// Free memory allocated for buffer
+	free(colorsBuffer);
+
+	/*
 	for (int x=PADDING; x<g_Width+PADDING; x++) {
 		AColor col = getColor((float)(x-PADDING) / (f_Width-1.f));
 
 		COLORREF colR = RGB((int)(col.r*255.f), (int)(col.g*255.f), (int)(col.b*255.f));		
 		for (int y=PADDING; y<g_Height+PADDING; y++)		
 			SetPixel(tempHDC, x, y, colR);
-	}
+	}*/
 
 	// Keys
 	int yTop = PADDING - 1;
@@ -122,6 +141,29 @@ void GradientRamp::paint(HDC hDC) {
 
 void GradientRamp::paintArrow(int px, int py, bool up, HDC hDC, COLORREF colR) {
 	int offset = 0;
+	int pixelCount = 0; // Number of pixels to set
+	int* pixelsBuffer = (int*)malloc(ARROWS * (ARROWS * 2 + 1) * sizeof(int)); // Allocate memory for all pixels
+
+	// Populate the pixels buffer
+	for (int y = 0; y < ARROWS; y++) {
+		for (int x = 0; x < y * 2 + 1; x++) {
+			int xPos = px + x - offset;
+			int yPos = up ? py + y : py - y;
+			pixelsBuffer[pixelCount++] = xPos;
+			pixelsBuffer[pixelCount++] = yPos;
+		}
+		offset++;
+	}
+
+	// Set all pixels in one go
+	for (int i = 0; i < pixelCount; i += 2) {
+		SetPixel(hDC, pixelsBuffer[i], pixelsBuffer[i + 1], colR);
+	}
+
+	// Free memory allocated for buffer
+	free(pixelsBuffer);
+}
+/*	int offset = 0;
 	for (int y=0;y<ARROWS;y++) {
 		for (int x=0;x<(y*2+1);x++) {
 			if (up)
@@ -131,7 +173,7 @@ void GradientRamp::paintArrow(int px, int py, bool up, HDC hDC, COLORREF colR) {
 		}
 		offset++;
 	}
-}
+}*/
 
 void GradientRamp::invalidate() {
    if (m_hWnd == NULL) return;
@@ -294,6 +336,8 @@ void GradientRamp::moveKey(int n, float pos) {
 */
 
 void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
+
+
 	if (pos < 0.f) pos = 0.f;
 	else if (pos > 1.f) pos = 1.f;
 
@@ -301,6 +345,7 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	for (int i=0;i<keys;i++)
 		if (number[i] == n)
 			key = i;
+
 
 	if (key >= 0) { // update only, no keys added
 		subtex[key] = sub;
@@ -344,49 +389,46 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 void GradientRamp::reset() {		
 	keys = 0;
 
-	delete[] subtex;
-	delete[] position;
-	delete[] color;
-	delete[] number;
-	
+	delete subtex;
+	delete position;
+	delete color;
+	delete number;
+
 	subtex = NULL;
 	position = NULL;
 	color = NULL;
 	number = NULL;
 
-	// Because this is also called at initialization it is possible there are zero keys, or at least 2 keys
-	keys = numKeys();
-
-	if (keys == 0) // We catch the situation at initialization and add the first two keys, otherwise we don't
-	{
-		addKey(0, 0.f, AColor(0.f, 0.f, 0.f, 1.f), NULL);
-		addKey(1, 1.f, AColor(1.f, 1.f, 1.f, 1.f), NULL);
-	}
+	addKey(0, 0.f, AColor(0.f, 0.f, 0.f, 1.f), NULL);
+	addKey(1, 1.f, AColor(1.f, 1.f, 1.f, 1.f), NULL);
 }
 
 // TODO for v3.1: KNOWN ISSUE: Keys don't sort
 //bubble sort?
+/*
 void GradientRamp::sort() {
-	if (keys > 2) {		// nothing to sort if there's only two keys
-		bool swapped;
-		do {
-			swapped = false;
-			for (int i = 1; i < keys; ++i) {
-				if (i - 1 < keys - 1 && position[i - 1] > position[i]) {
-					swapkeys(i - 1, i);
-					swapped = true;
-				}
+	bool swapped;
+	do {
+		swapped = false;
+		for (int i = 1; i < keys; ++i) {
+			if (i - 1 < keys - 1 && position[i - 1] > position[i]) {
+				swapkeys(i - 1, i, keys);
+				swapped = true;
 			}
-		} while (swapped);
+		}
 	}
+	while (swapped);
 }
+*/
 
-void GradientRamp::swapkeys(int a, int b) {
+void GradientRamp::swapkeys(int a, int b, int ind) {
 	Texmap* sub	= subtex[a];
 	float pos	= position[a];
 	AColor col	= color[a];
 	int num		= number[a];
-	
+
+//	DebugPrint(_T("Swapping sub %s, pos %f, color %f, num %d at index %d and %d - keys at %d"), sub, pos, *col, num, a, b, ind);
+
 	subtex[a]	= subtex[b];
 	position[a] = position[b];
 	color[a]	= color[b];
@@ -397,20 +439,21 @@ void GradientRamp::swapkeys(int a, int b) {
 	color[b]	= col;
 	number[b]	= num;
 }
-/*
+
+
 void GradientRamp::sort() {
-	int i = 1;	
+	int i = 1;
 	while (i < keys) {
 		if (position[i-1] <= position[i]) {
 	        i++;			
 		} else {
-			swapkeys(i-1, i);
+			swapkeys(i-1, i, keys);
 			i--;
 			if (i <= 0)
 				i = 1;
 		}
 	} 
-} */
+}
 
 
 // #############################################################################################

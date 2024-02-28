@@ -28,7 +28,8 @@ extern HINSTANCE hInstance;
 
 //#define GRADIENT3D
 
-class BerconGradient final : public Texmap, public GradientMap, public ResourceMakerCallback {
+class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCallback {
+	friend class GradientSort;
 	public:
 		// Parameter block
 		IParamBlock2	*pblock;

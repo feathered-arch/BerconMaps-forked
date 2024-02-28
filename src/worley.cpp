@@ -95,17 +95,16 @@ void Worley::noise(double at[3], int order, double *F, int function) {
 
 
 void Worley::add(long xi, long yi, long zi, double at[3], int order, double *F, int function) {
-	double d;
+	double d = 0;
 	double d3[3];
 	double f3[3];
-	unsigned long seed, this_id;
+	unsigned long seed;
 
 	seed = 702395077*xi + 915488749*yi + 2120969693*zi;
 	int count = Poisson_count[seed>>24];
 	seed = 1402024253 * seed + 586950981;
 
 	for (int j=0; j<count; j++) {
-		this_id = seed;
 		seed = 1402024253 * seed + 586950981;
 
 		for (int i=0; i<3; i++) {
@@ -145,6 +144,7 @@ void Worley::add(long xi, long yi, long zi, double at[3], int order, double *F, 
 				double z = d3[2]*d3[2];				
 				d = pow(x*x + y*y + z*z, 0.25);
 				break; }
+			default: ;
 		}		
 
 		if (d < F[order-1]) {

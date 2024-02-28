@@ -28,7 +28,9 @@ under the License.
 #include "GradientMap.h"
 #include "BerconCommon.h"
 
-class GradientRamp {	
+class GradientRamp {
+	friend class GradientSort;
+
 private:
 	static const int PADDING = 6;
 	static const int ARROWS = 6;
@@ -64,9 +66,10 @@ public:
 		subtex = NULL;
 		position = NULL;
 		color = NULL;
-		number = NULL;		
+		number = NULL;
 		reset();
-		sort();		
+		sort();
+
 	}
 
 	~GradientRamp() {
@@ -101,7 +104,7 @@ public:
 	void reset();
 	//sort before we swap
 	void sort();					//TODO: Figure out why it refuses to sort
-	void swapkeys(int a, int b);
+	void swapkeys(int a, int b, int ind);
 	Texmap* getSubtex(int n = -1);
 	void setSubtex(int n, Texmap* sub);
 	void setSubtex(Texmap* sub);

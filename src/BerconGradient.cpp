@@ -17,6 +17,7 @@ under the License.
 
 #include "BerconGradient.h"
 
+
 #define PBLOCK_REF	1
 #define COORD_REF	0
 #define OUTPUT_REF	2
@@ -515,7 +516,7 @@ BerconGradient::~BerconGradient() {
 	DiscardTexHandle();
 }
 
-void BerconGradient::Reset() {
+void BerconGradient::Reset() {	// only called once when a new map is created
 	TimeValue t = GetCOREInterface()->GetTime();
 		
 	//if (xyzGen) xyzGen->Reset();
@@ -605,11 +606,16 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 				pos = 0.f;
 			else if (i == 1)
 				pos = 1.f;
+/*			if (i != 0) {				plugin new sort routine here?
+				gradient->swapkeys(i - 1, i, keys);
+			}*/
 			gradient->addKey(i,pos,col,tex);
 			if (gradient->getSubtex(i))
 				gradient->getSubtex(i)->Update(t,ivalid);
 		}	
 		gradient->sort();
+		int test = gradient->numKeys();
+		DebugPrint(_T("BGrad has %d keys at update"), test);
 		gradient->invalidate();	
 
 		// General stuff
@@ -752,6 +758,10 @@ int BerconGradient::countKeys() {
 
 void BerconGradient::resetKeys() {	
 	if (!pblock) return;
+	
+	pblock->SetCount(pb_submaps, 0);
+	pblock->SetCount(pb_colors, 0);
+	pblock->SetCount(pb_positions, 0);
 
 	//pblock->SetCount(pb_submaps, 2);
 	//pblock->SetCount(pb_colors, 2);
@@ -771,6 +781,8 @@ void BerconGradient::resetKeys() {
 	pblock->Append(pb_colors, 2, colors);
 	float floats[2] = {0.f, 1.f};
 	pblock->Append(pb_positions, 2, floats);
+	int test = gradient->numKeys();
+	DebugPrint(_T("BGrad has %d keys at resetkeys"), test);
 
 	ivalid.SetEmpty();
 	//Update(GetCOREInterface()->GetTime(),Interval());

@@ -101,10 +101,12 @@ under the License.
 #define ufrand() ((double)rand() / (double)RAND_MAX * 2. - 1.)
 #define URANDF() ((float)rand() / (float)RAND_MAX * 2.f - 1.f)
 
+
 // Some macros for U/V/W/Range looping/mirroring etc.
 #define D_LOOP(x) x = x - (float)((int)x); if (x<0) x = 1.f + x;
 #define D_MIRR(x) if (x<0) x = -x; int ix = (int)x; if (ix%2==0) x = x - ix; else x = 1.f - x + ix;
 #define D_STRE(x) if (x<0) x = 0.f; else if (x>1) x = 1.f;
+
 
 extern TCHAR* GetString(int id);
 

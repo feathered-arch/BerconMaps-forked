@@ -125,6 +125,7 @@
     <CharacterSet>Unicode</CharacterSet>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
     <VCToolsVersion>14.29.30133</VCToolsVersion>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -277,7 +278,6 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2021|x64'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2022|x64'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2023|x64'">false</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Max2010|x64'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Max2012|x64'">true</GenerateManifest>
@@ -291,6 +291,8 @@
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <TargetExt>.dlt</TargetExt>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <LinkIncremental>false</LinkIncremental>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
@@ -1228,7 +1230,7 @@
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
       <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
@@ -1247,21 +1249,20 @@
       <ManifestFile>.\Release_2024\$(TargetFileName).intermediate.manifest</ManifestFile>
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\BerconNoise.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Release_2024\BerconNoise.dlt.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <ProfileGuidedDatabase>
-      </ProfileGuidedDatabase>
       <SetChecksum>true</SetChecksum>
       <BaseAddress>
       </BaseAddress>
       <ImportLibrary>.\Release_2024\Release\BerconNoise.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <Profile>true</Profile>
     </Link>
     <Xdcmake>
       <OutputFile>.\Release_2024\$(TargetName).xml</OutputFile>
@@ -1287,14 +1288,13 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(ADSK_3DSMAX_SDK_2024)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SECURE_SCL=1;DEBUG;_WINDOWS;_USRDLL;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES=0;_SCL_SECURE_NO_DEPRECATE;ISOLATION_AWARE_ENABLED=1;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ExceptionHandling>Async</ExceptionHandling>
+      <PreprocessorDefinitions>_SECURE_SCL=0;DEBUG;_WINDOWS;_USRDLL;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES=0;_SCL_SECURE_NO_DEPRECATE;ISOLATION_AWARE_ENABLED=1;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeaderOutputFile>.\debug_2024\BerconMaps_2024_64_debug.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\debug_2024\</AssemblerListingLocation>
-      <ProgramDataBaseFileName>.\debug_2024\BerconMaps_2024_64_debug.dlt.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>src\DLL\BerconMaps_2024_64_debug.dlt.pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -1320,7 +1320,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
       <ResourceOutputFileName>.\Release_2024\%(Filename).res</ResourceOutputFileName>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -1335,7 +1335,6 @@
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\BerconNoise.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>src\DLL\$(TargetName).dlt.pdb</ProgramDatabaseFile>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>
@@ -1352,6 +1351,8 @@
       <GenerateMapFile>true</GenerateMapFile>
       <IgnoreEmbeddedIDL />
       <SubSystem>Windows</SubSystem>
+      <ProgramDatabaseFile>.\Release_2024\BerconNoise.dlt.pdb</ProgramDatabaseFile>
+      <MapExports>true</MapExports>
     </Link>
     <Xdcmake>
       <OutputFile>.\Release_2024\$(TargetName).xml</OutputFile>
@@ -1384,6 +1385,7 @@
     <ClCompile Include="fractal.cpp" />
     <ClCompile Include="noise.cpp" />
     <ClCompile Include="perlin.cpp" />
+    <ClCompile Include="GradientSort.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="worley.cpp" />
     <ClCompile Include="commonMath.cpp" />
@@ -1396,6 +1398,7 @@
     <ClInclude Include="BerconTile.h" />
     <ClInclude Include="BerconWood.h" />
     <ClInclude Include="fractal.h" />
+    <ClInclude Include="GradientSort.h" />
     <ClInclude Include="noise.h" />
     <ClInclude Include="perlin.h" />
     <ClInclude Include="resource.h" />
