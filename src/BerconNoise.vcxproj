@@ -1311,13 +1311,12 @@
       <ObjectFileName>.\debug_2024\</ObjectFileName>
       <ModuleOutputFile>.\debug_2024\</ModuleOutputFile>
       <ModuleDependenciesFile>.\debug_2024\</ModuleDependenciesFile>
-      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointModel>Fast</FloatingPointModel>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <SupportJustMyCode />
       <ExceptionHandling>false</ExceptionHandling>
-      <FloatingPointExceptions>true</FloatingPointExceptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>DEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>

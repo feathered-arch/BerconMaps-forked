@@ -15,14 +15,6 @@ specific language governing permissions and limitations
 under the License.   
 */
 
-/*
-
-#include "Max.h"
-#include "resource.h"
-#include "plugapi.h"
-#include "3dsmaxport.h"
-
-#include "maxscrpt/MAXScrpt.h"*/
 
 #include "GradientRamp.h"
 
@@ -454,12 +446,6 @@ void GradientRamp::setSubtex(Texmap* sub) {
 // #################################/ Color                    \################################
 // #############################################################################################
 
-float GradientRamp::truncate(float value, int precision) {		// drop precision and speed up math
-	float factor = pow(10, precision);
-	float test = trunc(value * factor) / factor;
-	return trunc(value * factor) / factor;
-}
-
 // Linear Search
 // O(N)
 /*
@@ -494,7 +480,6 @@ int GradientRamp::findHighKey(float x) {
 
 float GradientRamp::interpolate(float x, float low, float high) {
 	//int interpolation; // 0 linear 1 smooth 2 solid near 3 solid left 4 solid right
-	x = truncate(x, 4);
 	switch (interpolation) {
 		case 0:	
 			return (x - low) / (high - low);

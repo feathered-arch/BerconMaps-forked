@@ -303,7 +303,7 @@ class BerconCurveDlgProcGRADIENT final : public ParamMap2UserDlgProc {
 	public:
 		BerconGradient *parentMap;		
 		BerconCurveDlgProcGRADIENT(BerconGradient *m) {parentMap = m;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 		{
 			if (parentMap->curve->GetHWND() != GetDlgItem(hWnd, IDC_CURVE))  
 				CurveCtrl::update(parentMap->curve, GetDlgItem(hWnd, IDC_CURVE), static_cast<ReferenceMaker*>(parentMap)); // Force update curve
@@ -319,8 +319,8 @@ class BerconCurveDlgProcGRADIENT final : public ParamMap2UserDlgProc {
 			}
 			return TRUE;
 		}
-		void DeleteThis() override {delete this;}
-		void SetThing(ReferenceTarget *m) override
+		void DeleteThis()  {delete this;}
+		void SetThing(ReferenceTarget *m) 
 		{ 
 			CurveCtrl::disable(parentMap->curve); // Disable previously used curve
 			parentMap = (BerconGradient*)m;
@@ -332,9 +332,9 @@ class BerconGradientDlgProc final : public ParamMap2UserDlgProc {
 		BerconGradient *parentMap;		
 		IGradient* igrad;
 		BerconGradientDlgProc(BerconGradient *m) {parentMap = m; igrad = NULL;}		
-		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override;		
-		void DeleteThis() override {delete this;}
-		void SetThing(ReferenceTarget *m) override
+		INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);		
+		void DeleteThis() {delete this;}
+		void SetThing(ReferenceTarget *m)
 		{
 			IGradient* gradUI = parentMap->gradientUI; // Take old control
 			parentMap->gradientUI = NULL; // Remove control from old map

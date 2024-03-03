@@ -107,7 +107,6 @@ public:
 	Texmap* getSubtex(int n = -1);
 	void setSubtex(int n, Texmap* sub);
 	void setSubtex(Texmap* sub);
-	float truncate(float value, int precision);
 	int numKeys() { return keys; }
 
 	// Shading methods

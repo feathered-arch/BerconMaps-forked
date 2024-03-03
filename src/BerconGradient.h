@@ -94,21 +94,21 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		void resetKeys();
 		
 		// From GradientMap
-		void gradAddKey(float pos) override;
-		void gradMoveKey(int n, float pos) override;
-		void gradDelKey(int n) override;
-		void gradSelKey() override;
-		void gradReset() override { resetKeys(); }
+		void gradAddKey(float pos);
+		void gradMoveKey(int n, float pos);
+		void gradDelKey(int n);
+		void gradSelKey();
+		void gradReset()  { resetKeys(); }
 
 		// Curve
 		ICurveCtl* curve;				
 		BOOL p_curveOn;
 		// From ResourceMakerCallback		
-		BOOL SetCustomImageList(HIMAGELIST &hCTools,ICurveCtl *pCCtl) override { return TRUE; };
-		BOOL GetToolTip(int iButton, TSTR &ToolTip,ICurveCtl *pCCtl) override { return TRUE; };
-		void ResetCallback(int curvenum, ICurveCtl *pCCtl) override
+		BOOL SetCustomImageList(HIMAGELIST &hCTools,ICurveCtl *pCCtl)  { return TRUE; };
+		BOOL GetToolTip(int iButton, TSTR &ToolTip,ICurveCtl *pCCtl)  { return TRUE; };
+		void ResetCallback(int curvenum, ICurveCtl *pCCtl) 
 		{ ICurve *pCurve = NULL; pCurve = pCCtl->GetControlCurve(curvenum); if(pCurve) { pCurve->SetNumPts(2); NewCurveCreatedCallback(curvenum, pCCtl); }}
-		void NewCurveCreatedCallback(int curvenum, ICurveCtl *pCCtl) override
+		void NewCurveCreatedCallback(int curvenum, ICurveCtl *pCCtl) 
 		{
 			ICurve *pCurve = NULL; pCurve = pCCtl->GetControlCurve(curvenum); TimeValue t = GetCOREInterface()->GetTime();
 			CurvePoint pt = pCurve->GetPoint(t,0); pt.p.y = 0.f; pCurve->SetPoint(t,0,&pt);
@@ -117,25 +117,25 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		}
 
 		//From MtlBase
-		ParamDlg* CreateParamDlg(HWND hwMtlEdit, IMtlParams *imp) override;
-		BOOL SetDlgThing(ParamDlg* dlg) override;
-		void Update(TimeValue t, Interval& valid) override;
-		void Reset() override;
-		Interval Validity(TimeValue t) override;
+		ParamDlg* CreateParamDlg(HWND hwMtlEdit, IMtlParams *imp) ;
+		BOOL SetDlgThing(ParamDlg* dlg) ;
+		void Update(TimeValue t, Interval& valid) ;
+		void Reset() ;
+		Interval Validity(TimeValue t) ;
 		
-		ULONG LocalRequirements(int subMtlNum) override { return berconXYZ.req(); }
-		void MappingsRequired(int subMtlNum, BitArray& mapreq, BitArray& bumpreq) override { berconXYZ.map(subMtlNum, mapreq, bumpreq); }
+		ULONG LocalRequirements(int subMtlNum)  { return berconXYZ.req(); }
+		void MappingsRequired(int subMtlNum, BitArray& mapreq, BitArray& bumpreq)  { berconXYZ.map(subMtlNum, mapreq, bumpreq); }
 
-		int NumSubTexmaps() override { return 3 + gradient->numKeys(); } // !! Update submap count !!
-		Texmap* GetSubTexmap(int i) override;
-		void SetSubTexmap(int i, Texmap *m) override;
-		TSTR GetSubTexmapSlotName(ARG_LOCALIZED(int i)) override;
+		int NumSubTexmaps()  { return 3 + gradient->numKeys(); } // !! Update submap count !!
+		Texmap* GetSubTexmap(int i) ;
+		void SetSubTexmap(int i, Texmap *m) ;
+		TSTR GetSubTexmapSlotName(ARG_LOCALIZED(int i)) ;
 		
 		//From Texmap
-		RGBA EvalColor(ShadeContext& sc) override;
-		float EvalMono(ShadeContext& sc) override;
-		Point3 EvalNormalPerturb(ShadeContext& sc) override;						
-		int SubNumToRefNum(int subNum) override { return subNum; }		
+		RGBA EvalColor(ShadeContext& sc) ;
+		float EvalMono(ShadeContext& sc) ;
+		Point3 EvalNormalPerturb(ShadeContext& sc) ;						
+		int SubNumToRefNum(int subNum)  { return subNum; }		
 
 		void ReadSXPData(TCHAR *name, void *sxpdata) {}
 
@@ -143,34 +143,34 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		TexHandle *texHandle;
 		Interval texHandleValid;
 		void DiscardTexHandle() { if (texHandle) { texHandle->DeleteThis(); texHandle = NULL; } }
-		BOOL SupportTexDisplay() override { return TRUE; }
-		void ActivateTexDisplay(BOOL onoff) override { if (!onoff) DiscardTexHandle(); }
-		DWORD_PTR GetActiveTexHandle(TimeValue t, TexHandleMaker& thmaker) override;
+		BOOL SupportTexDisplay()  { return TRUE; }
+		void ActivateTexDisplay(BOOL onoff)  { if (!onoff) DiscardTexHandle(); }
+		DWORD_PTR GetActiveTexHandle(TimeValue t, TexHandleMaker& thmaker) ;
 
 		//From Animatable
-		Class_ID ClassID() override {return BerconGradient_CLASS_ID;}		
-		SClass_ID SuperClassID() override { return TEXMAP_CLASS_ID; }
+		Class_ID ClassID()  {return BerconGradient_CLASS_ID;}		
+		SClass_ID SuperClassID()  { return TEXMAP_CLASS_ID; }
 #if MAX_RELEASE < 23900
 		void GetClassName(ARG_LOCALIZED(TSTR& s)) { s = GetString(IDS_BERCON_COLOR); }
 #else
 		void GetClassName(ARG_LOCALIZED(TSTR& s)) const override { s = GetString(IDS_BERCON_COLOR); } //override for Slate editor
 #endif
 
-		RefTargetHandle Clone( RemapDir &remap ) override;
-		RefResult NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS) override;
+		RefTargetHandle Clone( RemapDir &remap ) ;
+		RefResult NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS) ;
 
-		int NumSubs() override { return 8+gradient->numKeys(); } // !! Update submap count !!
-		Animatable* SubAnim(int i) override; 
-		TSTR SubAnimName(ARG_LOCALIZED(int i)) override;
+		int NumSubs()  { return 8+gradient->numKeys(); } // !! Update submap count !!
+		Animatable* SubAnim(int i) ; 
+		TSTR SubAnimName(ARG_LOCALIZED(int i)) ;
 		
-		int NumRefs() override { return 8+gradient->numKeys(); } // !! Update submap count !!
-		RefTargetHandle GetReference(int i) override;
-		void SetReference(int i, RefTargetHandle rtarg) override;
+		int NumRefs()  { return 8+gradient->numKeys(); } // !! Update submap count !!
+		RefTargetHandle GetReference(int i) ;
+		void SetReference(int i, RefTargetHandle rtarg) ;
 
-		int	NumParamBlocks() override { return 3; }
-		IParamBlock2* GetParamBlock(int i) override
+		int	NumParamBlocks()  { return 3; }
+		IParamBlock2* GetParamBlock(int i) 
 		{ switch (i) { case 0: return pblock; case 1: return pbCurve; case 2: return pbXYZ; } return NULL; }
-		IParamBlock2* GetParamBlockByID(BlockID id) override
+		IParamBlock2* GetParamBlockByID(BlockID id) 
 		{ 
 			if (pblock->ID() == id) return pblock;
 			if (pbCurve->ID() == id) return pbCurve;
@@ -178,17 +178,17 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 			return NULL;
 		}
 		// ???
-		int RenderBegin(TimeValue t, ULONG flags = 0) override
+		int RenderBegin(TimeValue t, ULONG flags = 0)
 		{ if (!flags) previewMatIDMode = FALSE; return 1; }
-		int RenderEnd(TimeValue t) override
+		int RenderEnd(TimeValue t) 
 		{ previewMatIDMode = TRUE; return 1; }				
 
-		void DeleteThis() override { delete this; }		
+		void DeleteThis() { delete this; }		
 				
 		BerconGradient();
-		~BerconGradient() override;		
+		~BerconGradient();		
 
-		void* GetInterface(ULONG id) override
+		void* GetInterface(ULONG id) 
 		{
 			if(id == I_RESMAKER_INTERFACE)
 				return (void *) (ResourceMakerCallback*) this;
@@ -199,12 +199,12 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 
 class BerconGradientClassDesc final : public ClassDesc2 {
 public:
-	int IsPublic() override { return TRUE; }
-	void* Create(BOOL /*loading = FALSE*/) override { return new BerconGradient(); }
-	SClass_ID SuperClassID() override { return TEXMAP_CLASS_ID; }
-	Class_ID ClassID() override { return BerconGradient_CLASS_ID; }
-	const TCHAR* Category() override { return TEXMAP_CAT_3D; }
-	const TCHAR* InternalName() override { return _T("BerconGradient"); } // scripter-visible name
-	HINSTANCE HInstance() override { return hInstance; }
+	int IsPublic()  { return TRUE; }
+	void* Create(BOOL /*loading = FALSE*/)  { return new BerconGradient(); }
+	SClass_ID SuperClassID()  { return TEXMAP_CLASS_ID; }
+	Class_ID ClassID()  { return BerconGradient_CLASS_ID; }
+	const TCHAR* Category()  { return TEXMAP_CAT_3D; }
+	const TCHAR* InternalName()  { return _T("BerconGradient"); } // scripter-visible name
+	HINSTANCE HInstance()  { return hInstance; }
 	LOCALIZED_CLASS_NAME(IDS_BERCON_COLOR)
 };

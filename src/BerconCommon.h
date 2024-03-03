@@ -39,7 +39,7 @@ under the License.
 #include <icurvctl.h>
 #include <bitmap.h>
 #include <maxscript/maxscript.h>
-
+#include <chkmtlapi.h>
 #include "fractal.h"
 #include "BerconRefMaker.h"
 #include "resource.h"
@@ -185,7 +185,7 @@ p_end, // End of parameter definition
 
 //This is the base parameter block for BerconMapping
 
-class XYZ_Desc final : public ParamBlockDesc2 {
+class XYZ_Desc : public ParamBlockDesc2 {
 
 public:
 
@@ -326,11 +326,11 @@ public:
 
 
 // Getting the map states and controlling the LOCK buttons (i.e., under "Variance")
-class BerconXYZDlgProc final : public ParamMap2UserDlgProc {
+class BerconXYZDlgProc : public ParamMap2UserDlgProc {
 public:
 	ReferenceTarget *reftarg;
 	BerconXYZDlgProc(ReferenceTarget *m) {reftarg = m;}
-	INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override
+	INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 	{
 		HWND hwndMap;
 		ICustButton* custButton;
@@ -390,8 +390,8 @@ public:
 		}
 		return TRUE;
 	}
-	void DeleteThis() override {delete this;}
-	void SetThing(ReferenceTarget *m) override { reftarg = m; }
+	void DeleteThis() {delete this;}
+	void SetThing(ReferenceTarget *m) { reftarg = m; }
 };
 
 
