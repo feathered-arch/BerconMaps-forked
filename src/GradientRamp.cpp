@@ -233,11 +233,10 @@ void GradientRamp::dragging(int x, int y, bool ctrl, bool shift, bool alt) {
 	int key = hit(x, y, true);
 	if (key == -1) {return; }	// no key selected
 	if (selected == keys - 1 || selected == 0) { return; }	// don't drag the first or last key
-	else 
+	else if (selected < keys)
 	{
 		parent->gradMoveKey(selected, toPos(x));
 	}
-	return void();
 }
 	//CharStream *out = thread_local(current_stdout);
 	//out->printf("Move key: %d %f\n", number[selected], pos);
@@ -342,10 +341,10 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	t_color[keys] = col;
 	t_number[keys] = n;
 
-	if (subtex) delete[] subtex;
-	if (position) delete[] position;
-	if (color) delete[] color;
-	if (number) delete[] number;
+	delete[] subtex;
+	delete[] position;
+	delete[] color;
+	delete[] number;
 
 	subtex = t_subtex;
 	position = t_position;
@@ -359,10 +358,10 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 void GradientRamp::reset() {		
 	keys = 0;
 	DebugPrint(_T("reset in ramp"));
-	delete[] subtex;
-	delete[] position;
-	delete[] color;
-	delete[] number;
+	if (subtex) delete[] subtex;
+	if (position) delete[] position;
+	if (color) delete[] color;
+	if (number) delete[] number;
 
 	subtex = NULL;
 	position = NULL;

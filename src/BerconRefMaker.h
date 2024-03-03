@@ -28,18 +28,16 @@ under the License.
 #endif // MAX_RELEASE
 #endif // #ifndef NOTIFY_REF_CHANGED_ARGS
 
-class BerconRefMaker final : public ReferenceMaker {
+class BerconRefMaker : public ReferenceMaker {
 public:	
 	BerconRefMaker(ResourceMakerCallback *m) {thing = m;}		
 	ResourceMakerCallback *thing;
-	void DeleteThis() override {delete this;}
-
-	void* GetInterface(ULONG id) override
-	{
+	void DeleteThis() {delete this;}
+	virtual void* GetInterface(ULONG id) {
 		if(id == I_RESMAKER_INTERFACE)
 			return (void *) thing;
 		else
 			return ReferenceMaker::GetInterface(id);
 	}
-	RefResult NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS) override {return REF_DONTCARE;}
+	RefResult NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS){return REF_DONTCARE;}
 };

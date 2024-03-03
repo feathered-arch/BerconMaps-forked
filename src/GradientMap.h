@@ -19,12 +19,10 @@ under the License.
 	Interface that has to be filled so gradient control can report users actions
 */
 
-
+#pragma once
 
 class GradientMap {
-
 public:
-
 	virtual void gradAddKey(float pos) = 0;
 	virtual void gradMoveKey(int n, float pos) = 0;
 	virtual void gradDelKey(int n) = 0;

@@ -42,8 +42,6 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 
 		Interval		ivalid;
 
-		IMtlParams		*params;
-
 		// Values		
 		GradientRamp* gradient;
 		IGradient* gradientUI;
@@ -98,7 +96,7 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		void gradMoveKey(int n, float pos);
 		void gradDelKey(int n);
 		void gradSelKey();
-		void gradReset()  { resetKeys(); }
+		void gradReset() { resetKeys(); }
 
 		// Curve
 		ICurveCtl* curve;				
@@ -198,14 +196,14 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 
 };
 
-class BerconGradientClassDesc final : public ClassDesc2 {
+class BerconGradientClassDesc : public ClassDesc2 {
 public:
-	int IsPublic()  { return TRUE; }
-	void* Create(BOOL /*loading = FALSE*/)  { return new BerconGradient(); }
-	SClass_ID SuperClassID()  { return TEXMAP_CLASS_ID; }
-	Class_ID ClassID()  { return BerconGradient_CLASS_ID; }
-	const TCHAR* Category()  { return TEXMAP_CAT_3D; }
-	const TCHAR* InternalName()  { return _T("BerconGradient"); } // scripter-visible name
-	HINSTANCE HInstance()  { return hInstance; }
-	LOCALIZED_CLASS_NAME(IDS_BERCON_COLOR)
+	virtual int IsPublic()  							{ return TRUE; }
+	virtual void* Create(BOOL /*loading = FALSE*/) 	 	{ return new BerconGradient(); }
+	virtual SClass_ID SuperClassID()  					{ return TEXMAP_CLASS_ID; }
+	virtual Class_ID ClassID()  						{ return BerconGradient_CLASS_ID; }
+	virtual const TCHAR* Category()  					{ return TEXMAP_CAT_3D; }
+	virtual const TCHAR* InternalName()  				{return _T("BerconGradient"); } // scripter-visible name
+	virtual HINSTANCE HInstance()  						{ return hInstance; }
+				LOCALIZED_CLASS_NAME(IDS_BERCON_COLOR)
 };

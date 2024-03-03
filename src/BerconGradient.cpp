@@ -611,14 +611,15 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 			}
 		}
 		
+		gradient->grad_sort();
+		gradient->invalidate();
 		
 		AColor currentKeyColor = pblock->GetAColor(pb_colors, t, gradient->selected);
 		pblock->SetValue(pb_keyCol, t, Color(currentKeyColor.r, currentKeyColor.g, currentKeyColor.b));
 		pblock->SetValue(pb_keyNum, t, gradient->selected);
 		pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));
 
-		gradient->grad_sort();
-		gradient->invalidate();
+	
 
 		// General stuff
 		pblockGetValue(pb_seed,				p_seed);
@@ -1300,7 +1301,7 @@ float BerconGradient::getGradientValue(ShadeContext& sc) {
 		case 5: { // Random
 			seedRandomGen(sc);
 			return (float)sfrand();
-			}
+		}
 		case 6: { // Particle age
 			Object *ob = sc.GetEvalObject();		
 			if (ob && ob->IsParticleSystem()) {				
@@ -1353,7 +1354,7 @@ int BerconGradient::limitRange(float& d) {
 // #################### // Color \\ ####################
 AColor BerconGradient::EvalColor(ShadeContext& sc) {
 	// Initialize returned color
-	AColor res;
+	AColor res(0.0f,0.0f,0.0f,0.0f);
 	if (!sc.doMaps) return res;
 
 
@@ -1412,7 +1413,7 @@ float BerconGradient::EvalMono(ShadeContext& sc) {
 #define DELTA 0.001f
 Point3 BerconGradient::EvalNormalPerturb(ShadeContext& sc) {
 	// Returned vector
-	Point3 res;
+	Point3 res(0.0f,0.0f,0.0f);
 	if (p_type != 0) return res; // Bump only works for UVW, otherwise we don't really know the derivative of the gradient
 	
 	// Use cache
