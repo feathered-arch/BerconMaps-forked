@@ -1205,7 +1205,6 @@
       <AdditionalIncludeDirectories>$(ADSK_3DSMAX_SDK_2024)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SECURE_SCL=0;NDEBUG;_WINDOWS;_USRDLL;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES=1;_SCL_SECURE_NO_DEPRECATE;ISOLATION_AWARE_ENABLED=1;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FloatingPointModel>Precise</FloatingPointModel>
@@ -1216,23 +1215,22 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <ScanSourceForModuleDependencies>
       </ScanSourceForModuleDependencies>
       <TreatSpecificWarningsAsErrors>4002;4121;4130;4213;4295;4310;4390;4545;4546;4557;4596;4611;4706;4715;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4018;4244;4456;4457;4458;4459;4589;4702;4819;4840;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <ConformanceMode>false</ConformanceMode>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <AssemblerOutput>NoListing</AssemblerOutput>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1249,7 +1247,6 @@
       <ManifestFile>.\Release_2024\$(TargetFileName).intermediate.manifest</ManifestFile>
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\BerconNoise.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Release_2024\BerconNoise.dlt.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -1260,9 +1257,7 @@
       <ImportLibrary>.\Release_2024\Release\BerconNoise.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
-      <Profile>true</Profile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <Xdcmake>
       <OutputFile>.\Release_2024\$(TargetName).xml</OutputFile>
@@ -1318,6 +1313,11 @@
       <ModuleDependenciesFile>.\debug_2024\</ModuleDependenciesFile>
       <FloatingPointModel>Precise</FloatingPointModel>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <SupportJustMyCode />
+      <ExceptionHandling>false</ExceptionHandling>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>DEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1341,7 +1341,6 @@
       </LinkTimeCodeGeneration>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
-      <SetChecksum>false</SetChecksum>
       <BaseAddress>
       </BaseAddress>
       <ImportLibrary>.\debug_2024\debug\$(TargetName).lib</ImportLibrary>
@@ -1385,7 +1384,6 @@
     <ClCompile Include="fractal.cpp" />
     <ClCompile Include="noise.cpp" />
     <ClCompile Include="perlin.cpp" />
-    <ClCompile Include="GradientSort.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="worley.cpp" />
     <ClCompile Include="commonMath.cpp" />
@@ -1398,7 +1396,6 @@
     <ClInclude Include="BerconTile.h" />
     <ClInclude Include="BerconWood.h" />
     <ClInclude Include="fractal.h" />
-    <ClInclude Include="GradientSort.h" />
     <ClInclude Include="noise.h" />
     <ClInclude Include="perlin.h" />
     <ClInclude Include="resource.h" />

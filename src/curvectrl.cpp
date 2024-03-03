@@ -20,7 +20,7 @@ under the License.
 
 void CurveCtrl::update(ICurveCtl *curve, HWND hParent, ReferenceMaker *resMaker) {
 	curve->SetCustomParentWnd(hParent);
-//	DebugPrint(_T("CCtrl UPDATED"));
+
 #if MAX_RELEASE >= 18900
 	curve->RegisterResourceMaker(dynamic_cast<ReferenceTarget*>(resMaker));
 #else

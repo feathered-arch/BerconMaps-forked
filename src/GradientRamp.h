@@ -29,7 +29,6 @@ under the License.
 #include "BerconCommon.h"
 
 class GradientRamp {
-	friend class GradientSort;
 
 private:
 	static const int PADDING = 6;
@@ -68,7 +67,7 @@ public:
 		color = NULL;
 		number = NULL;
 		reset();
-		sort();
+		grad_sort();
 
 	}
 
@@ -76,7 +75,7 @@ public:
 		delete[] subtex;
 		delete[] position;
 		delete[] color;
-		delete[] number;	
+		delete[] number;	// represents the index value in the parameter array for a given key
 	}
 
 	void setHWND(HWND hWnd);
@@ -97,17 +96,18 @@ public:
 	void popup(int x, int y, int sel);
 
 	// Key methods
-	int toIndex(int n);
-	void selectKey(int n);	
+	int toIndex(int n);		//retrieve local key index value for a key based on its index value in Max's parameter array
+	int indexUtil(float n);	// retrieve key index value for a key based on its position
+	void selectKey(int n);	// directs user interface to set focus to a key on the gradient ramp
 	//void moveKey(int n, float pos);
 	void addKey(int n, float pos, AColor col, Texmap* sub = NULL);
 	void reset();
-	//sort before we swap
-	void sort();					//TODO: Figure out why it refuses to sort
-	void swapkeys(int a, int b, int ind);
+	void grad_sort();	//limited to however Max has sorted the parameter array
+	void swapkeys(int a, int b);
 	Texmap* getSubtex(int n = -1);
 	void setSubtex(int n, Texmap* sub);
 	void setSubtex(Texmap* sub);
+	float truncate(float value, int precision);
 	int numKeys() { return keys; }
 
 	// Shading methods

@@ -504,11 +504,11 @@ BerconGradient::BerconGradient() {
 	p_maptex = NULL;
 	p_distex = NULL;
 	p_node = NULL;
-	ivalid.SetEmpty();
+//	ivalid.SetEmpty();
 	gradient = new GradientRamp(this);	
 	BerconGradientDesc.MakeAutoParamBlocks(this);
 	berconXYZ.mode2D = TRUE;
-	Reset();	
+	Reset();
 }
 
 BerconGradient::~BerconGradient() {
@@ -564,10 +564,12 @@ void BerconGradient::Reset() {	// only called once when a new map is created
 	ivalid.SetEmpty();
 }
 
-void BerconGradient::Update(TimeValue t, Interval& valid) {	
-//CharStream *out = thread_local(current_stdout);			
+void BerconGradient::Update(TimeValue t, Interval& valid) {
 
-	if (pblock == NULL || gradient == NULL) return;	
+	if (pblock == NULL || gradient == NULL)
+	{
+		return;
+	}
 	if (!ivalid.InInterval(t)) {
 				
 		// Set key information		
@@ -578,11 +580,11 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 			pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));				
 			pblock->GetDesc()->InvalidateUI(pb_keyCol);
 			pblock->GetDesc()->InvalidateUI(pb_keyNum);
-			pblock->GetDesc()->InvalidateUI(pb_keyPos);			
+			pblock->GetDesc()->InvalidateUI(pb_keyPos);
+			pblock->GetDesc()->InvalidateUI(pb_keyTex);
 		}
 
 		ivalid.SetInfinite(); // Start from infinite interval
-				
 		if (p_maptex) p_maptex->Update(t,ivalid);	
 		if (p_distex) p_distex->Update(t,ivalid);			
 
@@ -595,28 +597,27 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 
 		// Load gradient					
 		int keys = countKeys();
-		gradient->reset();	
-		pblockGetValue(pb_interpolation,gradient->interpolation);	
-		for (int i=0;i<keys;i++) {
+		//gradient->reset();
+		pblockGetValue(pb_interpolation,gradient->interpolation);
+		for (int i = 0; i < keys; i++) {
 			float pos; AColor col; Texmap* tex;
 			pblock->GetValue(pb_positions, t, pos, ivalid, i);
 			pblock->GetValue(pb_submaps, t, tex, ivalid, i);
 			pblock->GetValue(pb_colors, t, col, ivalid, i);
-			if (i == 0)
-				pos = 0.f;
-			else if (i == 1)
-				pos = 1.f;
-/*			if (i != 0) {				plugin new sort routine here?
-				gradient->swapkeys(i - 1, i, keys);
-			}*/
-			gradient->addKey(i,pos,col,tex);
+
+			gradient->addKey(i, pos, col, tex);
 			if (gradient->getSubtex(i))
-				gradient->getSubtex(i)->Update(t,ivalid);
-		}	
-		gradient->sort();
-		int test = gradient->numKeys();
-		DebugPrint(_T("BGrad has %d keys at update"), test);
-		gradient->invalidate();	
+				gradient->getSubtex(i)->Update(t, ivalid);
+		}
+		
+		
+		AColor currentKeyColor = pblock->GetAColor(pb_colors, t, gradient->selected);
+		pblock->SetValue(pb_keyCol, t, Color(currentKeyColor.r, currentKeyColor.g, currentKeyColor.b));
+		pblock->SetValue(pb_keyNum, t, gradient->selected);
+		pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));
+
+		gradient->grad_sort();
+		gradient->invalidate();
 
 		// General stuff
 		pblockGetValue(pb_seed,				p_seed);
@@ -644,49 +645,65 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 			{ float f = p_rangeMin; p_rangeMax = p_rangeMin; p_rangeMin = f; }	
 		
 		EnableStuff();
-
+	
 		berconXYZ.update(pbXYZ, t, ivalid);
 	}
 	
 	valid &= ivalid;
 }
 
-void BerconGradient::EnableStuff() {			
+void BerconGradient::EnableStuff() {
+
 	if (!pblock) return;
 	IParamMap2 *map = pblock->GetMap();
+
 	if (map) {
 		// Update values
 		TimeValue t = GetCOREInterface()->GetTime();
 		pblockGetValue(pb_type, p_type);
 		pblockGetValue(pb_dison, p_disOn);
-		pblockGetValue(pb_gradient_normal,	p_normalType);
-		pblockGetValue(pb_gradient_normal2,	p_normalFunction);
-		// Key params
-		map->Enable(pb_keyTex,		gradient->selected==-1?FALSE:TRUE);
-		map->Enable(pb_keyPos,		gradient->selected==-1?FALSE:TRUE);
-		map->Enable(pb_keyCol,		gradient->selected==-1?FALSE:TRUE);
+		pblockGetValue(pb_gradient_normal, p_normalType);
+		pblockGetValue(pb_gradient_normal2, p_normalFunction);
+		// Enable key params UI
+		map->Enable(pb_keyTex, gradient->selected == -1 ? FALSE : TRUE);
+		map->Enable(pb_keyPos, gradient->selected == -1 ? FALSE : TRUE);
+		map->Enable(pb_keyCol, gradient->selected == -1 ? FALSE : TRUE);
 		// Random
-		map->Enable(pb_seed,		p_type==5?TRUE:FALSE);
-		map->Enable(pb_rand_obj,	p_type==5?TRUE:FALSE);
-		map->Enable(pb_rand_mat,	p_type==5?TRUE:FALSE);
-		map->Enable(pb_rand_par,	p_type==5?TRUE:FALSE);
-		map->Enable(pb_rand_tile,	p_type==5?TRUE:FALSE);
+		map->Enable(pb_seed, p_type == 5 ? TRUE : FALSE);
+		map->Enable(pb_rand_obj, p_type == 5 ? TRUE : FALSE);
+		map->Enable(pb_rand_mat, p_type == 5 ? TRUE : FALSE);
+		map->Enable(pb_rand_par, p_type == 5 ? TRUE : FALSE);
+		map->Enable(pb_rand_tile, p_type == 5 ? TRUE : FALSE);
 		// Mapped
-		map->Enable(pb_maptex,		p_type==4?TRUE:FALSE);		
+		map->Enable(pb_maptex, p_type == 4 ? TRUE : FALSE);
 		// Distortion
-		map->Enable(pb_disstr,		p_disOn?TRUE:FALSE);
-		map->Enable(pb_distex,		p_disOn?TRUE:FALSE);
+		map->Enable(pb_disstr, p_disOn ? TRUE : FALSE);
+		map->Enable(pb_distex, p_disOn ? TRUE : FALSE);
 		// Normal / Distance
-		map->Enable(pb_gradient_normal,		p_type==1||p_type==2?TRUE:FALSE);
-		map->Enable(pb_gradient_normal2,	p_type==1?TRUE:FALSE);
-		map->Enable(pb_ior,					p_type==1&&p_normalFunction==2?TRUE:FALSE);
-		map->Enable(pb_node,				(p_type==1||p_type==2)&&(p_normalType==10||p_normalType==11)?TRUE:FALSE);
+		map->Enable(pb_gradient_normal, p_type == 1 || p_type == 2 ? TRUE : FALSE);
+		map->Enable(pb_gradient_normal2, p_type == 1 ? TRUE : FALSE);
+		map->Enable(pb_ior, p_type == 1 && p_normalFunction == 2 ? TRUE : FALSE);
+		map->Enable(pb_node, (p_type == 1 || p_type == 2) && (p_normalType == 10 || p_normalType == 11) ? TRUE : FALSE);
 		// UVW
-		map->Enable(pb_gradient_uvw,	p_type==0?TRUE:FALSE);
-	}		
+		map->Enable(pb_gradient_uvw, p_type == 0 ? TRUE : FALSE);
+
+		//checks to disable position editing for first and last key on gradient
+		if (gradient->selected == 0) {					// disable key 0 position spinner
+			map->Enable(pb_keyPos, FALSE);
+			pblock->SetValue(pb_keyPos, t, 0);
+			pblock->SetValue(pb_positions, t, 0);
+		}
+		int lastkey = countKeys() - 1;
+		if (gradient->selected == lastkey) {			// protect last key
+			map->Enable(pb_keyPos, FALSE);
+			pblock->SetValue(pb_keyPos, t, 0);
+			pblock->SetValue(pb_positions, t, 0);
+		}
+		DebugPrint(_T("BG stuff enabled"));
+	}
 }
 
-Interval BerconGradient::Validity(TimeValue t) {
+Interval BerconGradient::Validity(TimeValue t) {		// was never called
 	Interval v;
 	Update(t,v);
 	return ivalid;
@@ -745,17 +762,6 @@ int BerconGradient::countKeys() {
 	return smallest;
 }
 
-/*int BerconGradient::synchroniseKeys() {
-	if (!pblock) return 0;
-	int smallest = pblock->Count(pb_submaps);
-	if (smallest > pblock->Count(pb_colors)) smallest = pblock->Count(pb_colors);
-	if (smallest > pblock->Count(pb_positions)) smallest = pblock->Count(pb_positions);	
-	pblock->SetCount(pb_submaps, smallest);
-	pblock->SetCount(pb_colors, smallest);
-	pblock->SetCount(pb_positions, smallest);	
-	return smallest;
-}*/
-
 void BerconGradient::resetKeys() {	
 	if (!pblock) return;
 	
@@ -763,17 +769,6 @@ void BerconGradient::resetKeys() {
 	pblock->SetCount(pb_colors, 0);
 	pblock->SetCount(pb_positions, 0);
 
-	//pblock->SetCount(pb_submaps, 2);
-	//pblock->SetCount(pb_colors, 2);
-	//pblock->SetCount(pb_positions, 2);
-	/*
-	pblock->SetValue(pb_submaps, t, NULL, 0);
-	pblock->SetValue(pb_submaps, t, NULL, 1);
-	pblock->SetValue(pb_colors, t, AColor(0.f,0.f,0.f,1.f), 0);
-	pblock->SetValue(pb_colors, t, AColor(1.f,1.f,1.f,1.f), 1);
-	pblock->SetValue(pb_positions, t, 0.f, 0);
-	pblock->SetValue(pb_positions, t, 1.f, 1);
-*/
 	Texmap* nullMaps[2] = {NULL, NULL};
 	pblock->Append(pb_submaps, 2, nullMaps);
 	AColor col1 = AColor(0.f,0.f,0.f,1.f); AColor col2 = AColor(1.f,1.f,1.f,1.f);
@@ -781,8 +776,6 @@ void BerconGradient::resetKeys() {
 	pblock->Append(pb_colors, 2, colors);
 	float floats[2] = {0.f, 1.f};
 	pblock->Append(pb_positions, 2, floats);
-	int test = gradient->numKeys();
-	DebugPrint(_T("BGrad has %d keys at resetkeys"), test);
 
 	ivalid.SetEmpty();
 	//Update(GetCOREInterface()->GetTime(),Interval());
@@ -799,26 +792,41 @@ void BerconGradient::gradMoveKey(int n, float pos) {
 
 void BerconGradient::gradAddKey(float pos) {
 	if (!pblock) return;
-	countKeys();
+
 	AColor* col = &gradient->getColor(pos);
 	Texmap* sub = NULL;
-	pblock->Append(pb_submaps, 1, &sub);
-	pblock->Append(pb_colors, 1, &col);
-	pblock->Append(pb_positions, 1, &pos);
+	int i = gradient->indexUtil(pos);
+	if (i != NULL) {	// don't crash
+		pblock->Insert(pb_submaps, i, 1, &sub);
+		pblock->Insert(pb_colors, i, 1, &col);
+		pblock->Insert(pb_positions, i, 1, &pos);
+	}
+	gradient->selectKey(i);
 	ivalid.SetEmpty();
+
 	Update(GetCOREInterface()->GetTime(),Interval());
 }
 
 void BerconGradient::gradDelKey(int n) {
 	if (!pblock) return;
-	if (n <= 1) return; // Don't delete keys 0 and 1
+	TimeValue t = GetCOREInterface()->GetTime();
+	//protected keys: 0 and the last key should never be deleted
+	if (n == 0) {
+		return;
+	}
+	if (n == (countKeys() - 1))
+	{
+		return;
+	}
 	if (n < countKeys()) {
 		pblock->Delete(pb_submaps, n, 1);
 		pblock->Delete(pb_colors, n, 1);
 		pblock->Delete(pb_positions, n, 1);
 	}
+	gradient->selectKey(n);									// select key that is now at n for UI/UX happiness
 	ivalid.SetEmpty();
 	Update(GetCOREInterface()->GetTime(),Interval());
+
 }
 
 void BerconGradient::setKeyTex(Texmap* m) {		
@@ -837,8 +845,9 @@ Texmap* BerconGradient::getKeyTex() {
 void BerconGradient::gradSelKey() {
 	if (!pblock) return;
 	ivalid.SetEmpty();
-	Update(GetCOREInterface()->GetTime(),Interval());		
-	pblock->GetDesc()->InvalidateUI(pb_keyTex);	
+	Update(GetCOREInterface()->GetTime(),Interval());
+	pblock->GetDesc()->InvalidateUI(pb_keyTex);
+
 }
 
 // #############################################################################################
@@ -1052,12 +1061,6 @@ static float occCurve(float occ, float val) {
 		return ((1.f - occ) * (val - 1.f) / occ + 1.f) * 2.f - 1.f;
 }
 
-// Random number (0..1)
-#define sfrand() ((double)rand() / (double)RAND_MAX)
-// Random number (-1..1)
-#define ufrand() ((double)rand() / (double)RAND_MAX * 2. - 1.)
-
-#define SQRT2 1.41421356 // sqrt(2);
 
 //Point3 BerconGradient::getUVWPoint(ShadeContext& sc) {
 //}
@@ -1349,13 +1352,16 @@ int BerconGradient::limitRange(float& d) {
 // #################### // Color \\ ####################
 AColor BerconGradient::EvalColor(ShadeContext& sc) {
 	// Initialize returned color
-	AColor res(0.0f,0.0f,0.0f,0.0f);
+	AColor res;
 	if (!sc.doMaps) return res;
 
+
 	// Use cache
-	if (sc.GetCache(this,res)) 
-		return res; 	
-	if (gbufID) sc.SetGBufferID(gbufID);		
+	if (sc.GetCache(this, res))
+		DebugPrint(_T("Cache used"));
+//		return res; 	
+	if (gbufID) sc.SetGBufferID(gbufID);
+
 	
 	// Function type (UVW, Normal, Distance, etc.)
 	float d;
@@ -1390,7 +1396,9 @@ AColor BerconGradient::EvalColor(ShadeContext& sc) {
 
 	// Shading ready, return results
 	sc.PutCache(this,res);
+//	DebugPrint(_T("results are in \n"));
 	return res;
+
 }
 
 // #################### // Float \\ ####################
@@ -1403,12 +1411,12 @@ float BerconGradient::EvalMono(ShadeContext& sc) {
 #define DELTA 0.001f
 Point3 BerconGradient::EvalNormalPerturb(ShadeContext& sc) {
 	// Returned vector
-	Point3 res(0.0f,0.0f,0.0f);
+	Point3 res;
 	if (p_type != 0) return res; // Bump only works for UVW, otherwise we don't really know the derivative of the gradient
 	
 	// Use cache
-	if (sc.GetCache(this,res)) 
-		return res;
+//	if (sc.GetCache(this,res)) 
+//		return res;
 	if (gbufID) sc.SetGBufferID(gbufID);
 
 	// UVW
@@ -1467,6 +1475,6 @@ Point3 BerconGradient::EvalNormalPerturb(ShadeContext& sc) {
 	res = texout->Filter(res);
 
 	// Shading ready, return results	
-	sc.PutCache(this,res);
+//	sc.PutCache(this,res);
 	return res;
 }

@@ -29,7 +29,7 @@ extern HINSTANCE hInstance;
 //#define GRADIENT3D
 
 class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCallback {
-	friend class GradientSort;
+//	friend class GradientSort;
 	public:
 		// Parameter block
 		IParamBlock2	*pblock;
@@ -40,7 +40,9 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		static ParamDlg* texoutDlg;
 		TextureOutput   *texout;
 
-		Interval		ivalid;	
+		Interval		ivalid;
+
+		IMtlParams		*params;
 
 		// Values		
 		GradientRamp* gradient;
@@ -175,7 +177,7 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 			if (pbXYZ->ID() == id) return pbXYZ;
 			return NULL;
 		}
-		
+		// ???
 		int RenderBegin(TimeValue t, ULONG flags = 0) override
 		{ if (!flags) previewMatIDMode = FALSE; return 1; }
 		int RenderEnd(TimeValue t) override

@@ -39,8 +39,9 @@ void GradientRamp::setHWND(HWND hWnd) {
 // #################################/ Paint                    \################################
 // #############################################################################################
 
-void GradientRamp::paint(HDC hDC) {	
+void GradientRamp::paint(HDC hDC) {
 	if (m_hWnd == NULL) return;
+
 	//SetBkMode(hDC, TRANSPARENT);	
 
 	//RECT rect;
@@ -83,32 +84,14 @@ void GradientRamp::paint(HDC hDC) {
 	float f_Width = (float)g_Width;	
 
 	// Gradient
-	// Pre-calculate colors and store them in a buffer
 
-	AColor* colorsBuffer = (AColor*)malloc((g_Width + 2 * PADDING) * sizeof(AColor));
-	for (int x = PADDING; x < g_Width + PADDING; x++) {
-		AColor col = getColor((float)(x - PADDING) / (f_Width - 1.f));
-		colorsBuffer[x] = col;
-	}
-
-	// Set all pixels using the pre-calculated colors
-	for (int x = PADDING; x < g_Width + PADDING; x++) {
-		COLORREF colR = RGB((int)(colorsBuffer[x].r * 255.f), (int)(colorsBuffer[x].g * 255.f), (int)(colorsBuffer[x].b * 255.f));
-		for (int y = PADDING; y < g_Height + PADDING; y++)
-			SetPixel(tempHDC, x, y, colR);
-	}
-
-	// Free memory allocated for buffer
-	free(colorsBuffer);
-
-	/*
 	for (int x=PADDING; x<g_Width+PADDING; x++) {
 		AColor col = getColor((float)(x-PADDING) / (f_Width-1.f));
 
 		COLORREF colR = RGB((int)(col.r*255.f), (int)(col.g*255.f), (int)(col.b*255.f));		
 		for (int y=PADDING; y<g_Height+PADDING; y++)		
 			SetPixel(tempHDC, x, y, colR);
-	}*/
+	}
 
 	// Keys
 	int yTop = PADDING - 1;
@@ -136,34 +119,13 @@ void GradientRamp::paint(HDC hDC) {
 
     SelectObject(tempHDC, hbm_oldBuffer);
  	DeleteDC(tempHDC);
-    DeleteObject(hbm_Buffer); 
+    DeleteObject(hbm_Buffer);
+
+
 }
 
 void GradientRamp::paintArrow(int px, int py, bool up, HDC hDC, COLORREF colR) {
 	int offset = 0;
-	int pixelCount = 0; // Number of pixels to set
-	int* pixelsBuffer = (int*)malloc(ARROWS * (ARROWS * 2 + 1) * sizeof(int)); // Allocate memory for all pixels
-
-	// Populate the pixels buffer
-	for (int y = 0; y < ARROWS; y++) {
-		for (int x = 0; x < y * 2 + 1; x++) {
-			int xPos = px + x - offset;
-			int yPos = up ? py + y : py - y;
-			pixelsBuffer[pixelCount++] = xPos;
-			pixelsBuffer[pixelCount++] = yPos;
-		}
-		offset++;
-	}
-
-	// Set all pixels in one go
-	for (int i = 0; i < pixelCount; i += 2) {
-		SetPixel(hDC, pixelsBuffer[i], pixelsBuffer[i + 1], colR);
-	}
-
-	// Free memory allocated for buffer
-	free(pixelsBuffer);
-}
-/*	int offset = 0;
 	for (int y=0;y<ARROWS;y++) {
 		for (int x=0;x<(y*2+1);x++) {
 			if (up)
@@ -173,7 +135,7 @@ void GradientRamp::paintArrow(int px, int py, bool up, HDC hDC, COLORREF colR) {
 		}
 		offset++;
 	}
-}*/
+}
 
 void GradientRamp::invalidate() {
    if (m_hWnd == NULL) return;
@@ -200,6 +162,14 @@ float GradientRamp::toPos(int x) {
 int GradientRamp::toIndex(int n) {	
 	for (int i=0;i<keys;i++)
 		if (number[i] == n)
+			return i;
+	return -1;
+}
+
+// helper to determine where to insert a new key based on position value
+int GradientRamp::indexUtil(float n) {
+	for (int i = 0; i < keys; i++)
+		if (position[i] >= n)	// will likely never be equal to, but .. y'know... just in case.
 			return i;
 	return -1;
 }
@@ -252,7 +222,7 @@ void GradientRamp::leftDown(int x, int y, bool ctrl, bool shift, bool alt) {
 }
 
 void GradientRamp::leftUp(int x, int y, bool ctrl, bool shift, bool alt) {
-	int key = hit(x,y);	 
+	int key = hit(x,y);
 	if (alt && key == -1) {
 		parent->gradAddKey(toPos(x));
 		selected = keys - 1; // New key gets the last id
@@ -267,11 +237,16 @@ void GradientRamp::leftUp(int x, int y, bool ctrl, bool shift, bool alt) {
 	}	
 }
 
-void GradientRamp::dragging(int x, int y, bool ctrl, bool shift, bool alt) {				
-	if (selected <= 1) // Refuse to move ends and empty
-		return; 	
-	if (selected < keys)
-		parent->gradMoveKey(selected, toPos(x));		
+void GradientRamp::dragging(int x, int y, bool ctrl, bool shift, bool alt) {
+	int key = hit(x, y, true);
+	if (key == -1) {return; }	// no key selected
+	if (selected == keys - 1) { return; }	// don't drag the last key
+	if (selected != 0) {// don't drag the first key which is always zero
+		parent->gradMoveKey(selected, toPos(x));
+	}
+	else {
+		return void();
+	}
 	//CharStream *out = thread_local(current_stdout);
 	//out->printf("Move key: %d %f\n", number[selected], pos);
 }
@@ -282,7 +257,7 @@ void GradientRamp::popup(int x, int y, int sel) {
 		case ID_MENU_ADDKEY:
 			if (key == -1) {
 				parent->gradAddKey(toPos(x));
-				selected = keys - 1; // New key gets the last id
+//				selected = keys - 1; // moved to gradAddKey which has value of new key
 				parent->gradSelKey();
 			}
 			break;
@@ -309,7 +284,8 @@ void GradientRamp::popup(int x, int y, int sel) {
 // #############################################################################################
 
 void GradientRamp::selectKey(int n) {
-	selected = n;	
+	DebugPrint(_T("Select Key in ramp"));
+	selected = n;
 	//CharStream *out = thread_local(current_stdout);
 	//out->printf("Selection sent (%d)\n", selected);
 	parent->gradSelKey();
@@ -337,9 +313,10 @@ void GradientRamp::moveKey(int n, float pos) {
 
 void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 
+/*	if (n <= 0.f) { pos = 0.f; }
+	if (pos < 0.f) { pos = 0.f; };
+	if (pos >= 1.f) {pos = 1.f;	}*/
 
-	if (pos < 0.f) pos = 0.f;
-	else if (pos > 1.f) pos = 1.f;
 
 	int key = -1;
 	for (int i=0;i<keys;i++)
@@ -348,6 +325,7 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 
 
 	if (key >= 0) { // update only, no keys added
+		DebugPrint(_T("ramp update only"));
 		subtex[key] = sub;
 		position[key] = pos;
 		color[key] = col;
@@ -383,12 +361,13 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	color = t_color;
 	number = t_number;
 
-	keys++;		
+	keys++;
+	DebugPrint(_T("ramp keys added"));
 }
 
 void GradientRamp::reset() {		
 	keys = 0;
-
+	DebugPrint(_T("reset in ramp"));
 	delete subtex;
 	delete position;
 	delete color;
@@ -403,31 +382,15 @@ void GradientRamp::reset() {
 	addKey(1, 1.f, AColor(1.f, 1.f, 1.f, 1.f), NULL);
 }
 
-// TODO for v3.1: KNOWN ISSUE: Keys don't sort
-//bubble sort?
-/*
-void GradientRamp::sort() {
-	bool swapped;
-	do {
-		swapped = false;
-		for (int i = 1; i < keys; ++i) {
-			if (i - 1 < keys - 1 && position[i - 1] > position[i]) {
-				swapkeys(i - 1, i, keys);
-				swapped = true;
-			}
-		}
-	}
-	while (swapped);
-}
-*/
 
-void GradientRamp::swapkeys(int a, int b, int ind) {
+void GradientRamp::swapkeys(int a, int b) {
+
 	Texmap* sub	= subtex[a];
 	float pos	= position[a];
 	AColor col	= color[a];
 	int num		= number[a];
 
-//	DebugPrint(_T("Swapping sub %s, pos %f, color %f, num %d at index %d and %d - keys at %d"), sub, pos, *col, num, a, b, ind);
+	DebugPrint(_T("Swapping sub %s, pos %f, color %f, num %d at index %d and %d"), sub, pos, *col, num, a, b);
 
 	subtex[a]	= subtex[b];
 	position[a] = position[b];
@@ -438,16 +401,17 @@ void GradientRamp::swapkeys(int a, int b, int ind) {
 	position[b] = pos;
 	color[b]	= col;
 	number[b]	= num;
+
 }
 
 
-void GradientRamp::sort() {
+void GradientRamp::grad_sort() {
 	int i = 1;
 	while (i < keys) {
 		if (position[i-1] <= position[i]) {
 	        i++;			
 		} else {
-			swapkeys(i-1, i, keys);
+			swapkeys(i-1, i);
 			i--;
 			if (i <= 0)
 				i = 1;
@@ -461,13 +425,19 @@ void GradientRamp::sort() {
 // #############################################################################################
 
 Texmap* GradientRamp::getSubtex(int n) {
-	if (n == -1)
-		if (selected >= 0 && selected < keys)
+	if (subtex == NULL) { return NULL; }
+	if (n == -1) {
+		if (selected >= 0 && selected < keys) {
 			return subtex[toIndex(selected)];
-		else
+		}
+		else {
 			return NULL;
+		}
+	}
 	else
-		return subtex[toIndex(n)]; 
+	{
+		return subtex[toIndex(n)];
+	}
 }
 
 
@@ -483,6 +453,12 @@ void GradientRamp::setSubtex(Texmap* sub) {
 // #############################################################################################
 // #################################/ Color                    \################################
 // #############################################################################################
+
+float GradientRamp::truncate(float value, int precision) {		// drop precision and speed up math
+	float factor = pow(10, precision);
+	float test = trunc(value * factor) / factor;
+	return trunc(value * factor) / factor;
+}
 
 // Linear Search
 // O(N)
@@ -517,7 +493,8 @@ int GradientRamp::findHighKey(float x) {
 }
 
 float GradientRamp::interpolate(float x, float low, float high) {
-	//int interpolation; // 0 linear 1 smooth 2 solid near 3 solid left 4 solid right	
+	//int interpolation; // 0 linear 1 smooth 2 solid near 3 solid left 4 solid right
+	x = truncate(x, 4);
 	switch (interpolation) {
 		case 0:	
 			return (x - low) / (high - low);
@@ -543,19 +520,20 @@ AColor GradientRamp::getColor(float x) {
 }
 
 AColor GradientRamp::getColor(float x, ShadeContext& sc) {
-	if (x<=0) return subtex[0]?subtex[0]->EvalColor(sc):color[0];
-	if (x>=1) return subtex[keys-1]?subtex[keys-1]->EvalColor(sc):color[keys-1];
+	if (x <= 0) return subtex[0] ? subtex[0]->EvalColor(sc) : color[0];
+	if (x >= 1) return subtex[keys - 1] ? subtex[keys - 1]->EvalColor(sc) : color[keys - 1];
 	int high = findHighKey(x);
-	if (interpolation == 4) return subtex[high]?subtex[high]->EvalColor(sc):color[high];
+	if (interpolation == 4) return subtex[high] ? subtex[high]->EvalColor(sc) : color[high];
 	int low = (high > 0 ? high - 1 : 0); // should never happen but just in case
-	if (interpolation == 3) return subtex[low]?subtex[low]->EvalColor(sc):color[low];	
-	if (interpolation == 2) {		
-		int key = x-position[low]<position[high]-x?low:high;
-		return subtex[key]?subtex[key]->EvalColor(sc):color[key];
+	if (interpolation == 3) return subtex[low] ? subtex[low]->EvalColor(sc) : color[low];
+	if (interpolation == 2)
+	{
+		int key = x - position[low] < position[high] - x ? low : high;
+		return subtex[key] ? subtex[key]->EvalColor(sc) : color[key];
 	}
 	float mult = interpolate(x, position[low], position[high]);
-	return (subtex[low]?subtex[low]->EvalColor(sc):color[low])
-		* (1.f - mult) + (subtex[high]?subtex[high]->EvalColor(sc):color[high]) * mult;
+	return (subtex[low] ? subtex[low]->EvalColor(sc) : color[low])
+		* (1.f - mult) + (subtex[high] ? subtex[high]->EvalColor(sc) : color[high]) * mult;
 }
 
 #define NOBUMP Point3(0.f,0.f,0.f)

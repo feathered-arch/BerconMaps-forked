@@ -101,9 +101,6 @@
     <ClCompile Include="DllEntry.cpp">
       <Filter>Source Files\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="GradientSort.cpp">
-      <Filter>Source Files\Gradient</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BerconCommon.h">
@@ -162,9 +159,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GradientSort.h">
-      <Filter>Header Files\Gradient</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

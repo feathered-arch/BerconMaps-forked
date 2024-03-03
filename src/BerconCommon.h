@@ -21,7 +21,7 @@ under the License.
 
 #pragma once
 
-
+#include <3dsmax_banned.h>
 #include <max.h>
 #if MAX_RELEASE < 15900
 #include <3dsmaxport.h>
@@ -44,10 +44,8 @@ under the License.
 #include "BerconRefMaker.h"
 #include "resource.h"
 #include "curvectrl.h"
-#include "BerconSC.h"
 
-#include "banned.h"		//per the SDK
-#include "3dsmax_banned.h"
+
 
 
 
