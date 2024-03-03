@@ -106,9 +106,7 @@ under the License.
 #define D_STRE(x) if (x<0) x = 0.f; else if (x>1) x = 1.f;
 
 
-extern TCHAR* GetString(int id);
-
-extern HINSTANCE hInstance;
+TCHAR* GetString(int id);
 
 static void setSpinnerType(IParamMap2 *map, TimeValue t, int pb_id, int edit_id, int spin_id, int spinnerTypeWorld = 1, bool allowNegative = false) {
 	// Get the window handle of the map

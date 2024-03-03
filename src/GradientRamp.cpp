@@ -226,22 +226,22 @@ void GradientRamp::leftUp(int x, int y, bool ctrl, bool shift, bool alt) {
 	} else if (alt && key >= 0) {
 		if (selected == number[key]) selected = -1;
 		parent->gradDelKey(number[key]);
-	}	
+	}
 }
 
 void GradientRamp::dragging(int x, int y, bool ctrl, bool shift, bool alt) {
 	int key = hit(x, y, true);
 	if (key == -1) {return; }	// no key selected
-	if (selected == keys - 1) { return; }	// don't drag the last key
-	if (selected != 0) {// don't drag the first key which is always zero
+	if (selected == keys - 1 || selected == 0) { return; }	// don't drag the first or last key
+	else 
+	{
 		parent->gradMoveKey(selected, toPos(x));
 	}
-	else {
-		return void();
-	}
+	return void();
+}
 	//CharStream *out = thread_local(current_stdout);
 	//out->printf("Move key: %d %f\n", number[selected], pos);
-}
+
 
 void GradientRamp::popup(int x, int y, int sel) {
 	int key = hit(x,y,true);
@@ -249,8 +249,8 @@ void GradientRamp::popup(int x, int y, int sel) {
 		case ID_MENU_ADDKEY:
 			if (key == -1) {
 				parent->gradAddKey(toPos(x));
-//				selected = keys - 1; // moved to gradAddKey which has value of new key
-				parent->gradSelKey();
+//				selected = keys - 1;	//now handled at gradAddKey
+//				parent->gradSelKey();
 			}
 			break;
 		case ID_MENU_REMOVEKEY:
@@ -317,7 +317,6 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 
 
 	if (key >= 0) { // update only, no keys added
-		DebugPrint(_T("ramp update only"));
 		subtex[key] = sub;
 		position[key] = pos;
 		color[key] = col;
@@ -343,10 +342,10 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	t_color[keys] = col;
 	t_number[keys] = n;
 
-	delete[] subtex;
-	delete[] position;
-	delete[] color;
-	delete[] number;
+	if (subtex) delete[] subtex;
+	if (position) delete[] position;
+	if (color) delete[] color;
+	if (number) delete[] number;
 
 	subtex = t_subtex;
 	position = t_position;
@@ -360,10 +359,10 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 void GradientRamp::reset() {		
 	keys = 0;
 	DebugPrint(_T("reset in ramp"));
-	delete subtex;
-	delete position;
-	delete color;
-	delete number;
+	delete[] subtex;
+	delete[] position;
+	delete[] color;
+	delete[] number;
 
 	subtex = NULL;
 	position = NULL;

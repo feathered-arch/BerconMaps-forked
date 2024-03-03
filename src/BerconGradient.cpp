@@ -573,15 +573,15 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 	if (!ivalid.InInterval(t)) {
 				
 		// Set key information		
-		if (gradient->selected >= 0 && gradient->selected < countKeys() && pblock->GetMap() != NULL) {			
-			AColor currentKeyColor = pblock->GetAColor(pb_colors, t, gradient->selected);						
-			pblock->SetValue(pb_keyCol, t, Color(currentKeyColor.r, currentKeyColor.g, currentKeyColor.b));	
-			pblock->SetValue(pb_keyNum, t, gradient->selected);	
-			pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));				
+		if (gradient->selected >= 0 && gradient->selected < countKeys() && pblock->GetMap() != NULL) {
+			AColor currentKeyColor = pblock->GetAColor(pb_colors, t, gradient->selected);
+			pblock->SetValue(pb_keyCol, t, Color(currentKeyColor.r, currentKeyColor.g, currentKeyColor.b));
+			pblock->SetValue(pb_keyNum, t, gradient->selected);
+			pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));
+			pblock->GetDesc()->InvalidateUI(pb_keyTex);
 			pblock->GetDesc()->InvalidateUI(pb_keyCol);
 			pblock->GetDesc()->InvalidateUI(pb_keyNum);
 			pblock->GetDesc()->InvalidateUI(pb_keyPos);
-			pblock->GetDesc()->InvalidateUI(pb_keyTex);
 		}
 
 		ivalid.SetInfinite(); // Start from infinite interval
@@ -597,17 +597,18 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 
 		// Load gradient					
 		int keys = countKeys();
-		//gradient->reset();
+		gradient->reset();
 		pblockGetValue(pb_interpolation,gradient->interpolation);
-		for (int i = 0; i < keys; i++) {
+		for (int i = 0; i < keys; i++)	{
 			float pos; AColor col; Texmap* tex;
 			pblock->GetValue(pb_positions, t, pos, ivalid, i);
 			pblock->GetValue(pb_submaps, t, tex, ivalid, i);
 			pblock->GetValue(pb_colors, t, col, ivalid, i);
 
 			gradient->addKey(i, pos, col, tex);
-			if (gradient->getSubtex(i))
+			if (gradient->getSubtex(i)) {
 				gradient->getSubtex(i)->Update(t, ivalid);
+			}
 		}
 		
 		
@@ -648,7 +649,7 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 	
 		berconXYZ.update(pbXYZ, t, ivalid);
 	}
-	
+
 	valid &= ivalid;
 }
 
@@ -724,6 +725,7 @@ DWORD_PTR BerconGradient::GetActiveTexHandle(TimeValue t, TexHandleMaker& thmake
 // #############################################################################################
 
 void BerconGradient::keyColorChanged(AColor col) {
+	DebugPrint(_T("key color changed"));
 	if (!pblock) return;
 	if (gradient->selected >= 0 && gradient->selected < gradient->numKeys()) {
 		TimeValue t = GetCOREInterface()->GetTime();
@@ -764,7 +766,7 @@ int BerconGradient::countKeys() {
 
 void BerconGradient::resetKeys() {	
 	if (!pblock) return;
-	
+	DebugPrint(_T("reset keys"));
 	pblock->SetCount(pb_submaps, 0);
 	pblock->SetCount(pb_colors, 0);
 	pblock->SetCount(pb_positions, 0);
@@ -803,8 +805,8 @@ void BerconGradient::gradAddKey(float pos) {
 	}
 	gradient->selectKey(i);
 	ivalid.SetEmpty();
-
 	Update(GetCOREInterface()->GetTime(),Interval());
+
 }
 
 void BerconGradient::gradDelKey(int n) {
@@ -830,24 +832,23 @@ void BerconGradient::gradDelKey(int n) {
 }
 
 void BerconGradient::setKeyTex(Texmap* m) {		
-	if (gradient->selected >= 0 && gradient->selected < gradient->numKeys()) {
+//	if (gradient->selected >= 0 && gradient->selected < gradient->numKeys()) {
 		TimeValue t = GetCOREInterface()->GetTime();
 		gradient->setSubtex(m);		
 		if (pblock) // Max deletes pblock and starts assigining NULL materials, to prevent crash check if pblock still exists
 			pblock->SetValue(pb_submaps, t, m, gradient->selected);
-	}
 }
+
 
 Texmap* BerconGradient::getKeyTex() {	
 	return gradient->getSubtex();
 }
 
 void BerconGradient::gradSelKey() {
+	DebugPrint(_T("gradSelkey"));
 	if (!pblock) return;
 	ivalid.SetEmpty();
 	Update(GetCOREInterface()->GetTime(),Interval());
-	pblock->GetDesc()->InvalidateUI(pb_keyTex);
-
 }
 
 // #############################################################################################

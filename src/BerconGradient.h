@@ -29,7 +29,7 @@ extern HINSTANCE hInstance;
 //#define GRADIENT3D
 
 class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCallback {
-//	friend class GradientSort;
+
 	public:
 		// Parameter block
 		IParamBlock2	*pblock;
@@ -188,13 +188,14 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		BerconGradient();
 		~BerconGradient();		
 
-		void* GetInterface(ULONG id) 
+		void* GetInterface(ULONG id) override
 		{
 			if(id == I_RESMAKER_INTERFACE)
 				return (void *) (ResourceMakerCallback*) this;
 			else
 				return Texmap::GetInterface(id);
 		}
+
 };
 
 class BerconGradientClassDesc final : public ClassDesc2 {
