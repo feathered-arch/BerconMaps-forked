@@ -15,7 +15,10 @@ specific language governing permissions and limitations
 under the License.   
 */
 
+#include <algorithm>
 #include "BerconGradient.h"
+
+#include <vector>
 
 
 #define PBLOCK_REF	1
@@ -508,6 +511,8 @@ BerconGradient::BerconGradient() {
 	gradient = new GradientRamp(this);	
 	BerconGradientDesc.MakeAutoParamBlocks(this);
 	berconXYZ.mode2D = TRUE;
+	isnew = TRUE;
+	sorted = FALSE;
 	Reset();
 }
 
@@ -558,7 +563,7 @@ void BerconGradient::Reset() {	// only called once when a new map is created
 
 	gradient->reset();
 	resetKeys();
-
+	BerconSort();
 	berconXYZ.reset(pbXYZ, ivalid, 0, 1, 1, 1);
 
 	ivalid.SetEmpty();
@@ -571,54 +576,58 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 		return;
 	}
 	if (!ivalid.InInterval(t)) {
-				
+
 		// Set key information		
 		if (gradient->selected >= 0 && gradient->selected < countKeys() && pblock->GetMap() != NULL) {
 			AColor currentKeyColor = pblock->GetAColor(pb_colors, t, gradient->selected);
 			pblock->SetValue(pb_keyCol, t, Color(currentKeyColor.r, currentKeyColor.g, currentKeyColor.b));
-			pblock->SetValue(pb_keyNum, t, gradient->selected);
-			pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));
-			pblock->GetDesc()->InvalidateUI(pb_keyTex);
 			pblock->GetDesc()->InvalidateUI(pb_keyCol);
+			pblock->SetValue(pb_keyNum, t, gradient->selected);
 			pblock->GetDesc()->InvalidateUI(pb_keyNum);
+			pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));
 			pblock->GetDesc()->InvalidateUI(pb_keyPos);
+			pblock->GetDesc()->InvalidateUI(pb_keyTex);
+
 		}
 
 		ivalid.SetInfinite(); // Start from infinite interval
-		if (p_maptex) p_maptex->Update(t,ivalid);	
-		if (p_distex) p_distex->Update(t,ivalid);			
+		if (p_maptex) p_maptex->Update(t, ivalid);
+		if (p_distex) p_distex->Update(t, ivalid);
 
 		//if (xyzGen != NULL)
 			//xyzGen->Update(t,ivalid);
 		if (texout != NULL)
-			texout->Update(t,ivalid);
+			texout->Update(t, ivalid);
 
 		pbCurve->GetValue(pb_curve_on, t, p_curveOn, ivalid);
 
 		// Load gradient					
-		int keys = countKeys();
+		int count = countKeys();
+		int keys = pblock->Count(pb_positions);
 		gradient->reset();
-		pblockGetValue(pb_interpolation,gradient->interpolation);
-		for (int i = 0; i < keys; i++)	{
+		pblockGetValue(pb_interpolation, gradient->interpolation);
+		for (int i = 0; i < keys; i++) 
+		{
 			float pos; AColor col; Texmap* tex;
 			pblock->GetValue(pb_positions, t, pos, ivalid, i);
 			pblock->GetValue(pb_submaps, t, tex, ivalid, i);
 			pblock->GetValue(pb_colors, t, col, ivalid, i);
-
 			gradient->addKey(i, pos, col, tex);
 			if (gradient->getSubtex(i)) {
 				gradient->getSubtex(i)->Update(t, ivalid);
 			}
 		}
-		
-		gradient->grad_sort();
+
+
+	//	gradient->grad_sort();
 		gradient->invalidate();
-		
+
+		/*
 		AColor currentKeyColor = pblock->GetAColor(pb_colors, t, gradient->selected);
 		pblock->SetValue(pb_keyCol, t, Color(currentKeyColor.r, currentKeyColor.g, currentKeyColor.b));
 		pblock->SetValue(pb_keyNum, t, gradient->selected);
 		pblock->SetValue(pb_keyPos, t, pblock->GetFloat(pb_positions, t, gradient->selected));
-
+		*/
 	
 
 		// General stuff
@@ -647,10 +656,11 @@ void BerconGradient::Update(TimeValue t, Interval& valid) {
 			{ float f = p_rangeMin; p_rangeMax = p_rangeMin; p_rangeMin = f; }	
 		
 		EnableStuff();
-	
+
 		berconXYZ.update(pbXYZ, t, ivalid);
 	}
 
+	isnew = FALSE;	// we've been here before
 	valid &= ivalid;
 }
 
@@ -721,6 +731,75 @@ DWORD_PTR BerconGradient::GetActiveTexHandle(TimeValue t, TexHandleMaker& thmake
 	return texHandle->GetHandle();
 }
 
+// Custom comparison function to sort based on the index
+bool BerconGradient::compareIndex(const Sortedkeys& d1, const Sortedkeys& d2) {
+	return d1.index < d2.index;
+}
+
+std::vector<BerconGradient::Sortedkeys> BerconGradient::BerconSort() {
+	TimeValue t = GetCOREInterface()->GetTime();
+	ivalid.SetInfinite();
+
+	int keys = countKeys();
+	int size = keys;
+	std::vector<Sortedkeys> data(size);
+
+		// abort if it's a brand new map or we've been here before
+	if (sorted == TRUE || isnew == TRUE) { data.clear();  return data; }
+
+	// Retrieve values from Max and load into array
+	for (int i = 0; i < keys; ++i) {
+		float pos;	AColor col;  Texmap* tex;
+		pblock->GetValue(pb_positions, t, pos, ivalid, i);
+		pblock->GetValue(pb_colors, t, col, ivalid, i);
+		pblock->GetValue(pb_submaps, t, tex, ivalid, i);
+		int keynum = i;
+		// Store retrieved values in the data array
+		if (tex == NULL)
+		{
+			data[keynum] = { i, pos, col, NULL };
+		}
+		else
+			data[keynum] = { i, pos, col, tex };
+	}
+	// Sort the data array based on index
+	sort(data.begin(), data.end(), compareIndex);
+
+
+	// Iterate over the data vector
+	for (const auto& sortedKey : data) {
+		// Access the individual arrays in each Sortedkeys object
+		int ind = sortedKey.index;
+		float pos = sortedKey.position;
+		AColor col = sortedKey.color;
+		Texmap* tex = sortedKey.texture;
+		DebugPrint(_T("%i   %f   %f   %i"), ind, pos, col, tex);
+	}
+		// Delete the existing parameter array
+		pblock->Delete(pb_positions, 0, (pblock->Count(pb_positions)));
+		pblock->Delete(pb_colors, 0, (pblock->Count(pb_colors)));
+		pblock->Delete(pb_submaps, 0, (pblock->Count(pb_submaps)));
+
+		for (const auto& sortedKey : data) {
+			int ind = sortedKey.index;
+			float pos = sortedKey.position;
+			AColor col = sortedKey.color;
+			Texmap* tex = sortedKey.texture;
+
+			//rewrite the parameter array
+			pblock->Insert(pb_submaps, 0, 1, &tex);
+			pblock->Insert(pb_colors, 0, 1, col);
+			pblock->Insert(pb_positions, 0, 1, &pos);
+		}
+
+	DebugPrint(_T("Thank you for visiting BerconSort! DON'T COME BACK"));
+	//run this only once
+	sorted = TRUE;	// don't come back
+	data.clear();	// free memory
+
+	return data;	// nothing receives this data but I don't know how to make this a void function :)
+}
+
 // #############################################################################################
 // #################################/ Gradient interface       \################################
 // #############################################################################################
@@ -786,6 +865,7 @@ void BerconGradient::resetKeys() {
 
 void BerconGradient::gradMoveKey(int n, float pos) {
 	TimeValue t = GetCOREInterface()->GetTime();
+	DebugPrint(_T("gradMoveKey in BG"));
 	if (n < countKeys())
 		pblock->SetValue(pb_positions, t, pos, n);
 	ivalid.SetEmpty();

@@ -18,6 +18,8 @@ under the License.
 #pragma once
 #include <windows.h>
 #include <chkmtlapi.h>
+#include <vector>
+
 #include "BerconCommon.h"
 #include "IGradient.h"
 
@@ -29,8 +31,21 @@ extern HINSTANCE hInstance;
 //#define GRADIENT3D
 
 class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCallback {
+	private:
+		// Key sorting
+		struct Sortedkeys {
+			int index;
+			float position;
+			AColor color;
+			Texmap* texture;
+		};
+		std::vector<Sortedkeys> data;
+
+		bool isnew;
+		bool sorted;
 
 	public:
+
 		// Parameter block
 		IParamBlock2	*pblock;
 		IParamBlock2	*pbCurve; //ref CURVEPB_REF
@@ -86,7 +101,10 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		void keyColorChanged(AColor col);
 		void keyNumChanged(int num);
 		void keyPosChanged(float pos);
-		
+
+		// Sorting keys
+		std::vector<Sortedkeys> BerconSort();
+
 		// GradientRampInterface
 		int countKeys();
 		void resetKeys();
@@ -144,8 +162,11 @@ class BerconGradient : public Texmap, public GradientMap, public ResourceMakerCa
 		BOOL SupportTexDisplay()  { return TRUE; }
 		void ActivateTexDisplay(BOOL onoff)  { if (!onoff) DiscardTexHandle(); }
 		DWORD_PTR GetActiveTexHandle(TimeValue t, TexHandleMaker& thmaker) ;
+		static bool compareIndex(const Sortedkeys& d1, const Sortedkeys& d2);
 
-		//From Animatable
+
+
+	//From Animatable
 		Class_ID ClassID()  {return BerconGradient_CLASS_ID;}		
 		SClass_ID SuperClassID()  { return TEXMAP_CLASS_ID; }
 #if MAX_RELEASE < 23900

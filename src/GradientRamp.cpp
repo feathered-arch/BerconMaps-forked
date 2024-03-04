@@ -232,7 +232,7 @@ void GradientRamp::leftUp(int x, int y, bool ctrl, bool shift, bool alt) {
 void GradientRamp::dragging(int x, int y, bool ctrl, bool shift, bool alt) {
 	int key = hit(x, y, true);
 	if (key == -1) {return; }	// no key selected
-	if (selected == keys - 1 || selected == 0) { return; }	// don't drag the first or last key
+	if (selected == 0 || selected == keys - 1) { return; }	// don't drag the first or last key
 	else if (selected < keys)
 	{
 		parent->gradMoveKey(selected, toPos(x));
@@ -308,7 +308,12 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	if (pos < 0.f) { pos = 0.f; };
 	if (pos >= 1.f) {pos = 1.f;	}*/
 
+	// the ramp index keys are in a zero-based array.
+	// Max keeps the key numbers for the parameter block in an array that starts at 1, and they aren't always in order.
+	// For example, the 2nd key in the gradient is key 3 here; but it could also be the 10th key the user has added.
+	// We therefore need to match number[i] to the key being passsed here as int n.
 
+	int* test = &number[n];
 	int key = -1;
 	for (int i=0;i<keys;i++)
 		if (number[i] == n)

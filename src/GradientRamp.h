@@ -48,7 +48,8 @@ private:
 	AColor* color;
 	int* number;
 	
-	int keys;	
+	int keys;
+	int key = -1;
 	
 	bool keyMoved;
 
@@ -67,7 +68,7 @@ public:
 		color = NULL;
 		number = NULL;
 		reset();
-		grad_sort();
+	//	grad_sort();
 
 	}
 

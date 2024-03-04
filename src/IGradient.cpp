@@ -43,8 +43,10 @@ LRESULT CALLBACK IGradient::GradientProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
    IGradient *grad = DLGetWindowLongPtr<IGradient*>(hWnd);
    if(grad == NULL && msg != WM_CREATE)
       return DefWindowProc(hWnd, msg, wParam, lParam);
+   SetProcessDPIAware();
 
-   switch(msg) {	   
+	//LOWORD and HIWORD produce unexpected results on multimonitor systems
+    switch(msg) {	   
 		case WM_CREATE:      {
 			LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
 			grad = (IGradient*)lpcs->lpCreateParams;
@@ -62,9 +64,10 @@ LRESULT CALLBACK IGradient::GradientProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case WM_MOUSEMOVE: {
 			int buttons = (int)wParam; 
 			if (buttons & MK_LBUTTON) {				
-				int mouse_x = (int)LOWORD(lParam);
-				int mouse_y = (int)HIWORD(lParam); 
+				int mouse_x = GET_X_LPARAM(lParam);
+				int mouse_y = GET_Y_LPARAM(lParam);
 				grad->gradient->dragging(mouse_x, mouse_y, buttons&MK_CONTROL, buttons&MK_SHIFT, GetKeyState(VK_MENU) < 0);
+				
 				//CharStream *out = thread_local(current_stdout);
 				//out->printf("Dragging %d %d\n", mouse_x, mouse_y);
 			}
@@ -72,11 +75,11 @@ LRESULT CALLBACK IGradient::GradientProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		}
 		 
 		case WM_LBUTTONDOWN: {
-			CharStream *out = thread_local(current_stdout);
+			//CharStream *out = thread_local(current_stdout);
 			
 			int buttons = (int)wParam; 
-			int mouse_x = (int)LOWORD(lParam);
-			int mouse_y = (int)HIWORD(lParam); 
+			int mouse_x = GET_X_LPARAM(lParam);
+			int mouse_y = GET_Y_LPARAM(lParam);
 
 			grad->gradient->leftDown(mouse_x, mouse_y, buttons&MK_CONTROL, buttons&MK_SHIFT, GetKeyState(VK_MENU) < 0);
 
@@ -93,11 +96,11 @@ LRESULT CALLBACK IGradient::GradientProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		}
 
 		case WM_LBUTTONUP: {
-			CharStream *out = thread_local(current_stdout);
+			//CharStream *out = thread_local(current_stdout);
 			
-			int buttons = (int)wParam; 
-			int mouse_x = (int)LOWORD(lParam);
-			int mouse_y = (int)HIWORD(lParam); 
+			int buttons = static_cast<int>(wParam); 
+			int mouse_x = GET_X_LPARAM(lParam);
+			int mouse_y = GET_Y_LPARAM(lParam);
 			grad->gradient->leftUp(mouse_x, mouse_y, buttons&MK_CONTROL, buttons&MK_SHIFT, GetKeyState(VK_MENU) < 0);
 
 			/*
