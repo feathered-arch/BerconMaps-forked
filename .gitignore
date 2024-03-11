@@ -188,12 +188,13 @@ tempforcompare/
 *.xml
 *.enc
 *.diagsession
+stash/
 src/Release_2021/
 src/Release_2022/
 src/Release_2023/
 src/Release_2024/
 src/DLL/*debug*.dlt
-/src/ssecheck.cpp
+src/ssecheck.cpp
 src/BerconDlg.h
 src/DLL/BerconMaps_2013_64.dlt
 src/DLL/BerconMaps_2014_64.dlt
