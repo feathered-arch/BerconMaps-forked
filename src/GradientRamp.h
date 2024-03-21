@@ -28,8 +28,8 @@ under the License.
 #include "GradientMap.h"
 #include "BerconCommon.h"
 
-class GradientRamp {
 
+class GradientRamp {
 private:
 	static const int PADDING = 6;
 	static const int ARROWS = 6;
@@ -39,6 +39,7 @@ private:
 	HWND m_hWnd;
 	GradientMap* parent;
 
+
 	int width;
 	int height;
 
@@ -47,15 +48,16 @@ private:
 	float* position;
 	AColor* color;
 	int* number;
-	
+
 	int keys;
 	int key = -1;
 	
 	bool keyMoved;
 
-public:	
+public:
+
 	int selected; // Key number, not index		
-	int interpolation; // 0 linear 1 smooth 2 solid near 3 solid left 4 solid right	
+	int interpolation; // 0 linear 1 smooth 2 solid near 3 solid left 4 solid right
 
 	GradientRamp(GradientMap* p) {		
 		m_hWnd = NULL;
@@ -68,8 +70,6 @@ public:
 		color = NULL;
 		number = NULL;
 		reset();
-	//	grad_sort();
-
 	}
 
 	~GradientRamp() {
@@ -78,6 +78,8 @@ public:
 		delete[] color;
 		delete[] number;	// represents the index value in the parameter array for a given key
 	}
+
+	Animatable* anim;
 
 	void setHWND(HWND hWnd);
 
@@ -95,6 +97,8 @@ public:
 	void dragging(int x, int y, bool ctrl, bool shift, bool alt);
 
 	void popup(int x, int y, int sel);
+	void MouseStart();
+	void MouseEnd();
 
 	// Key methods
 	int toIndex(int n);		//retrieve local key index value for a key based on its index value in Max's parameter array
@@ -103,8 +107,8 @@ public:
 	//void moveKey(int n, float pos);
 	void addKey(int n, float pos, AColor col, Texmap* sub = NULL);
 	void reset();
-	void grad_sort();	//limited to however Max has sorted the parameter array
-	void swapkeys(int a, int b);
+//	void grad_sort();	//limited to however Max has sorted the parameter array
+//	void swapkeys(int a, int b);
 	Texmap* getSubtex(int n = -1);
 	void setSubtex(int n, Texmap* sub);
 	void setSubtex(Texmap* sub);

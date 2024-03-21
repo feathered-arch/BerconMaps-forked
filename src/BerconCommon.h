@@ -333,7 +333,7 @@ public:
 		HWND hwndMap;
 		ICustButton* custButton;
 		switch (msg) {
-		case WM_INITDIALOG:
+		case WM_INITDIALOG: {
 			custButton = GetICustButton(GetDlgItem(hWnd, IDC_LOCK));
 			custButton->SetText(_T("L"));
 			ReleaseICustButton(custButton);
@@ -365,25 +365,27 @@ public:
 			SendMessage(hwndMap, CB_ADDSTRING, 0, (LPARAM)GetString(IDS_LOOP_STRETCH));
 			SendMessage(hwndMap, CB_ADDSTRING, 0, (LPARAM)GetString(IDS_LOOP_TILE));
 			SendMessage(hwndMap, CB_ADDSTRING, 0, (LPARAM)GetString(IDS_LOOP_MIRROR));
-			SendMessage(hwndMap, CB_ADDSTRING, 0, (LPARAM)GetString(IDS_LOOP_NONE));
-
-
+			SendMessage(hwndMap, CB_ADDSTRING, 0, (LPARAM)GetString(IDS_LOOP_NONE)); 
+		}
+			 __fallthrough;
 			// NO BREAK HERE, WE WANT TO UPDATE DROPDOWN VALUES TOO
-		case WM_SHOWWINDOW:
+		case WM_SHOWWINDOW: {
 			// Set correct dropdown value
 			int curIndex;
 			map->GetParamBlock()->GetValue(xyz_map, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(xyz_chan, t, curIndex, FOREVER);		// trying to fix the chan 0 issue
-			SendMessage(GetDlgItem(hWnd, IDC_CHAN), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_CHAN), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(xyz_tile_x, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_TIL_X), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_TIL_X), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(xyz_tile_y, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_TIL_Y), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_TIL_Y), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(xyz_tile_z, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_TIL_Z), CB_SETCURSEL, (WPARAM)curIndex, 0);
-			break;
-		case WM_DESTROY:
+			SendMessage(GetDlgItem(hWnd, IDC_TIL_Z), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
+			break; 
+		}
+		case WM_DESTROY:{}
+		
 		default: return FALSE;
 		}
 		return TRUE;
@@ -421,7 +423,7 @@ public:
 	~BerconXYZ() {}
 
 	// Material requires coordinates if BerconXYZ mapping set to Explicit Map Channel 2D / Real World mode
-	ULONG req() { if (mappingType==0 || mappingType==1) return MTLREQ_UV; return 0; };
+	ULONG req() { if (mappingType==0 || mappingType==1) return MTLREQ_UV; return 0; }
 	void map(int subMtlNum, BitArray& mapreq, BitArray& bumpreq) { if (mappingType==0 || mappingType==1) mapreq.Set(mappingChannel); }	
 
 	void update(IParamBlock2* pblock, TimeValue t, Interval& ivalid);
@@ -436,6 +438,7 @@ public:
 	int get(ShadeContext& sc, Point3& p, Point3& dpdx, Point3& dpdy, Point3* basis);
 	int get(ShadeContext& sc, Point3& dpdy);
 	int get(ShadeContext& sc, Point3& p, Point3* basis);
+
 private:
 	int get(ShadeContext& sc, Point3& p, Point3& dpdx, Point3& dpdy, Matrix3 transform, int* flips=0);
 	int get(ShadeContext& sc, Point3& p, Matrix3 transform, int* flips=0);
@@ -443,5 +446,7 @@ private:
 	Matrix3 random(ShadeContext& sc, Matrix3* inv = 0);
 	void EnableStuff(IParamBlock2* pblock, TimeValue t);
 	void getBasis(Matrix3 transform, Point3* b);
+
+
 
 };

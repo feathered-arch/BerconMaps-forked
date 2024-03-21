@@ -170,7 +170,7 @@ class BerconWood final : public Texmap, public ResourceMakerCallback {
 		void* GetInterface(ULONG id) override
 		{
 			if(id == I_RESMAKER_INTERFACE)
-				return (void *) (ResourceMakerCallback*) this;
+				return (void *) static_cast<ResourceMakerCallback*>(this);
 			else
 				return Texmap::GetInterface(id);
 		}

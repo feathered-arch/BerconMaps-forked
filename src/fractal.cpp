@@ -14,9 +14,11 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.   
 */
+#pragma once
 
 #include "fractal.h"
 #include "perlin.h"
+
 
 
 float Fractal::fractal(Point3 p, NoiseParams& np) {

@@ -226,14 +226,14 @@ void BerconXYZ::seedRandomGen(ShadeContext& sc) {
 	if (p_randObj) {
 		INode *node=sc.Node();
 		if (node) {
-			int hand = (int) node->GetHandle();
+			int hand = (int)node->GetHandle();
 			seed += hand*(hand*hand*15731 + 789221);
 		}
 	}
 	if (p_randPar) {
 		Object *ob = sc.GetEvalObject();		
 		if (ob && ob->IsParticleSystem()) {
-			ParticleObject *obj = (ParticleObject*)ob;
+			ParticleObject* obj = (ParticleObject*)ob;
 			IChkMtlAPI* chkMtlAPI = static_cast<IChkMtlAPI*>(obj->GetInterface(I_NEWMTLINTERFACE));
 			if ((chkMtlAPI && chkMtlAPI->SupportsParticleIDbyFace())) {
 				int id = chkMtlAPI->GetParticleFromFace(sc.FaceNumber());

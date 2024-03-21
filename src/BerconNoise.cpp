@@ -313,7 +313,7 @@ class BerconCurveDlgProcNOISE final : public ParamMap2UserDlgProc {
 		void SetThing(ReferenceTarget *m) override
 		{ 
 			CurveCtrl::disable(berconNoise->curve); // Disable previously used curve
-			berconNoise = (BerconNoise*)m;
+			berconNoise = static_cast<BerconNoise*>(m);
 		}
 };
 
@@ -322,11 +322,11 @@ class BerconNoiseDlgProc final : public ParamMap2UserDlgProc {
 public:
 	BerconNoise *berconNoise;		
 	BerconNoiseDlgProc(BerconNoise *m) {berconNoise = m;}		
-	INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) override;		
+	INT_PTR DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam) ;		
 	void DeleteThis() override {delete this;}
 	void SetThing(ReferenceTarget *m) override
 	{
-		berconNoise = (BerconNoise*)m;
+		berconNoise = static_cast<BerconNoise*>(m);
 		berconNoise->EnableStuff();
 	}
 };
@@ -373,26 +373,26 @@ INT_PTR BerconNoiseDlgProc::DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT m
 			// Set correct dropdown value
 			int curIndex;
 			map->GetParamBlock()->GetValue(noise_function_type, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_NOISE_FUNCTION), CB_SETCURSEL, (WPARAM)curIndex, 0);						
+			SendMessage(GetDlgItem(hWnd, IDC_NOISE_FUNCTION), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);						
 			map->GetParamBlock()->GetValue(worley_distance, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_WORLEY_DISTANCE), CB_SETCURSEL, (WPARAM)curIndex, 0);			
+			SendMessage(GetDlgItem(hWnd, IDC_WORLEY_DISTANCE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);			
 			map->GetParamBlock()->GetValue(fractal_type, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_FRACTAL_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_FRACTAL_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(uvw_dist, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_DIST_UVW), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_DIST_UVW), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			break;
 		}		
 		case WM_SHOWWINDOW:	{
 			// Set correct dropdown value
 			int curIndex;
 			map->GetParamBlock()->GetValue(noise_function_type, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_NOISE_FUNCTION), CB_SETCURSEL, (WPARAM)curIndex, 0);						
+			SendMessage(GetDlgItem(hWnd, IDC_NOISE_FUNCTION), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);						
 			map->GetParamBlock()->GetValue(worley_distance, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_WORLEY_DISTANCE), CB_SETCURSEL, (WPARAM)curIndex, 0);			
+			SendMessage(GetDlgItem(hWnd, IDC_WORLEY_DISTANCE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);			
 			map->GetParamBlock()->GetValue(fractal_type, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_FRACTAL_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);		
+			SendMessage(GetDlgItem(hWnd, IDC_FRACTAL_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);		
 			map->GetParamBlock()->GetValue(uvw_dist, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_DIST_UVW), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_DIST_UVW), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			break;
 		}
 		default: return FALSE;
@@ -422,7 +422,7 @@ void BerconNoise::Reset() {
 	if (texout) texout->Reset();
 	else ReplaceReference( OUTPUT_REF, GetNewDefaultTextureOutput());
 
-	ICurveCtl* newCurve = (ICurveCtl *) CreateInstance(REF_MAKER_CLASS_ID,CURVE_CONTROL_CLASS_ID);
+	ICurveCtl* newCurve = static_cast<ICurveCtl*>(CreateInstance(REF_MAKER_CLASS_ID,CURVE_CONTROL_CLASS_ID));
 	// Replace our reference with the new value - otherwise Max reference counting system might
 	// Use ReplaceReference instead of directly assigning curve=newCurve so that Max reference
 	// system properly track dependencies
@@ -685,19 +685,19 @@ RefTargetHandle BerconNoise::GetReference(int i)  {
 
 void BerconNoise::SetReference(int i, RefTargetHandle rtarg) {	
 	switch(i) {
-		case COORD_REF:  pbXYZ = (IParamBlock2 *)rtarg; break;
-		case PBLOCK_REF: pblock = (IParamBlock2 *)rtarg; break;
-		case OUTPUT_REF: texout = (TextureOutput *)rtarg; break;
-		case CURVE_REF: curve = (ICurveCtl *)rtarg; break;
-		case CURVEPB_REF: pbCurve = (IParamBlock2 *)rtarg; break;
-		case PBMAP_REF: pbMap = (IParamBlock2 *)rtarg; break;
-		default: subtex[i-2] = (Texmap *)rtarg; break;
+		case COORD_REF:  pbXYZ = static_cast<IParamBlock2*>(rtarg); break;
+		case PBLOCK_REF: pblock = static_cast<IParamBlock2*>(rtarg); break;
+		case OUTPUT_REF: texout = static_cast<TextureOutput*>(rtarg); break;
+		case CURVE_REF: curve = static_cast<ICurveCtl*>(rtarg); break;
+		case CURVEPB_REF: pbCurve = static_cast<IParamBlock2*>(rtarg); break;
+		case PBMAP_REF: pbMap = static_cast<IParamBlock2*>(rtarg); break;
+		default: subtex[i-2] = static_cast<Texmap*>(rtarg); break;
 	}
 }
 
 RefTargetHandle BerconNoise::Clone(RemapDir &remap) {
 	BerconNoise *mnew = new BerconNoise();
-	*((MtlBase*)mnew) = *((MtlBase*)this); // copy superclass stuff
+	*static_cast<MtlBase*>(mnew) = *static_cast<MtlBase*>(this); // copy superclass stuff
 	mnew->ReplaceReference(COORD_REF,remap.CloneRef(pbXYZ));
 	mnew->ReplaceReference(OUTPUT_REF,remap.CloneRef(texout));
 	mnew->ReplaceReference(PBLOCK_REF,remap.CloneRef(pblock));
@@ -767,16 +767,20 @@ RefResult BerconNoise::NotifyRefChanged(NOTIFY_REF_CHANGED_ARGS) {
 
 // Define some basic values
 static AColor black(0.0f,0.0f,0.0f,0.0f);
-static AColor white(1.0f,1.0f,1.0f,1.0f);
+static AColor white(1.0f,1.0f,1.0f,1.0f); //never used
 
 void BerconNoise::applyDistortion(ShadeContext& sc, Point3& p) {
 	if (subtex[2])
+	{
 		if (subtex[3])
+		{
 			p += subtex[2]->EvalNormalPerturb(sc)*distortionStr*subtex[3]->EvalMono(sc);
+		}
 		else
 		{
 			p += subtex[2]->EvalNormalPerturb(sc)*distortionStr;
 		}
+	}
 }
 
 NoiseParams BerconNoise::EvalParameters(ShadeContext* sc) {
@@ -838,7 +842,7 @@ AColor BerconNoise::EvalColor(ShadeContext& sc) {
 	if (gbufID) sc.SetGBufferID(gbufID);
 
 	// UVW and Distortion
-	Point3 p, dpdx, dpdy, dp;	
+	Point3 p, dpdx, dpdy, dp;	// dp is never used?
 	if(!berconXYZ.get(sc, p, dpdx, dpdy)) return AColor(0,0,0,0);
 
 	if (useDistortion)

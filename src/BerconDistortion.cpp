@@ -162,15 +162,15 @@ RefTargetHandle BerconDistortion::GetReference(int i)  {
 
 void BerconDistortion::SetReference(int i, RefTargetHandle rtarg) {	
 	switch(i) {
-		case PBLOCK_REF: pblock = (IParamBlock2 *)rtarg; break;
-		case COORD_REF: pbXYZ = (IParamBlock2 *)rtarg; break;
-		default: subtex[i-1] = (Texmap *)rtarg; break;
+		case PBLOCK_REF: pblock = static_cast<IParamBlock2*>(rtarg); break;
+		case COORD_REF: pbXYZ = static_cast<IParamBlock2*>(rtarg); break;
+		default: subtex[i-1] = static_cast<Texmap*>(rtarg); break;
 	}
 }
 
 RefTargetHandle BerconDistortion::Clone(RemapDir &remap) {
 	BerconDistortion *mnew = new BerconDistortion();
-	*((MtlBase*)mnew) = *((MtlBase*)this); // copy superclass stuff
+	*static_cast<MtlBase*>(mnew) = *static_cast<MtlBase*>(this); // copy superclass stuff
 	mnew->ReplaceReference(PBLOCK_REF,remap.CloneRef(pblock));
 	mnew->ReplaceReference(COORD_REF,remap.CloneRef(pbXYZ));
 	mnew->ivalid.SetEmpty();		

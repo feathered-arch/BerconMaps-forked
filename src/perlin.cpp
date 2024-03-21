@@ -18,7 +18,12 @@ under the License.
 // Based on Ken Perlin's perlin noise/simplex and Stefan Gustavson's
 // implementation of perlin/simplex noise, (Simplex)Noise1234
 
+#pragma once
+
 #include	"perlin.h"
+
+#include <smmintrin.h>
+#include <xmmintrin.h>
 
 #include "commonMath.h"
 
@@ -129,9 +134,17 @@ float Perlin::noise(float x, float y) {
 }
 
 float Perlin::noise(float x, float y, float z) {
-	int xi = FASTFLOOR(x);
-	int yi = FASTFLOOR(y);
-	int zi = FASTFLOOR(z);
+	__m128 xmm_x = _mm_set_ss(x);
+	__m128 xmm_y = _mm_set_ss(y);
+	__m128 xmm_z = _mm_set_ss(z);
+
+	__m128 xmm_floor_x = _mm_floor_ss(xmm_x, xmm_x); // Floor x
+	__m128 xmm_floor_y = _mm_floor_ss(xmm_y, xmm_y); // Floor y
+	__m128 xmm_floor_z = _mm_floor_ss(xmm_z, xmm_z); // Floor z
+
+	int xi = _mm_cvtss_si32(xmm_floor_x);
+	int yi = _mm_cvtss_si32(xmm_floor_y);
+	int zi = _mm_cvtss_si32(xmm_floor_z);
 	float xf = x - (float)xi;
 	float yf = y - (float)yi;
 	float zf = z - (float)zi;
@@ -155,10 +168,20 @@ float Perlin::noise(float x, float y, float z) {
 }
 
 float Perlin::noise(float x, float y, float z, float w) {
-    int xi = FASTFLOOR(x);
-	int yi = FASTFLOOR(y);
-	int zi = FASTFLOOR(z);
-	int wi = FASTFLOOR(w);
+	__m128 xmm_x = _mm_set_ss(x);
+	__m128 xmm_y = _mm_set_ss(y);
+	__m128 xmm_z = _mm_set_ss(z);
+	__m128 xmm_w = _mm_set_ss(w);
+
+	__m128 xmm_floor_x = _mm_floor_ss(xmm_x, xmm_x); // Floor x
+	__m128 xmm_floor_y = _mm_floor_ss(xmm_y, xmm_y); // Floor y
+	__m128 xmm_floor_z = _mm_floor_ss(xmm_z, xmm_z); // Floor z
+	__m128 xmm_floor_w = _mm_floor_ss(xmm_w, xmm_w); // Floor z
+
+	int xi = _mm_cvtss_si32(xmm_floor_x);
+	int yi = _mm_cvtss_si32(xmm_floor_y);
+	int zi = _mm_cvtss_si32(xmm_floor_z);
+	int wi = _mm_cvtss_si32(xmm_floor_w);
     float xf0 = x - xi;
     float yf0 = y - yi;
 	float zf0 = z - zi;

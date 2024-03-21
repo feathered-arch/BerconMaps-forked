@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BerconCurveDlgProcGRADIENT" Collapsed="true">
+    <Position X="23.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAIAEAAAQAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>BerconGradient.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconGradientDlgProc">
+    <Position X="2" Y="1.75" Width="2" />
+    <AssociationLine Name="parentMap" Type="BerconGradient" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.344" Y="3.56" />
+        <Point X="3.344" Y="4.312" />
+        <Point X="6.75" Y="4.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAIIAEAAAAAAAAAAAIAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>BerconGradient.cpp</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="igrad" />
+      <Field Name="parentMap" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BerconCurveDlgProcNOISE" Collapsed="true">
+    <Position X="15.75" Y="6.5" Width="2.25" />
+    <AssociationLine Name="berconNoise" Type="BerconNoise" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="16.812" Y="6.5" />
+        <Point X="16.812" Y="6.125" />
+        <Point X="16.812" Y="6.125" />
+        <Point X="16.812" Y="5.82" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.099" Y="0.094" Height="0.182" Width="0.992" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAIAAAAAAAAAAAAAAAAAAAQAAAAAIAAAgAA=</HashCode>
+      <FileName>BerconNoise.cpp</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="berconNoise" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BerconNoiseDlgProc" Collapsed="true">
+    <Position X="23.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAMAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAA=</HashCode>
+      <FileName>BerconNoise.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconTileDlgProc" Collapsed="true">
+    <Position X="23.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhAA=</HashCode>
+      <FileName>BerconTile.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconCurveDlgProc" Collapsed="true">
+    <Position X="23.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAIAAAAAAACAAAAAAEAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>BerconWood.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconWoodDlgProc" Collapsed="true">
+    <Position X="23.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAABAIAAAAAAACAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>BerconWood.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="XYZ_Desc" Collapsed="true">
+    <Position X="32.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BerconCommon.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconXYZDlgProc" Collapsed="true">
+    <Position X="19.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAgAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiAA=</HashCode>
+      <FileName>BerconCommon.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="reftarg" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BerconXYZ" Collapsed="true">
+    <Position X="7.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4AAAEIgkEACEAICACAIgQQAAAAgFAgDAMz6AAIEUgAs=</HashCode>
+      <FileName>BerconCommon.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconDistortion" Collapsed="true">
+    <Position X="16" Y="3.5" Width="1.5" />
+    <InheritanceLine Type="Texmap" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="0.938" />
+        <Point X="16.312" Y="0.938" />
+        <Point X="16.312" Y="3.5" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="subtex" Type="Texmap" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.062" Y="3.5" />
+        <Point X="17.062" Y="0.625" />
+        <Point X="12.5" Y="0.625" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>CORJmAUAACAIpBAgIQAAABAFhsBEImEAAABgBAACAHA=</HashCode>
+      <FileName>BerconDistortion.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="subtex" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BerconDistortionClassDesc" Collapsed="true">
+    <Position X="20.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAgAAAAAAACAEAkIAACAAAAAACAA=</HashCode>
+      <FileName>BerconDistortion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconGradient" Collapsed="true">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="BerconGradient::Sortedkeys" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>BerconGradient.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <InheritanceLine Type="GradientMap" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.562" Y="3.623" />
+        <Point X="7.562" Y="3.763" />
+        <Point X="7.562" Y="3.763" />
+        <Point X="7.562" Y="4" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="-0.462" Y="0.038" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <InheritanceLine Type="ResourceMakerCallback" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.5" Y="5.562" />
+        <Point X="11.125" Y="5.562" />
+        <Point X="11.125" Y="4.562" />
+        <Point X="8.25" Y="4.562" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.105" Y="-0.552" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <InheritanceLine Type="Texmap" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.188" Y="1.191" />
+        <Point X="11.188" Y="4.25" />
+        <Point X="8.25" Y="4.25" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.363" Y="-0.496" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <AssociationLine Name="gradient" Type="GradientRamp" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="4.812" />
+        <Point X="6" Y="4.812" />
+        <Point X="6" Y="7" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="gradientUI" Type="IGradient" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="4.625" />
+        <Point X="3.25" Y="4.625" />
+        <Point X="3.25" Y="5.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.983" Y="0.132" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>yLxJmAUhAyAOJN6gYUwjRBwFpsCEamEgRBZgcUFaAXA=</HashCode>
+      <FileName>BerconGradient.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gradient" />
+      <Field Name="gradientUI" />
+      <Field Name="berconXYZ" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BerconGradientClassDesc">
+    <Position X="13.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAgAAAAAAACAEAkAAAAAAAAAACAA=</HashCode>
+      <FileName>BerconGradient.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconNoise" Collapsed="true">
+    <Position X="16" Y="5" Width="1.5" />
+    <InheritanceLine Type="ResourceMakerCallback" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14" Y="5.625" />
+        <Point X="14.768" Y="5.625" />
+        <Point X="14.768" Y="5.625" />
+        <Point X="16" Y="5.625" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.144" Y="0.049" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <InheritanceLine Type="Texmap" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.812" Y="0.5" />
+        <Point X="11.812" Y="0.125" />
+        <Point X="17.875" Y="0.125" />
+        <Point X="17.875" Y="5.5" />
+        <Point X="17.5" Y="5.5" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.049" Y="-0.485" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>iLRLmgUIECMIJFYgLcAAKRKFhsHEImECAALsAIULAHA=</HashCode>
+      <FileName>BerconNoise.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconNoiseClassDesc" Collapsed="true">
+    <Position X="18.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAgAAAAAAACAEAkAAAAAAAAAACAA=</HashCode>
+      <FileName>BerconNoise.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconTile" Collapsed="true">
+    <Position X="11.5" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="ResourceMakerCallback" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="12.25" Y="5.25" />
+        <Point X="12.25" Y="5.053" />
+        <Point X="12.25" Y="5.053" />
+        <Point X="12.25" Y="3.07" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="Texmap" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.5" Y="1.191" />
+        <Point X="11.5" Y="1.655" />
+        <Point X="11.625" Y="1.655" />
+        <Point X="11.625" Y="2.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>iKRNmgUCASAIJFAgJQAAAxAFhsBEMmEAAAJ4hJECAHA=</HashCode>
+      <FileName>BerconTile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconTileClassDesc" Collapsed="true">
+    <Position X="15.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAQAAAAgAAAAAAACAEAkAEAAAAAAAACAA=</HashCode>
+      <FileName>BerconTile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconWood" Collapsed="true">
+    <Position X="13.75" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="ResourceMakerCallback" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.688" Y="5.25" />
+        <Point X="13.688" Y="3.445" />
+        <Point X="14" Y="3.445" />
+        <Point X="14" Y="3.07" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="Texmap" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="12.25" Y="1.191" />
+        <Point X="12.25" Y="1.655" />
+        <Point X="14.5" Y="1.655" />
+        <Point X="14.5" Y="2.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>iLTLmgUAAiAILHJhJcAAYRRFhujEIuEJACBgEoEKgHA=</HashCode>
+      <FileName>BerconWood.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconWoodClassDesc" Collapsed="true">
+    <Position X="23" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAgAAAAAAACAEAkAAAAAAAAAACAA=</HashCode>
+      <FileName>BerconWood.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fractal" Collapsed="true">
+    <Position X="30.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMADAAAAAgAAQgAAAAEAAAAAgAAQAAQAABAAAAAAAA=</HashCode>
+      <FileName>fractal.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoiseParams" Collapsed="true">
+    <Position X="25.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAAEAEAAAAAAAgACEIEAAEAAAACAQCEAEABAAA=</HashCode>
+      <FileName>noise.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WoodParam" Collapsed="true">
+    <Position X="29" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAgAACCBgAIAAQAAEACAAAAABACAAEgAAgAA=</HashCode>
+      <FileName>noise.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Noise" Collapsed="true">
+    <Position X="32.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAgBAABAAAAAAAAAAAAAQAAAEAAAAAAAAAAACAA=</HashCode>
+      <FileName>noise.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Perlin" Collapsed="true">
+    <Position X="27.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAiEAAoQAgAEAQAAAAAAAAAAAAAAMAQAAAAAAAA=</HashCode>
+      <FileName>perlin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileRow" Collapsed="true">
+    <Position X="27.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAACAAAAgCAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>tile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TilePattern" Collapsed="true">
+    <Position X="32.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAIBAAAAAAAAAAABABAkAQA=</HashCode>
+      <FileName>tile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TileParam" Collapsed="true">
+    <Position X="30.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAkABAJBkSAQAABAAAEIAgQoBAAgGoAABAAWAEAIAAM=</HashCode>
+      <FileName>tile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TilePoint" Collapsed="true">
+    <Position X="25.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAgA=</HashCode>
+      <FileName>tile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tile" Collapsed="true">
+    <Position X="29" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAIAgAAAAAAAIAAAAAAAIAAAgAAAEAAAIAAAA=</HashCode>
+      <FileName>tile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Worley" Collapsed="true">
+    <Position X="30.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgCAAAAAAAAAAAAAAAAAAAAAAAAAAAABAACAAA=</HashCode>
+      <FileName>worley.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GradientMap">
+    <Position X="6.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAQAAAIAAAACAAABAAAAAAAAA=</HashCode>
+      <FileName>GradientMap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GradientRamp" Collapsed="true">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CggAAAwEAqAIRgRIQGGEIBABAAIkDCCAAAAAghAEMIA=</HashCode>
+      <FileName>GradientRamp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IGradient">
+    <Position X="2" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAQAAAQARAkACAAAAAAQIAAAAAAhAAAAAIA=</HashCode>
+      <FileName>IGradient.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gradient" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CurveCtrl" Collapsed="true">
+    <Position X="29" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAEIAA=</HashCode>
+      <FileName>curvectrl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BerconRefMaker">
+    <Position X="12.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAEAIAIAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>BerconRefMaker.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="thing" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BerconSC" Collapsed="true">
+    <Position X="30.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RLBARoqAEEQQIl4BkiwAKqIFQCELiAw0jbDABAF/GAA=</HashCode>
+      <FileName>BerconSC.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ClassDesc2" Collapsed="true">
+    <Position X="18.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gABAYIEAgQAADAAowAAEQAQAAEBERQAAAuAAgEACIII=</HashCode>
+      <FileName>C:\Program Files\Autodesk\3ds Max 2024 SDK\maxsdk\include\iparamb2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ReferenceTarget" Collapsed="true">
+    <Position X="19.75" Y="5.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="ReferenceTarget::RefList" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Program Files\Autodesk\3ds Max 2024 SDK\maxsdk\include\ref.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACABAAAAJAAQEAATAEAQgAgEAAEIACEJAAAgCAAgFo=</HashCode>
+      <FileName>C:\Program Files\Autodesk\3ds Max 2024 SDK\maxsdk\include\ref.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceMakerCallback" Collapsed="true">
+    <Position X="11.5" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAEIAAAAAAAAAAAAAAgAAAAAAAAAIAAA=</HashCode>
+      <FileName>C:\Program Files\Autodesk\3ds Max 2024 SDK\maxsdk\include\icurvctl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Texmap" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAAAAAAAAAcQABAAgiAIAEIkAAAIAYQQAAAKE=</HashCode>
+      <FileName>C:\Program Files\Autodesk\3ds Max 2024 SDK\maxsdk\include\Materials\Texmap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Typedef Name="TChBuffer" Collapsed="true">
+    <Position X="29" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BerconDistortion.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="real" Collapsed="true">
+    <Position X="27.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>commonMath.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ireal" Collapsed="true">
+    <Position X="25.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>commonMath.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="__unnamed_enum_0003_1" Collapsed="true">
+    <Position X="27.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>BerconDistortion.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0003_2" Collapsed="true">
+    <Position X="29" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAIAAAgAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BerconDistortion.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0005_1" Collapsed="true">
+    <Position X="30.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAhAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>BerconGradient.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0005_2" Collapsed="true">
+    <Position X="32.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAGEAyCEAIAIAAAAAAoAGBAEKAIABAgAAAIAAAABg=</HashCode>
+      <FileName>BerconGradient.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0005_3" Collapsed="true">
+    <Position X="25.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>BerconGradient.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0007_1" Collapsed="true">
+    <Position X="27.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAgAAAAAAAAAQQAAAAAAAAAAA=</HashCode>
+      <FileName>BerconNoise.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0007_2" Collapsed="true">
+    <Position X="29" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICSSAQIACEAAQAAAgAQgAAQhAAABAAAAAAAQABBYAAA=</HashCode>
+      <FileName>BerconNoise.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0007_3" Collapsed="true">
+    <Position X="30.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BerconNoise.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0007_4" Collapsed="true">
+    <Position X="32.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQDwQCAAA44A8AAAAAAgAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>BerconNoise.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000b_1" Collapsed="true">
+    <Position X="25.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAQQAAAAAAAAAAA=</HashCode>
+      <FileName>BerconTile.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000b_2" Collapsed="true">
+    <Position X="27.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADeAAkIAGEwgRAAAqABAAQQwAEAAIAIAAQAkAAIAgCQ=</HashCode>
+      <FileName>BerconTile.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000b_3" Collapsed="true">
+    <Position X="29" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>BerconTile.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000d_1" Collapsed="true">
+    <Position X="30.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAgAAAAAAAAAQQAAAAAAAAAAA=</HashCode>
+      <FileName>BerconWood.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000d_2" Collapsed="true">
+    <Position X="32.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADYIBCIwSEAEQIAAiAgAYAQwBIAAAAAAAgEQABAAAAA=</HashCode>
+      <FileName>BerconWood.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000d_3" Collapsed="true">
+    <Position X="25.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BerconWood.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_000d_4" Collapsed="true">
+    <Position X="27.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQPwQCAAA44A8AAAAEAgAAAAAAAAAAAAAAAIAACAA=</HashCode>
+      <FileName>BerconWood.cpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0002_1" Collapsed="true">
+    <Position X="25.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACgAQAAHEAECAACgAACAAAgAAHAAQAAAAAgAAgBAAA=</HashCode>
+      <FileName>BerconCommon.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -344,7 +344,7 @@ class BerconTileDlgProc final : public ParamMap2UserDlgProc {
 		void DeleteThis() override {delete this;}
 		void SetThing(ReferenceTarget *m) override
 		{
-			tile = (BerconTile*)m;
+			tile = static_cast<BerconTile*>(m);
 			tile->EnableStuff(GetCOREInterface()->GetTime());
 		}
 };
@@ -401,26 +401,26 @@ INT_PTR BerconTileDlgProc::DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT ms
 			// Set correct dropdown value			
 			int curIndex;
 			map->GetParamBlock()->GetValue(tile_style, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(soften, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_SOFTEN), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_SOFTEN), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(pb_rotUV, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_ROTUV), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_ROTUV), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(pb_auto, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_AUTO), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_AUTO), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			break;
 		}		
 		case WM_SHOWWINDOW:	{					
 			// Set correct dropdown value
 			int curIndex;
 			map->GetParamBlock()->GetValue(tile_style, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(soften, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_SOFTEN), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_SOFTEN), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(pb_rotUV, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_ROTUV), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_ROTUV), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			map->GetParamBlock()->GetValue(pb_auto, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_AUTO), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_AUTO), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			break;
 		}
 		default: return FALSE;
@@ -760,17 +760,17 @@ RefTargetHandle BerconTile::GetReference(int i)  {
 
 void BerconTile::SetReference(int i, RefTargetHandle rtarg) {	
 	switch(i) {
-		case COORD_REF: pbXYZ = (IParamBlock2 *)rtarg; break;
-		case PBLOCK_REF: pblock = (IParamBlock2 *)rtarg; break;
-		case OUTPUT_REF: texout = (TextureOutput *)rtarg; break;		
-		case PBMAP_REF: pbMap = (IParamBlock2 *)rtarg; break;
-		default: subtex[i-2] = (Texmap *)rtarg; break;
+		case COORD_REF: pbXYZ = static_cast<IParamBlock2*>(rtarg); break;
+		case PBLOCK_REF: pblock = static_cast<IParamBlock2*>(rtarg); break;
+		case OUTPUT_REF: texout = static_cast<TextureOutput*>(rtarg); break;		
+		case PBMAP_REF: pbMap = static_cast<IParamBlock2*>(rtarg); break;
+		default: subtex[i-2] = static_cast<Texmap*>(rtarg); break;
 	}
 }
 
 RefTargetHandle BerconTile::Clone(RemapDir &remap) {
 	BerconTile *mnew = new BerconTile();
-	*((MtlBase*)mnew) = *((MtlBase*)this); // copy superclass stuff
+	*static_cast<MtlBase*>(mnew) = *static_cast<MtlBase*>(this); // copy superclass stuff
 	mnew->ReplaceReference(COORD_REF,remap.CloneRef(pbXYZ));
 	mnew->ReplaceReference(OUTPUT_REF,remap.CloneRef(texout));
 	mnew->ReplaceReference(PBLOCK_REF,remap.CloneRef(pblock));	
@@ -885,7 +885,7 @@ AColor BerconTile::EvalColor(ShadeContext& sc) {
 			if (tileParam.center)
 				bsc.setUV2(tp.center, uvChan2);
 			if (tileParam.tileID)
-				bsc.setMultiTexture((float)tp.id);
+				bsc.setMultiTexture(static_cast<float>(tp.id));
 
 			              c1 = getColor(bsc, 0);
 			if (lockEdge) c2 = getColor(bsc, 1);
@@ -961,7 +961,7 @@ Point3 BerconTile::EvalNormalPerturb(ShadeContext& sc) {
 		if (tileParam.center)
 			bsc.setUV2(tp.center, uvChan2);
 		if (tileParam.tileID)
-			bsc.setMultiTexture((float)tp.id);
+			bsc.setMultiTexture(static_cast<float>(tp.id));
 
 		              f1 = getFloat(bsc, 0);
 		if (lockEdge) f2 = getFloat(bsc, 1);

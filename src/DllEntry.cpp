@@ -106,7 +106,7 @@ __declspec( dllexport ) ULONG LibVersion()
 	return VERSION_3DSMAX;
 }
 
-__declspec( dllexport ) int LibInitialize(void) {
+__declspec( dllexport ) int LibInitialize() {
 
 	if (!controlsInit) {
 		controlsInit = TRUE;
@@ -117,6 +117,6 @@ __declspec( dllexport ) int LibInitialize(void) {
 	return TRUE;
 }
 
-__declspec( dllexport ) int LibShutdown(void) {
+__declspec( dllexport ) int LibShutdown() {
 	return TRUE;	
 }

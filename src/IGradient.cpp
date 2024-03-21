@@ -43,7 +43,7 @@ LRESULT CALLBACK IGradient::GradientProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
    IGradient *grad = DLGetWindowLongPtr<IGradient*>(hWnd);
    if(grad == NULL && msg != WM_CREATE)
       return DefWindowProc(hWnd, msg, wParam, lParam);
-   SetProcessDPIAware();
+
 
 	//LOWORD and HIWORD produce unexpected results on multimonitor systems
     switch(msg) {	   

@@ -23,6 +23,7 @@ under the License.
 
 class GradientMap {
 public:
+	virtual ~GradientMap() = default;
 	virtual void gradAddKey(float pos) = 0;
 	virtual void gradMoveKey(int n, float pos) = 0;
 	virtual void gradDelKey(int n) = 0;

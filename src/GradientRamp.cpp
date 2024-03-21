@@ -57,7 +57,7 @@ void GradientRamp::paint(HDC hDC) {
 
 	HDC tempHDC = CreateCompatibleDC(hDC);
 	HBITMAP hbm_Buffer = CreateCompatibleBitmap(hDC, width, height);
-	HBITMAP hbm_oldBuffer = (HBITMAP)SelectObject(tempHDC, hbm_Buffer);
+	HBITMAP hbm_oldBuffer = static_cast<HBITMAP>(SelectObject(tempHDC, hbm_Buffer));
 
 	// Borders
 	RECT rect;	
@@ -73,14 +73,14 @@ void GradientRamp::paint(HDC hDC) {
 
 	int g_Width = width - PADDING * 2;
 	int g_Height = height - PADDING *2;
-	float f_Width = (float)g_Width;	
+	float f_Width = static_cast<float>(g_Width);	
 
 	// Gradient
 
 	for (int x=PADDING; x<g_Width+PADDING; x++) {
-		AColor col = getColor((float)(x-PADDING) / (f_Width-1.f));
+		AColor col = getColor(static_cast<float>(x - PADDING) / (f_Width-1.f));
 
-		COLORREF colR = RGB((int)(col.r*255.f), (int)(col.g*255.f), (int)(col.b*255.f));		
+		COLORREF colR = RGB(static_cast<int>(col.r * 255.f), static_cast<int>(col.g * 255.f), static_cast<int>(col.b * 255.f));		
 		for (int y=PADDING; y<g_Height+PADDING; y++)		
 			SetPixel(tempHDC, x, y, colR);
 	}
@@ -93,7 +93,7 @@ void GradientRamp::paint(HDC hDC) {
 		//CharStream *out = thread_local(current_stdout);
 		//out->printf("Key pos: %f\n", position[i]);	
 		if (number[i] != selected) {
-			int x = (int)(f_Width * position[i]) + PADDING;
+			int x = static_cast<int>(f_Width * position[i]) + PADDING;
 			paintArrow(x, yTop, false, tempHDC, ARROWDESEL);
 			paintArrow(x, yBottom, true, tempHDC, ARROWDESEL);
 		} else {
@@ -101,8 +101,8 @@ void GradientRamp::paint(HDC hDC) {
 		}
 	}	
 	if (sel != -1) {
-		paintArrow((int)(f_Width * position[sel]) + PADDING, yTop, false, tempHDC, ARROWSEL);
-		paintArrow((int)(f_Width * position[sel]) + PADDING, yBottom, true, tempHDC, ARROWSEL);	
+		paintArrow(static_cast<int>(f_Width * position[sel]) + PADDING, yTop, false, tempHDC, ARROWSEL);
+		paintArrow(static_cast<int>(f_Width * position[sel]) + PADDING, yBottom, true, tempHDC, ARROWSEL);	
 	}
 
 	//GetClientRect(m_hWnd, &rect);
@@ -112,8 +112,6 @@ void GradientRamp::paint(HDC hDC) {
     SelectObject(tempHDC, hbm_oldBuffer);
  	DeleteDC(tempHDC);
     DeleteObject(hbm_Buffer);
-
-
 }
 
 void GradientRamp::paintArrow(int px, int py, bool up, HDC hDC, COLORREF colR) {
@@ -135,6 +133,7 @@ void GradientRamp::invalidate() {
    //GetClientRect(m_hWnd, &rect);
    //MapWindowPoints(m_hWnd, p_hWnd, (POINT*)&rect, 2);
    //InvalidateRect(p_hWnd, &rect, TRUE);
+   DebugPrint(_T("gradient ramp invalidated"));
    InvalidateRect(m_hWnd, NULL, TRUE);
 }
 
@@ -147,7 +146,7 @@ float GradientRamp::toPos(int x) {
 	if (x > width - PADDING)
 		pos = 1.f;
 	else if (x > PADDING)
-		pos = (float)(x - PADDING) / (float)(width - PADDING * 2);
+		pos = static_cast<float>(x - PADDING) / static_cast<float>(width - PADDING * 2);
 	return pos;
 }
 
@@ -174,7 +173,7 @@ int GradientRamp::hit(int x, int y, bool broad) {
 		return -1;
 
 	// Distance from gradient
-	int dist = 0;
+	int dist;
 	if (broad)
 		dist  = ARROWS;
 	else if (y < PADDING)
@@ -184,9 +183,9 @@ int GradientRamp::hit(int x, int y, bool broad) {
 
 	//CharStream *out = thread_local(current_stdout);
 	// Intersect all keys
-	float f_Width = (float)(width - PADDING * 2);	
+	float f_Width = static_cast<float>(width - PADDING * 2);	
 	for (int i=0;i<keys;i++) {
-		int kx = (int)(f_Width * position[i]) + PADDING;
+		int kx = static_cast<int>(f_Width * position[i]) + PADDING;
 		//out->printf("Hit key: %d %d %d\n", x-dist, x+dist, x);
 		if (kx-dist <= x && kx+dist >= x)
 			return i;
@@ -233,7 +232,8 @@ void GradientRamp::dragging(int x, int y, bool ctrl, bool shift, bool alt) {
 	int key = hit(x, y, true);
 	if (key == -1) {return; }	// no key selected
 	if (selected == 0 || selected == keys - 1) { return; }	// don't drag the first or last key
-	else if (selected < keys)
+
+	if (selected < keys)
 	{
 		parent->gradMoveKey(selected, toPos(x));
 	}
@@ -270,12 +270,13 @@ void GradientRamp::popup(int x, int y, int sel) {
 }
 
 
+
 // #############################################################################################
-// #################################/ Keys                     \################################
+// #################################/           Keys           \################################
 // #############################################################################################
 
 void GradientRamp::selectKey(int n) {
-	DebugPrint(_T("Select Key in ramp"));
+
 	selected = n;
 	//CharStream *out = thread_local(current_stdout);
 	//out->printf("Selection sent (%d)\n", selected);
@@ -302,6 +303,7 @@ void GradientRamp::moveKey(int n, float pos) {
 }
 */
 
+
 void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 
 /*	if (n <= 0.f) { pos = 0.f; }
@@ -311,14 +313,14 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	// the ramp index keys are in a zero-based array.
 	// Max keeps the key numbers for the parameter block in an array that starts at 1, and they aren't always in order.
 	// For example, the 2nd key in the gradient is key 3 here; but it could also be the 10th key the user has added.
-	// We therefore need to match number[i] to the key being passsed here as int n.
+	// We therefore need to match number[i] to the key index being passsed here as int n.
 
-	int* test = &number[n];
 	int key = -1;
-	for (int i=0;i<keys;i++)
-		if (number[i] == n)
+	for (int i = 0; i < keys; i++) {
+		if (number[i] == n) {
 			key = i;
-
+			break; }
+	}
 
 	if (key >= 0) { // update only, no keys added
 		subtex[key] = sub;
@@ -340,7 +342,7 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 		t_color[i] = color[i];
 		t_number[i] = number[i];
 	}
-
+	
 	t_subtex[keys] = sub;
 	t_position[keys] = pos;
 	t_color[keys] = col;
@@ -357,12 +359,11 @@ void GradientRamp::addKey(int n, float pos, AColor col, Texmap* sub) {
 	number = t_number;
 
 	keys++;
-	DebugPrint(_T("ramp keys added"));
 }
 
 void GradientRamp::reset() {		
 	keys = 0;
-	DebugPrint(_T("reset in ramp"));
+
 	if (subtex) delete[] subtex;
 	if (position) delete[] position;
 	if (color) delete[] color;
@@ -375,30 +376,27 @@ void GradientRamp::reset() {
 
 	addKey(0, 0.f, AColor(0.f, 0.f, 0.f, 1.f), NULL);
 	addKey(1, 1.f, AColor(1.f, 1.f, 1.f, 1.f), NULL);
+	DebugPrint(_T("grad reset called"));
 }
 
-
+/*
 void GradientRamp::swapkeys(int a, int b) {
 
 	Texmap* sub	= subtex[a];
 	float pos	= position[a];
 	AColor col	= color[a];
 	int num		= number[a];
-
-	DebugPrint(_T("Swapping sub %s, pos %f, color %f, num %d at index %d and %d"), sub, pos, *col, num, a, b);
-
+	
 	subtex[a]	= subtex[b];
 	position[a] = position[b];
 	color[a]	= color[b];
-	number[a]	= number[b];
+	number[a]	= number[b];		//rewrite to print value of arrays a and b
 
 	subtex[b]	= sub;
 	position[b] = pos;
 	color[b]	= col;
 	number[b]	= num;
-
 }
-
 
 void GradientRamp::grad_sort() {
 	int i = 1;
@@ -408,12 +406,12 @@ void GradientRamp::grad_sort() {
 		} else {
 			swapkeys(i-1, i);
 			i--;
-			if (i <= 0)
+			if (i < 0)
 				i = 1;
 		}
 	} 
 }
-
+*/
 
 // #############################################################################################
 // #################################/ Subtex                   \################################
@@ -466,9 +464,10 @@ int GradientRamp::findHighKey(float x) {
 // More intelligent search
 // O(log N)
 int GradientRamp::findHighKey(float x) {
-	int low = 0;
+	int mid;
 	int high = keys-1;
-	int mid;	
+	int low = 0;
+
 	if (x < position[low])
 		return low;
 	while (low < (high-1)) {
@@ -484,15 +483,15 @@ int GradientRamp::findHighKey(float x) {
 float GradientRamp::interpolate(float x, float low, float high) {
 	//int interpolation; // 0 linear 1 smooth 2 solid near 3 solid left 4 solid right
 	switch (interpolation) {
-		case 0:	
-			return (x - low) / (high - low);
-		case 1:	
-			x = (x-low)/(high-low);
-			if (x < 0.f) x = 0.f;
-			else if (x > 1.f) x = 1.f;
-			return (x*x*(3.f-2.f*x));
+	case 0:
+		return (x - low) / (high - low);
+	case 1:
+		x = (x - low) / (high - low);
+		if (x < 0.f) x = 0.f;
+		else if (x > 1.f) x = 1.f;
+		return (x * x * (3.f - 2.f * x));
+	default: return 0.f;
 	}
-	return 0.f;
 }
 
 AColor GradientRamp::getColor(float x) {

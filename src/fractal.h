@@ -40,7 +40,7 @@ public:
 	static float hybridMultiFractal(Point3 p, float d, NoiseParams& np);
 	static float ridgedMultiFractal(Point3 p, float d, NoiseParams& np);
 
-	static float marble(Point3 p, float d, NoiseParams& np);
+	static float marble(Point3 p, float d, NoiseParams& np);	//never implemented
 
 	// Generic 
 	static float fBm(Point3 p, float levels, float lacunarity, float H);

@@ -356,7 +356,7 @@ class BerconCurveDlgProc final : public ParamMap2UserDlgProc {
 		void SetThing(ReferenceTarget *m) override
 		{ 
 			CurveCtrl::disable(berconWood->curve); // Disable previously used curve
-			berconWood = (BerconWood*)m;
+			berconWood = static_cast<BerconWood*>(m);
 		}
 };
 
@@ -369,7 +369,7 @@ class BerconWoodDlgProc final : public ParamMap2UserDlgProc {
 		void DeleteThis() override {delete this;}
 		void SetThing(ReferenceTarget *m) override
 		{
-			berconWood = (BerconWood*)m;
+			berconWood = static_cast<BerconWood*>(m);
 			berconWood->EnableStuff();
 		}
 };
@@ -392,14 +392,14 @@ INT_PTR BerconWoodDlgProc::DlgProc(TimeValue t,IParamMap2 *map,HWND hWnd,UINT ms
 			// Set correct dropdown value
 			int curIndex;
 			map->GetParamBlock()->GetValue(wood_type, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_WOOD_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);						
+			SendMessage(GetDlgItem(hWnd, IDC_WOOD_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);						
 			break;
 		}		
 		case WM_SHOWWINDOW:	{		
 			// Set correct dropdown value
 			int curIndex;
 			map->GetParamBlock()->GetValue(wood_type, t, curIndex, FOREVER);
-			SendMessage(GetDlgItem(hWnd, IDC_WOOD_TYPE), CB_SETCURSEL, (WPARAM)curIndex, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_WOOD_TYPE), CB_SETCURSEL, static_cast<WPARAM>(curIndex), 0);
 			break;
 		}
 		default: return FALSE;
@@ -430,7 +430,7 @@ void BerconWood::Reset() {
 	if (texout) texout->Reset();
 	else ReplaceReference( OUTPUT_REF, GetNewDefaultTextureOutput());
 
-	ICurveCtl* newCurve = (ICurveCtl *) CreateInstance(REF_MAKER_CLASS_ID,CURVE_CONTROL_CLASS_ID);
+	ICurveCtl* newCurve = static_cast<ICurveCtl*>(CreateInstance(REF_MAKER_CLASS_ID,CURVE_CONTROL_CLASS_ID));
 	ReplaceReference(CURVE_REF, newCurve);
 #if MAX_RELEASE >= 18900
 	curve->RegisterResourceMaker(static_cast<ReferenceTarget*>(this));
@@ -679,19 +679,19 @@ RefTargetHandle BerconWood::GetReference(int i)  {
 
 void BerconWood::SetReference(int i, RefTargetHandle rtarg) {	
 	switch(i) {
-		case COORD_REF: pbXYZ = (IParamBlock2 *)rtarg; break;
-		case PBLOCK_REF: pblock = (IParamBlock2 *)rtarg; break;
-		case OUTPUT_REF: texout = (TextureOutput *)rtarg; break;
-		case CURVE_REF: curve = (ICurveCtl *)rtarg; break;
-		case CURVEPB_REF: pbCurve = (IParamBlock2 *)rtarg; break;
-		case PBMAP_REF: pbMap = (IParamBlock2 *)rtarg; break;
-		default: subtex[i-2] = (Texmap *)rtarg; break;
+		case COORD_REF: pbXYZ = static_cast<IParamBlock2*>(rtarg); break;
+		case PBLOCK_REF: pblock = static_cast<IParamBlock2*>(rtarg); break;
+		case OUTPUT_REF: texout = static_cast<TextureOutput*>(rtarg); break;
+		case CURVE_REF: curve = static_cast<ICurveCtl*>(rtarg); break;
+		case CURVEPB_REF: pbCurve = static_cast<IParamBlock2*>(rtarg); break;
+		case PBMAP_REF: pbMap = static_cast<IParamBlock2*>(rtarg); break;
+		default: subtex[i-2] = static_cast<Texmap*>(rtarg); break;
 	}
 }
 
 RefTargetHandle BerconWood::Clone(RemapDir &remap) {
 	BerconWood *mnew = new BerconWood();
-	*((MtlBase*)mnew) = *((MtlBase*)this); // copy superclass stuff
+	*static_cast<MtlBase*>(mnew) = *static_cast<MtlBase*>(this); // copy superclass stuff
 	mnew->ReplaceReference(COORD_REF,remap.CloneRef(pbXYZ));
 	mnew->ReplaceReference(OUTPUT_REF,remap.CloneRef(texout));
 	mnew->ReplaceReference(PBLOCK_REF,remap.CloneRef(pblock));

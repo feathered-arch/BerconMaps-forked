@@ -45,8 +45,8 @@
       <Configuration>Max2024_debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Max2024|x64">
-      <Configuration>Max2024</Configuration>
+    <ProjectConfiguration Include="Release2024|x64">
+      <Configuration>Release2024</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Max9_2|x64">
@@ -74,7 +74,7 @@
     <ProjectName>BerconMaps</ProjectName>
     <ProjectGuid>{E7CB76AA-6113-46BA-8EBC-8AE1D2B81210}</ProjectGuid>
     <RootNamespace>BerconNoise</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="Configuration">
@@ -105,7 +105,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2021|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2022|x64'" Label="Configuration">
@@ -118,7 +118,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <PlatformToolset>v142</PlatformToolset>
@@ -126,6 +126,9 @@
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
     <VCToolsVersion>14.29.30133</VCToolsVersion>
     <CLRSupport>false</CLRSupport>
+    <EnableUnitySupport>false</EnableUnitySupport>
+    <UseIntelIPP1A>true</UseIntelIPP1A>
+    <UseInteloneTBB>true</UseInteloneTBB>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -136,6 +139,7 @@
     <VCToolsVersion>
     </VCToolsVersion>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2009|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -198,7 +202,7 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Max2023|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'" Label="PropertySheets">
@@ -260,7 +264,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Max2021|x64'">$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Max2022|x64'">$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Max2023|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release2024|x64'">$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'">$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2010|x64'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2012|x64'">$(Platform)\$(Configuration)\</IntDir>
@@ -269,7 +273,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2021|x64'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2022|x64'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2023|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release2024|x64'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2010|x64'">false</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Max2012|x64'">false</LinkIncremental>
@@ -287,12 +291,13 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Max2022|x64'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'">true</GenerateManifest>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <TargetExt>.dlt</TargetExt>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <LinkIncremental>false</LinkIncremental>
     <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <IncludePath>C:\Program Files (x86)\Intel\oneAPI\compiler\latest\include\sycl;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Max2024_debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
@@ -1185,7 +1190,7 @@
       <OutputFile>.\Release_2023\$(ProjectName).bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Max2024|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release2024|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
       <TypeLibraryName>.\midl\x64\BerconNoise.tlb</TypeLibraryName>
@@ -1194,7 +1199,7 @@
       <ProxyFileName>.\midl\x64\%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/LD /Zc:lambda /Zc:externC /Zc:strictStrings /Qvec-report:2</AdditionalOptions>
+      <AdditionalOptions>/LD /Zc:lambda /Zc:externC /Zc:strictStrings /Qvec-report:1</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -1215,22 +1220,23 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <ScanSourceForModuleDependencies>
       </ScanSourceForModuleDependencies>
-      <TreatSpecificWarningsAsErrors>4002;4121;4130;4213;4295;4310;4390;4545;4546;4557;4596;4611;4706;4715;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
+      <TreatSpecificWarningsAsErrors>4002;4121;4130;4213;4295;4310;4390;4545;4546;4557;4596;4611;4706;4715;6283%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4018;4244;4456;4457;4458;4459;4589;4702;4819;4840;4995;26495;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <ConformanceMode>false</ConformanceMode>
-      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>Level1</ExternalWarningLevel>
       <DebugInformationFormat>None</DebugInformationFormat>
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <OpenMPSupport>false</OpenMPSupport>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1239,7 +1245,6 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>   /opt:lbr  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;maxutil.lib;maxscrpt.lib;manipsys.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\DLL\BerconMaps_2024_64.dlt</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -1248,7 +1253,6 @@
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\BerconNoise.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>.\Release_2024\BerconNoise.dlt.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <SetChecksum>true</SetChecksum>
@@ -1258,6 +1262,12 @@
       <TargetMachine>MachineX64</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
       <GenerateDebugInformation>false</GenerateDebugInformation>
+      <Version>
+      </Version>
+      <SubSystem>Windows</SubSystem>
+      <GenerateWindowsMetadata>true</GenerateWindowsMetadata>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </Link>
     <Xdcmake>
       <OutputFile>.\Release_2024\$(TargetName).xml</OutputFile>
@@ -1275,7 +1285,7 @@
       <ProxyFileName>.\midl\x64\%(Filename)_p.c</ProxyFileName>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/LD /Zc:lambda /Zc:externC /Zc:strictStrings </AdditionalOptions>
+      <AdditionalOptions>/LD /Zc:lambda /Zc:externC /Zc:strictStrings</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -1297,12 +1307,11 @@
       </ScanSourceForModuleDependencies>
       <TreatSpecificWarningsAsErrors>4002;4121;4130;4213;4295;4310;4390;4545;4546;4557;4596;4611;4706;4715;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
-      <SDLCheck>false</SDLCheck>
+      <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4018;4244;4456;4457;4458;4459;4589;4702;4819;4840;4995;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <ConformanceMode>false</ConformanceMode>
-      <AssemblerOutput>AssemblyCode</AssemblerOutput>
+      <AssemblerOutput>All</AssemblerOutput>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>Level2</ExternalWarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -1312,11 +1321,15 @@
       <ModuleOutputFile>.\debug_2024\</ModuleOutputFile>
       <ModuleDependenciesFile>.\debug_2024\</ModuleDependenciesFile>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <SupportJustMyCode />
-      <ExceptionHandling>false</ExceptionHandling>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>DEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1326,12 +1339,12 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;maxutil.lib;maxscrpt.lib;manipsys.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;maxutil.lib;maxscrpt.lib;manipsys.lib;paramblk2.lib;custdlg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\DLL\BerconMaps_2024_64_debug.dlt</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(ADSK_3DSMAX_SDK_2024)\lib\x64\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ManifestFile>.\debug_2024\$(TargetFileName).dlt.intermediate.manifest</ManifestFile>
-      <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;acap.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>.\BerconNoise.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>false</OptimizeReferences>
@@ -1367,6 +1380,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="BerconNoise.def" />
+    <None Include="gradientclassdiag.cd" />
     <None Include="logo.bmp" />
   </ItemGroup>
   <ItemGroup>

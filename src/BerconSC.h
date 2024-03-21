@@ -19,7 +19,7 @@ under the License.
 
 #define BERCON_SHADE_CONTEXT_CLASS_ID Class_ID(0x7c0a38f1, 0x2f1a67f2)
 
-class BerconSC final : public ShadeContext {
+class BerconSC  : public ShadeContext {
 private:
 	ShadeContext* const sc;
 
@@ -71,7 +71,7 @@ public:
 		useMultiTexture = true;
 	}
 
-	void ResetOutput (int n) { sc->ResetOutput(n); }
+	virtual void ResetOutput (int n) { sc->ResetOutput(n); }
 	Class_ID ClassID () override { return BERCON_SHADE_CONTEXT_CLASS_ID; }
 	BOOL InMtlEditor () override { return sc->InMtlEditor(); }
 	int Antialias () override { return sc->Antialias(); }
@@ -139,8 +139,8 @@ public:
 	void PutCache (Texmap* map, const Point3 &p) override { sc->PutCache(map, p); }
 	void TossCache (Texmap* map) override { sc->TossCache(map); }
 	INT_PTR Execute (int cmd, ULONG_PTR arg1, ULONG_PTR arg2, ULONG_PTR arg3) override { return sc->Execute(cmd, arg1, arg2, arg3); }
-	LightDesc* GetAtmosSkipLight () { return sc->GetAtmosSkipLight(); }
-	void SetAtmosSkipLight (LightDesc* lt){ sc->SetAtmosSkipLight(lt); }
+	virtual LightDesc* GetAtmosSkipLight () { return sc->GetAtmosSkipLight(); }
+	virtual void SetAtmosSkipLight (LightDesc* lt){ sc->SetAtmosSkipLight(lt); }
 	int NRenderElements () override { return sc->NRenderElements(); }
 	IRenderElement* GetRenderElement (int n) override { return sc->GetRenderElement(n); }
 	Color DiffuseIllum () override { return sc->DiffuseIllum(); }
@@ -157,8 +157,9 @@ public:
 	float ScaleRGB (float energy) const{ return sc->ScaleRGB(energy); }
 #endif
 
-#if MAX_RELEASE >= 25900	// The 2023 Max SDK does not know the value of MAX_RELEASE_R26_PREVIEW
-//#if MAX_RELEASE >= MAX_RELEASE_R26_PREVIEW
+#if MAX_RELEASE >= 25900	
+//The 2023 Max SDK does not know the value of MAX_RELEASE_R26_PREVIEW
+//#if MAX_RELEASE >= MAX_RELEASE_R26_PREVIEW <---- this will fail 
 	Matrix3 MatrixTo(RefFrame ito) override { return sc->MatrixTo(ito); }
 
 	Matrix3 MatrixFrom(RefFrame ifrom) override { return sc->MatrixFrom(ifrom); }

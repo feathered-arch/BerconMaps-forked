@@ -90,7 +90,7 @@ void Worley::noise(double at[3], int order, double *F, int function) {
 	for (int i=0; i<order; i++)
 		F[i] = sqrt(F[i])*(1.0/DENSITY_ADJUSTMENT);      
 
-	return;
+	return void();
 }
 
 
@@ -144,7 +144,8 @@ void Worley::add(long xi, long yi, long zi, double at[3], int order, double *F, 
 				double z = d3[2]*d3[2];				
 				d = pow(x*x + y*y + z*z, 0.25);
 				break; }
-			default: ;
+			default: 
+				d = sqrt(d3[0] * d3[0] + d3[1] * d3[1] + d3[2] * d3[2]);
 		}		
 
 		if (d < F[order-1]) {

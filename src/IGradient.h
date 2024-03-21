@@ -19,7 +19,7 @@ under the License.
 
 #include <Max.h>
 #include "resource.h"
-#include <plugapi.h>
+#include "plugapi.h"
 //#include "3dsmaxport.h"
 
 #include "GradientRamp.h"
@@ -34,7 +34,7 @@ public:
 		hWndMain = hwRamp;
 		gradient = r;
 		DLSetWindowLongPtr(hWndMain, this);
-		Execute(I_EXEC_CB_NO_BORDER);
+		IGradient::Execute(I_EXEC_CB_NO_BORDER);
 	}
 
 	~IGradient() 
